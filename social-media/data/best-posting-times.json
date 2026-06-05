@@ -1,0 +1,84 @@
+{
+  "last_updated": "2026-03-25",
+  "source": "Industry research — Sprout Social, HubSpot, Later 2025",
+  "note": "Times in local timezone of primary audience. Override with actual analytics data when available.",
+
+  "platforms": {
+    "instagram": {
+      "best_days": ["tuesday", "wednesday", "thursday"],
+      "worst_days": ["sunday"],
+      "time_slots": [
+        { "rank": 1, "time": "09:00", "days": ["tuesday", "wednesday"], "content_types": ["carousel", "static"], "rationale": "Morning scroll before work — educational content performs best" },
+        { "rank": 2, "time": "12:00", "days": ["tuesday", "thursday"], "content_types": ["reel", "static"], "rationale": "Lunch break — entertainment and quick tips" },
+        { "rank": 3, "time": "17:00", "days": ["wednesday", "thursday"], "content_types": ["reel", "carousel"], "rationale": "Post-work wind down — highest engagement window" },
+        { "rank": 4, "time": "19:00", "days": ["monday", "tuesday", "wednesday"], "content_types": ["reel"], "rationale": "Evening scroll — Reels algorithm boost" },
+        { "rank": 5, "time": "08:00", "days": ["saturday"], "content_types": ["static", "story"], "rationale": "Weekend morning routine" }
+      ],
+      "stories": {
+        "best_times": ["07:00", "12:00", "21:00"],
+        "frequency": "3-7 per day",
+        "note": "Stories are not algorithm-dependent — post throughout the day"
+      },
+      "reels_bonus": {
+        "note": "Reels discovery is not time-sensitive in the same way — quality of hook matters more than posting time",
+        "sweet_spot": "Tuesday–Thursday 17:00–20:00"
+      }
+    },
+
+    "tiktok": {
+      "best_days": ["monday", "wednesday", "friday"],
+      "worst_days": ["sunday"],
+      "time_slots": [
+        { "rank": 1, "time": "07:00", "days": ["tuesday", "thursday", "friday"], "content_types": ["video"], "rationale": "Early morning scroll — users start day with TikTok" },
+        { "rank": 2, "time": "12:00", "days": ["monday", "wednesday", "friday"], "content_types": ["video"], "rationale": "Lunch break entertainment peak" },
+        { "rank": 3, "time": "19:00", "days": ["tuesday", "thursday"], "content_types": ["video"], "rationale": "After-dinner prime time" },
+        { "rank": 4, "time": "20:00", "days": ["monday", "wednesday", "friday"], "content_types": ["video"], "rationale": "Peak TikTok evening usage" },
+        { "rank": 5, "time": "21:00", "days": ["saturday"], "content_types": ["video"], "rationale": "Weekend night scroll peak" }
+      ],
+      "note": "TikTok algorithm distributes to non-followers — posting time is less critical than hook quality and completion rate"
+    },
+
+    "youtube_shorts": {
+      "best_days": ["thursday", "friday", "saturday"],
+      "time_slots": [
+        { "rank": 1, "time": "14:00", "days": ["friday", "saturday"], "content_types": ["short"], "rationale": "Pre-weekend content consumption spike" },
+        { "rank": 2, "time": "17:00", "days": ["thursday", "friday"], "content_types": ["short"], "rationale": "After school/work peak" },
+        { "rank": 3, "time": "20:00", "days": ["saturday", "sunday"], "content_types": ["short"], "rationale": "Weekend evening viewing" }
+      ]
+    },
+
+    "linkedin": {
+      "best_days": ["tuesday", "wednesday", "thursday"],
+      "worst_days": ["saturday", "sunday"],
+      "time_slots": [
+        { "rank": 1, "time": "08:00", "days": ["tuesday", "wednesday", "thursday"], "content_types": ["static", "carousel"], "rationale": "Pre-work professional reading" },
+        { "rank": 2, "time": "12:00", "days": ["tuesday", "wednesday"], "content_types": ["static"], "rationale": "Lunch break professional content" },
+        { "rank": 3, "time": "17:00", "days": ["tuesday", "thursday"], "content_types": ["carousel"], "rationale": "End of workday — thought leadership" }
+      ]
+    }
+  },
+
+  "niches": {
+    "fitness": {
+      "instagram": { "best_times": ["06:00", "12:00", "18:00"], "note": "Workout timing drives consumption" },
+      "tiktok": { "best_times": ["06:30", "11:30", "19:00"] }
+    },
+    "food": {
+      "instagram": { "best_times": ["11:00", "17:00", "19:30"], "note": "Meal planning and meal-time inspiration" }
+    },
+    "business_saas": {
+      "linkedin": { "best_times": ["08:00", "12:00", "17:00"] },
+      "instagram": { "best_times": ["09:00", "12:00", "17:00"] }
+    },
+    "fashion_beauty": {
+      "instagram": { "best_times": ["08:00", "12:00", "21:00"] },
+      "tiktok": { "best_times": ["07:00", "12:00", "20:00"] }
+    }
+  },
+
+  "timezone_adjustments": {
+    "brazil_brt": { "utc_offset": -3, "note": "All times above assume BRT (Brazil) unless analytics say otherwise" },
+    "us_eastern": { "utc_offset": -5 },
+    "us_pacific": { "utc_offset": -8 }
+  }
+}

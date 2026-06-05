@@ -1,0 +1,118 @@
+version: '1.0.0'
+last_updated: '2026-03-25'
+description: 'Framework for defining and scoring content pillars. Apply to any brand by filling in the brand-specific fields.'
+
+philosophy: |
+  Content pillars are the strategic foundation of every social media account.
+  They define WHAT a brand talks about, ensure variety, and cover the full marketing funnel.
+  Without pillars, content becomes random. With pillars, content builds a compounding brand identity.
+
+funnel_mapping:
+  awareness:
+    goal: 'Attract new audiences — strangers to followers'
+    content_types: [educational, entertaining, trending, inspirational]
+    engagement_signals: [reach, impressions, new_followers, shares]
+  trust:
+    goal: 'Convert followers to believers — followers to fans'
+    content_types: [behind_scenes, proof, stories, expertise]
+    engagement_signals: [saves, comments, profile_visits, DMs]
+  conversion:
+    goal: 'Turn fans into customers — fans to buyers'
+    content_types: [testimonials, offers, product_demos, CTAs]
+    engagement_signals: [link_clicks, DMs, story_swipes, purchases]
+
+pillar_archetypes:
+  educational:
+    funnel_stage: awareness
+    description: 'Teaches the audience something valuable related to the niche'
+    best_formats: [carousel, reel_tips, static_quote]
+    engagement_driver: saves
+    ratio_recommendation: '30-40% of content'
+    examples:
+      - 'X dicas para [resultado]'
+      - 'Como fazer [processo] passo a passo'
+      - 'A diferença entre [A] e [B]'
+      - 'O guia completo de [topic]'
+
+  entertainment:
+    funnel_stage: awareness
+    description: 'Entertains and amuses — drives discovery and shares'
+    best_formats: [reel_trending, tiktok, meme_static]
+    engagement_driver: shares
+    ratio_recommendation: '20-30% of content'
+    examples:
+      - 'Memes do nicho'
+      - 'Conteúdo com trending audio'
+      - 'POV videos'
+      - 'Humor relacionado ao nicho'
+
+  inspirational:
+    funnel_stage: awareness_to_trust
+    description: 'Motivates and emotionally connects — drives comments and follows'
+    best_formats: [reel_story, carousel_quotes, static]
+    engagement_driver: comments_and_shares
+    ratio_recommendation: '15-20% of content'
+    examples:
+      - 'Stories de transformação'
+      - 'Frases motivacionais com contexto'
+      - 'Jornada do criador/marca'
+
+  behind_the_scenes:
+    funnel_stage: trust
+    description: 'Shows the human side of the brand — builds authenticity'
+    best_formats: [story, reel_raw, static]
+    engagement_driver: DMs_and_comments
+    ratio_recommendation: '10-15% of content'
+    examples:
+      - 'Processo de criação'
+      - 'Dia a dia da equipe'
+      - 'Bastidores de um projeto'
+      - 'Erros e aprendizados'
+
+  social_proof:
+    funnel_stage: trust_to_conversion
+    description: 'Demonstrates results and credibility through evidence'
+    best_formats: [carousel, static, reel_testimonial]
+    engagement_driver: saves_and_clicks
+    ratio_recommendation: '10-15% of content'
+    examples:
+      - 'Depoimentos de clientes'
+      - 'Resultados antes/depois'
+      - 'Métricas e conquistas'
+      - 'UGC (User Generated Content)'
+
+  promotional:
+    funnel_stage: conversion
+    description: 'Direct promotion of products, services, or offers'
+    best_formats: [static, reel_product, story_cta]
+    engagement_driver: link_clicks_DMs
+    ratio_recommendation: '5-10% of content'
+    note: 'Never exceed 20% or audience will disengage'
+    examples:
+      - 'Lançamentos de produto'
+      - 'Promoções e ofertas'
+      - 'Demonstrações de produto'
+      - 'Consultas e vendas diretas'
+
+recommended_ratios:
+  new_brand: '40 edu / 30 ent / 15 inspi / 10 bts / 5 promo'
+  growing_brand: '35 edu / 25 ent / 15 inspi / 10 bts / 10 proof / 5 promo'
+  established_brand: '30 edu / 20 ent / 15 inspi / 10 bts / 15 proof / 10 promo'
+
+brand_voice_scores:
+  authoritative:
+    strong_pillars: [educational, social_proof]
+    weak_pillars: [entertainment]
+    note: 'Humor must be professional when authority is the brand pillar'
+  personal_brand:
+    strong_pillars: [behind_the_scenes, inspirational, educational]
+    weak_pillars: [promotional]
+    note: 'Personal brands sell through trust, not promotion'
+  product_brand:
+    strong_pillars: [educational, social_proof, promotional]
+    weak_pillars: [behind_the_scenes]
+    note: 'Products benefit from demonstration and proof above all'
+  community_brand:
+    strong_pillars: [entertainment, inspirational, behind_the_scenes]
+    weak_pillars: [promotional]
+    note: 'Community brands must give before they ask'

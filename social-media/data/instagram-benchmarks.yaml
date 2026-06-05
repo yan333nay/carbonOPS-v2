@@ -1,0 +1,222 @@
+name: instagram-benchmarks
+version: 1.0.0
+description: 'Benchmarks de performance do Instagram para o mercado brasileiro (2025-2026). Alimenta Neil Patel (score de engajamento), Rafael Kiso (mix de conteúdo) e Nova (frequência e horários). Fonte: pesquisa de melhores práticas validadas por profissionais BR.'
+last_updated: '2026-03-27'
+status: active
+applies_to: '@carbonfilms.sc'
+
+# ---------------------------------------------------------------
+# BENCHMARKS DE ENGAJAMENTO POR FORMATO
+# ---------------------------------------------------------------
+
+engagement_benchmarks:
+  carousel:
+    avg_engagement_rate: 1.92    # % — mínimo esperado
+    saves_multiplier: 2.14       # 114% mais saves que imagem estática
+    note: 'Formato com maior retorno educativo e de autoridade. Prioridade para conteúdo Carbon.'
+
+  reels:
+    avg_engagement_rate_min: 0.50
+    avg_engagement_rate_max: 2.46
+    avg_engagement_rate_target: 1.50  # target realista para novos perfis
+    hold_rate_target: 60             # % — hold rate mínimo nos primeiros 3s
+    hold_rate_critical: 40           # % — abaixo disso reescrever hook
+    note: 'Maior alcance orgânico. Primeiro formato a testar para crescimento.'
+
+  stories:
+    engagement_type: 'direta'  # DM, swipe up, resposta
+    conversion_role: 'DM e cliques em link'
+    note: 'Alta taxa de conversão direta. 1-2x/dia.'
+
+  feed_static:
+    avg_engagement_rate: 0.45  # % — linha de base
+    role: 'branding e consistência visual'
+    note: 'Menor alcance orgânico. Usar para portfólio e autoridade visual.'
+
+# ---------------------------------------------------------------
+# MIX DE CONTEÚDO IDEAL (BENCHMARKS DE MERCADO)
+# ---------------------------------------------------------------
+# ATENÇÃO: O mix ideal da Carbon está em brandbook-carbon-films.yaml
+# (40% portfólio, 30% educativo, 20% institucional, 10% promocional)
+# Os percentuais abaixo são benchmark de mercado para referência.
+
+content_mix_market_benchmark:
+  alcance_reels_hooks:   30  # % — posts de topo de funil / alcance
+  educacao_carrosses:    40  # % — educativo, tutoriais, dados
+  conversao_stories:     20  # % — CTA direto, oferta
+  branding:              10  # % — identidade visual, posicionamento
+
+# ---------------------------------------------------------------
+# FREQUÊNCIA E HORÁRIOS — MERCADO BRASILEIRO
+# ---------------------------------------------------------------
+
+posting_frequency:
+  feed_and_reels:
+    posts_per_week_min: 3
+    posts_per_week_max: 5
+    posts_per_week_recommended: 4
+  stories:
+    per_day_min: 1
+    per_day_max: 2
+    per_day_recommended: 2
+  consistency_note: 'Consistência > volume. 3x/semana todo dia é melhor que 7x/semana intermitente.'
+
+best_posting_times_brazil:
+  morning:
+    window: '09:00-12:00'
+    performance: 'alta'
+    best_days: [segunda, terca, quarta, quinta]
+  evening:
+    window: '19:00-21:00'
+    performance: 'muito_alta'
+    best_days: [segunda, terca, quarta, quinta]
+  avoid:
+    - 'Sexta depois das 20h'
+    - 'Sábado manhã'
+    - 'Domingo o dia todo'
+
+# ---------------------------------------------------------------
+# ESTRUTURA DE CARROSSEL VENCEDOR (ESTILO SOBRAL/KISO)
+# ---------------------------------------------------------------
+
+winning_carousel_structure:
+  total_slides_min: 5
+  total_slides_max: 10
+  optimal_slides: 7
+
+  slides:
+    slide_1:
+      name: 'Cover / Headline'
+      rule: 'Max 10 palavras. Responde: isso é pra mim?'
+      example: 'Como dobrar seu alcance sem gastar 1 real'
+      font: 'Anton — caixa alta'
+      visual: 'Imagem impactante ou fundo escuro com destaque'
+
+    slide_2:
+      name: 'Credibilidade + Roadmap'
+      rule: 'Prova social (dados, cliente, resultado) + o que virá nos slides'
+      example: 'Aprendi isso gerenciando R$2M em tráfego. Vou mostrar os 5 erros.'
+
+    slides_3_to_n1:
+      name: 'Conteúdo — 1 ponto por slide'
+      rule: '15-30 palavras por slide. Verbos de ação. Dado concreto quando possível.'
+      visual: 'Consistente com slide 1. Número do slide visível.'
+
+    penultimate_slide:
+      name: 'Soft CTA'
+      rule: 'Salve para não perder / Compartilhe com quem precisa ver isso'
+      example: 'Salva esse carrossel — você vai querer reler isso.'
+
+    last_slide:
+      name: 'Hard CTA'
+      rule: '1 único CTA. Direto. Sem opções múltiplas.'
+      example: 'Siga @carbonfilms.sc para mais estratégias assim.'
+
+  dimensions: '1080x1350px'  # portrait — sempre para carrossel
+  aspect_ratio: '4:5'
+
+# ---------------------------------------------------------------
+# ESTRUTURA DE HOOK PARA REELS (PRIMEIROS 3 SEGUNDOS)
+# ---------------------------------------------------------------
+
+reel_hook_formats:
+  contrarian:
+    template: 'Todo mundo faz [X], mas [verdade contrária]'
+    example: 'Todo mundo faz Stories de produto, mas isso está afastando seus clientes'
+
+  mistake:
+    template: 'Perdi [valor/resultado] por [erro] — aprenda com isso'
+    example: 'Perdi 3 meses de alcance por causa desse erro no Reels'
+
+  numbered_list:
+    template: '[N] erros que [consequência negativa]'
+    example: '5 erros que matam o alcance do seu perfil sem você perceber'
+
+  time_based:
+    template: 'Como cheguei a [resultado] em [tempo]'
+    example: 'Como esse cliente chegou a 50k seguidores em 90 dias'
+
+  question:
+    template: 'Você está [fazendo X errado]?'
+    example: 'Você está postando nos horários errados sem saber?'
+
+hook_metrics:
+  hold_rate_target_pct: 60   # mínimo para considerar hook bom
+  hold_rate_rewrite_pct: 40  # abaixo disso: reescrever hook
+
+# ---------------------------------------------------------------
+# FÓRMULAS DE COPY QUE PERFORMAM NO BR
+# ---------------------------------------------------------------
+
+copy_formulas:
+  PAS:
+    name: 'Problema → Agitação → Solução'
+    use_for: [carrossel_educativo, reels_problemas, feed_autoridade]
+    structure:
+      - 'P: Identifica o problema do público'
+      - 'A: Amplifica a dor/consequência'
+      - 'S: Apresenta a solução (Carbon)'
+
+  AIDA:
+    name: 'Atenção → Interesse → Desejo → Ação'
+    use_for: [posts_promocionais, stories_cta, feed_resultado_cliente]
+    structure:
+      - 'A: Hook visual ou headline'
+      - 'I: Dado ou história que prende'
+      - 'D: Benefício concreto e desejável'
+      - 'A: CTA único e direto'
+
+  BAB:
+    name: 'Before → After → Bridge'
+    use_for: [cases_resultado, stories_transformacao, carrossel_portfolio]
+    structure:
+      - 'B: Situação antes (dor reconhecível)'
+      - 'A: Situação depois (transformação desejável)'
+      - 'B: A Carbon é a ponte entre os dois'
+
+caption_rules:
+  first_line: 'Resposta/gancho nas primeiras 10-15 palavras — tudo que aparece antes do "ver mais"'
+  length_by_format:
+    reels: 'curta (1-3 linhas) — atenção está no vídeo'
+    carrossel: 'média (5-8 linhas) — legenda reforça o conteúdo'
+    feed_static: 'curta a média (3-5 linhas)'
+    stories: 'mínima — o visual fala por si'
+
+# ---------------------------------------------------------------
+# SCORE DE ENGAJAMENTO — REFERÊNCIA PARA NEIL PATEL
+# ---------------------------------------------------------------
+
+neil_patel_scoring_reference:
+  # Estes são os scores de referência para o algoritmo de pontuação
+  # Atualizar com dados reais do @carbonfilms.sc quando disponíveis
+
+  score_10:
+    description: 'Post excepcional — viralização provável'
+    engagement_rate: '> 5%'
+    hold_rate: '> 80%'  # (reels)
+    saves_reach_ratio: '> 10%'
+
+  score_8_9:
+    description: 'Post muito bom — boost de alcance esperado'
+    engagement_rate: '2-5%'
+    hold_rate: '60-80%'
+    saves_reach_ratio: '5-10%'
+
+  score_6_7:
+    description: 'Post bom — performance dentro do esperado'
+    engagement_rate: '1-2%'
+    hold_rate: '40-60%'
+    saves_reach_ratio: '2-5%'
+
+  score_4_5:
+    description: 'Post mediano — revisar hook e formato'
+    engagement_rate: '0.5-1%'
+    hold_rate: '20-40%'
+    saves_reach_ratio: '< 2%'
+
+  score_below_4:
+    description: 'Post fraco — não publicar sem revisão'
+    engagement_rate: '< 0.5%'
+    note: 'Reescrever hook, mudar formato ou descartar'
+
+  minimum_publishable_score: 6  # abaixo disso: revisar antes de publicar

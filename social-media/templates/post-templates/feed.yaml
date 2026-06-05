@@ -1,0 +1,129 @@
+name: feed-template
+version: 2.0.0
+description: 'Template de post estático 4:5 Carbon Films — máximo espaço no feed, ideal para frase/fato impactante'
+format: feed
+agent: canva-designer
+
+# ---------------------------------------------------------------
+# ESPECIFICAÇÕES TÉCNICAS
+# ---------------------------------------------------------------
+technical_specs:
+  dimensions: '1080x1350px'
+  aspect_ratio: '4:5'
+  file_format: 'JPG'
+  max_file_size: '8MB'
+  color_profile: 'sRGB'
+  resolution: '72dpi'
+  safe_zone: '72px todos os lados'
+  note: '4:5 ocupa 20% mais espaço no feed que 1:1 — SEMPRE preferir este formato para posts estáticos'
+
+instagram_limits:
+  caption_chars: 2200
+  hashtags_max: 30
+  hashtags_recommended: '8-12'
+  alt_text: 'Preencher sempre para acessibilidade + SEO'
+
+# ---------------------------------------------------------------
+# BRANDBOOK CARBON FILMS
+# ---------------------------------------------------------------
+brandbook:
+  background: '#050505'
+  surface: '#111111'
+  gold: '#C9A84C'
+  white: '#FFFFFF'
+  red_accent: '#FF0000'
+  gray_text: '#888888'
+  font_display: 'Anton (UPPERCASE sempre)'
+  font_body: 'Montserrat 400/700'
+  font_mono: 'JetBrains Mono'
+  handle: '@carbonfilms.sc'
+
+# ---------------------------------------------------------------
+# MODELOS DE LAYOUT
+# ---------------------------------------------------------------
+layouts:
+  model_01_portfolio:
+    use_for: 'Entrega de projeto, bastidores, resultado de cliente'
+    structure:
+      background: 'Foto do projeto com overlay escuro gradiente'
+      overlay: 'linear-gradient(to top, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.40) 55%, transparent 100%)'
+      top_bar: 'CARBON FILMS (gold, Anton 22px) | CATEGORIA (mono gray 14px)'
+      bottom:
+        - 'Linha gold 52px × 3px'
+        - 'Headline resultado (Anton 72px, branco)'
+        - 'Subline (Montserrat 26px, gray-400)'
+        - '@carbonfilms.sc (mono, gray-600)'
+
+  model_02_educativo:
+    use_for: 'Dica, dado, estatística, frase impactante'
+    structure:
+      background: '#050505 sólido'
+      glow: 'radial-gradient top-right: rgba(201,168,76,0.05) — sutil'
+      top_bar: 'CARBON FILMS (gold) | CF_001 / DICA (mono gray)'
+      center:
+        - 'Número ou ícone em gold (Anton 96px)'
+        - 'Linha gold 64px × 3px'
+        - 'Headline (Anton 72px, branco)'
+        - 'Corpo (Montserrat 26px, gray)'
+      bottom: '@carbonfilms.sc (mono, gray-600)'
+    example:
+      number: '73%'
+      headline: 'DAS EMPRESAS NÃO TÊM ESTRATÉGIA DE CONTEÚDO'
+      body: 'E competem com quem tem. Faz sentido?'
+
+  model_03_citacao:
+    use_for: 'Quote de cliente, sócio ou dado de mercado'
+    structure:
+      background: '#050505 sólido com borda gold sutil (1px, opacity 0.15, margin 20px)'
+      center:
+        - 'Aspas decorativas (Anton 96px, gold, opacity 0.3)'
+        - 'Citação (Montserrat 700 italic, 32px, branco)'
+        - 'Linha gold 40px × 2px'
+        - 'Autor (mono 16px, gray)'
+      top_left: 'CARBON FILMS (gold, 20px)'
+      bottom: '@carbonfilms.sc'
+
+  model_04_dado_mercado:
+    use_for: 'Estatística de impacto, benchmark de mercado'
+    structure:
+      background: '#050505'
+      layout: 'centralizado vertical'
+      top: 'CARBON FILMS (gold)'
+      center:
+        - 'Dado principal (Anton 128px, gold)'
+        - 'Linha gold 80px × 3px'
+        - 'Contexto do dado (Anton 56px, branco, UPPERCASE)'
+        - 'Fonte (mono 14px, gray-600)'
+      bottom: 'CTA sutil + @carbonfilms.sc'
+
+# ---------------------------------------------------------------
+# COPY FRAMEWORK
+# ---------------------------------------------------------------
+copy_framework:
+  caption_template: |
+    [HOOK — repete ou aprofunda o visual]
+
+    [CONTEXTO — 2-3 linhas que amplificam o dado/frase]
+
+    [CTA — pergunta, salva, comenta]
+
+    [HASHTAGS]
+
+  best_hooks:
+    - 'Dado numérico impactante como abertura'
+    - 'Pergunta retórica que provoca reflexão'
+    - 'Afirmação contraintuitiva'
+    - 'Dado de mercado específico para SC/Brasil'
+
+# ---------------------------------------------------------------
+# PIPELINE
+# ---------------------------------------------------------------
+pipeline:
+  command: 'node scripts/run-workflow.js carousel --topic "TEMA" --format feed'
+  output_dir: 'output/slides/'
+  dimensions: '1080x1350'
+
+benchmarks:
+  reach_target: 'Maior alcance orgânico que 1:1 (+15-25% médio)'
+  save_rate_target: '>2% do alcance'
+  best_posting_times: ['19h-21h BRT', '12h-13h BRT']

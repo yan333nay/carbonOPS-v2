@@ -1,0 +1,261 @@
+name: brandbook-context
+version: 1.0.0
+description: 'Brandbook structure template. Injected as fixed context into ALL agents of the Ultra Master Squad. Every visual, copy, and strategic decision must be consistent with this document. Fill all [PLACEHOLDER] sections with client brand data before activating the squad.'
+last_updated: '2026-03-27'
+status: template  # change to 'active' when filled with real brand data
+
+# ---------------------------------------------------------------
+# HOW TO USE
+# 1. Duplicate this file as brandbook-{client-slug}.yaml
+# 2. Fill all [PLACEHOLDER] sections with real brand data
+# 3. Set status: active
+# 4. Reference file path in squad.yaml under brandbook_context
+# 5. Test: ask any agent to cite brand colors — should be correct
+# ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# SECTION 01 — Brand Identity
+# Used by: ALL agents
+# ---------------------------------------------------------------
+identity:
+  brand_name: '[PLACEHOLDER: Brand Name]'
+  tagline: '[PLACEHOLDER: Brand Tagline]'
+  mission: '[PLACEHOLDER: What the brand exists to do]'
+  vision: '[PLACEHOLDER: Where the brand is going]'
+  values:
+    - '[PLACEHOLDER: Value 1]'
+    - '[PLACEHOLDER: Value 2]'
+    - '[PLACEHOLDER: Value 3]'
+  target_audience:
+    primary: '[PLACEHOLDER: Primary audience description]'
+    age_range: '[PLACEHOLDER: e.g. 25-45]'
+    pain_points:
+      - '[PLACEHOLDER: Main pain point 1]'
+      - '[PLACEHOLDER: Main pain point 2]'
+    desires:
+      - '[PLACEHOLDER: What they want to achieve]'
+  unique_value_proposition: '[PLACEHOLDER: What makes this brand different]'
+  brand_positioning: '[PLACEHOLDER: How the brand positions in the market]'
+
+# ---------------------------------------------------------------
+# SECTION 02 — Visual Identity System
+# Used by: Pixel (canva-designer), Paulo Cuenca mindclone
+# ---------------------------------------------------------------
+visual:
+  colors:
+    primary:
+      hex: '[PLACEHOLDER: #XXXXXX]'
+      rgb: '[PLACEHOLDER: R, G, B]'
+      name: '[PLACEHOLDER: Color name]'
+      usage: 'Main brand color — backgrounds, CTAs, accents'
+
+    secondary:
+      hex: '[PLACEHOLDER: #XXXXXX]'
+      rgb: '[PLACEHOLDER: R, G, B]'
+      name: '[PLACEHOLDER: Color name]'
+      usage: 'Supporting color — headings, highlights'
+
+    tertiary:
+      hex: '[PLACEHOLDER: #XXXXXX]'
+      rgb: '[PLACEHOLDER: R, G, B]'
+      name: '[PLACEHOLDER: Color name]'
+      usage: 'Accent color — use sparingly'
+
+    neutrals:
+      white: '#FFFFFF'
+      light_gray: '[PLACEHOLDER: #XXXXXX]'
+      dark_gray: '[PLACEHOLDER: #XXXXXX]'
+      black: '#000000'
+
+    forbidden_colors:
+      - '[PLACEHOLDER: Color hex to avoid]'
+      - '[PLACEHOLDER: Color hex to avoid]'
+
+  typography:
+    primary_font:
+      name: '[PLACEHOLDER: Font Name]'
+      usage: 'Headlines, hooks, CTAs'
+      weights_allowed: ['[PLACEHOLDER: Bold]', '[PLACEHOLDER: Regular]']
+
+    secondary_font:
+      name: '[PLACEHOLDER: Font Name]'
+      usage: 'Body text, captions, subtitles'
+      weights_allowed: ['[PLACEHOLDER: Light]', '[PLACEHOLDER: Regular]']
+
+    forbidden_fonts:
+      - 'Comic Sans'
+      - 'Papyrus'
+      - '[PLACEHOLDER: Any other forbidden font]'
+
+  logo:
+    primary_version: '[PLACEHOLDER: Canva link or file path]'
+    white_version: '[PLACEHOLDER: Canva link or file path]'
+    black_version: '[PLACEHOLDER: Canva link or file path]'
+    icon_only_version: '[PLACEHOLDER: Canva link or file path]'
+    minimum_size: '[PLACEHOLDER: e.g. 80px width]'
+    clear_space: '[PLACEHOLDER: e.g. 16px around logo]'
+    forbidden_uses:
+      - 'Stretched or distorted'
+      - 'On backgrounds with low contrast'
+      - 'With drop shadows unless specified'
+
+  icons_style: '[PLACEHOLDER: e.g. line icons, filled, rounded]'
+  shape_language: '[PLACEHOLDER: e.g. rounded corners, geometric, organic]'
+
+# ---------------------------------------------------------------
+# SECTION 03 — Voice & Tone
+# Used by: Gary mindclone, Lyra (copy-writer), Kiso mindclone
+# ---------------------------------------------------------------
+voice_and_tone:
+  personality_traits:
+    - '[PLACEHOLDER: Trait 1 — e.g. Direct]'
+    - '[PLACEHOLDER: Trait 2 — e.g. Knowledgeable]'
+    - '[PLACEHOLDER: Trait 3 — e.g. Relatable]'
+
+  formality_level: '[PLACEHOLDER: Informal / Semi-formal / Formal]'
+
+  vocabulary:
+    preferred_words:
+      - '[PLACEHOLDER: Word or phrase 1]'
+      - '[PLACEHOLDER: Word or phrase 2]'
+    forbidden_words:
+      - '[PLACEHOLDER: Word or phrase to avoid]'
+      - '[PLACEHOLDER: Word or phrase to avoid]'
+
+  writing_style:
+    sentence_length: '[PLACEHOLDER: Short / Medium / Varies]'
+    paragraph_length: '[PLACEHOLDER: 1-2 sentences / 2-4 sentences]'
+    use_emoji: '[PLACEHOLDER: Yes/No/Sparingly — rules]'
+    use_hashtags: '[PLACEHOLDER: 5-15 per post / only in caption / etc.]'
+
+  platform_voice_adaptation:
+    instagram: '[PLACEHOLDER: Tone note for Instagram]'
+    tiktok: '[PLACEHOLDER: Tone note for TikTok — usually more casual]'
+
+  examples_approved:
+    - '[PLACEHOLDER: Example of on-brand caption]'
+    - '[PLACEHOLDER: Example of on-brand hook]'
+
+  examples_rejected:
+    - '[PLACEHOLDER: Example of off-brand copy with explanation]'
+
+# ---------------------------------------------------------------
+# SECTION 04 — Post Design Guide
+# Used by: Pixel (canva-designer), Paulo Cuenca mindclone
+# Critical for /command template briefings
+# ---------------------------------------------------------------
+post_design_guide:
+  feed_portrait_4x5:
+    dimensions: '1080x1350'
+    grid:
+      photo_area: '[PLACEHOLDER: e.g. top 65% of frame]'
+      text_area: '[PLACEHOLDER: e.g. bottom 35%]'
+      logo_position: '[PLACEHOLDER: e.g. bottom-right, 20px from edges]'
+      logo_size: '[PLACEHOLDER: e.g. 80px wide]'
+    background_color: '[PLACEHOLDER: hex]'
+    text_overlay:
+      max_words: '[PLACEHOLDER: e.g. 10 words max]'
+      font: '[PLACEHOLDER: primary or secondary]'
+      size: '[PLACEHOLDER: e.g. 64px for hook]'
+      color: '[PLACEHOLDER: hex]'
+    examples:
+      approved: '[PLACEHOLDER: Canva link to approved example]'
+      to_avoid: '[PLACEHOLDER: Description of what to avoid]'
+
+  stories_9x16:
+    dimensions: '1080x1920'
+    safe_zone_top: '250px'
+    safe_zone_bottom: '384px'
+    grid:
+      content_area: '[PLACEHOLDER: center 1286px]'
+      logo_position: '[PLACEHOLDER: e.g. top-center, below safe zone]'
+    background_options:
+      - '[PLACEHOLDER: solid brand color]'
+      - '[PLACEHOLDER: gradient option]'
+      - '[PLACEHOLDER: photo-forward with overlay]'
+    examples:
+      approved: '[PLACEHOLDER: Canva link to approved example]'
+
+  carousel_1x1:
+    dimensions: '1080x1080'
+    slide_structure:
+      cover: '[PLACEHOLDER: bold headline + brand visual]'
+      body_slides: '[PLACEHOLDER: number + headline + body text]'
+      cta_slide: '[PLACEHOLDER: summary + CTA + handle]'
+    consistency_rules:
+      - '[PLACEHOLDER: same header element every slide]'
+      - '[PLACEHOLDER: same font hierarchy every slide]'
+    examples:
+      approved: '[PLACEHOLDER: Canva link to approved example]'
+
+# ---------------------------------------------------------------
+# SECTION 05 — Photography Style
+# Used by: Paulo Cuenca mindclone, Pixel (canva-designer)
+# ---------------------------------------------------------------
+photography:
+  mood: '[PLACEHOLDER: e.g. Clean, bright, editorial / Dark, moody, cinematic]'
+
+  color_temperature:
+    preferred: '[PLACEHOLDER: e.g. Warm / Cool / Neutral]'
+    avoid: '[PLACEHOLDER: e.g. Overly warm orange tones]'
+
+  composition:
+    preferred_angles: '[PLACEHOLDER: e.g. Eye level, 45-degree overhead]'
+    framing: '[PLACEHOLDER: e.g. Rule of thirds, centered for authority]'
+    negative_space: '[PLACEHOLDER: e.g. Leave top third clear for text]'
+
+  approved_filters:
+    - name: '[PLACEHOLDER: Filter 1]'
+      settings: '[PLACEHOLDER: +15 exposure, -10 highlights, +5 contrast]'
+    - name: '[PLACEHOLDER: Filter 2 or "none"]'
+      settings: '[PLACEHOLDER: natural, minimal editing]'
+
+  forbidden_filters:
+    - '[PLACEHOLDER: Excessive grain or noise]'
+    - '[PLACEHOLDER: Oversaturated skin tones]'
+    - '[PLACEHOLDER: Heavy vignette]'
+
+  subject_positioning:
+    portrait: '[PLACEHOLDER: e.g. Eyes at upper third, space on one side]'
+    product: '[PLACEHOLDER: e.g. Centered, clean background]'
+    lifestyle: '[PLACEHOLDER: e.g. Candid feel, natural light]'
+
+# ---------------------------------------------------------------
+# SECTION 06 — Metrics & Goals
+# Used by: Neil Patel mindclone, Echo (performance-analyst)
+# ---------------------------------------------------------------
+metrics_and_goals:
+  primary_kpis:
+    - metric: saves
+      target: '[PLACEHOLDER: e.g. >1% of reach per post]'
+      priority: 1
+
+    - metric: shares
+      target: '[PLACEHOLDER: e.g. >0.5% of reach per post]'
+      priority: 2
+
+    - metric: engagement_rate
+      target: '[PLACEHOLDER: e.g. >3% per post]'
+      priority: 3
+
+    - metric: reach
+      target: '[PLACEHOLDER: e.g. >500 per post minimum]'
+      priority: 4
+
+    - metric: followers
+      target: '[PLACEHOLDER: e.g. +100 per week]'
+      priority: 5
+
+  weekly_content_targets:
+    feed_posts: '[PLACEHOLDER: e.g. 7 (1/day)]'
+    stories: '[PLACEHOLDER: e.g. 21 (3/day)]'
+    reels_or_tiktoks: '[PLACEHOLDER: e.g. 3/week minimum]'
+
+  performance_baselines:
+    engagement_rate_baseline: '[PLACEHOLDER: e.g. 2.5%]'
+    average_reach_baseline: '[PLACEHOLDER: e.g. 800 per post]'
+    saves_baseline: '[PLACEHOLDER: e.g. 0.8% of reach]'
+
+  alert_thresholds:
+    anomaly_drop: '-20% from baseline triggers alert'
+    anomaly_spike: '+100% from baseline triggers alert'

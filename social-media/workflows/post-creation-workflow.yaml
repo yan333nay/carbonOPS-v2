@@ -1,0 +1,545 @@
+name: post-creation-workflow
+version: 2.0.0
+description: |
+  Workflow completo de criação e postagem — v2.0
+  Pesquisa → Roteiro → Produção (bifurca: vídeo ou estático) →
+  Aprovação com loop de feedback → Postagem → Análise de métricas com memória.
+trigger: manual  # future: whatsapp-command
+output: posted_content + metrics_memory
+
+# ---------------------------------------------------------------
+# FLUXO GERAL
+#
+#   ETAPA 1: Pesquisa → ideia salva (tipo: video | static)
+#   ETAPA 2: Roteiro → script completo por tipo
+#            → HUMAN CHECKPOINT: foto (static) | gravação (video)
+#   ETAPA 3a [static]: Geração de imagem por IA (Replicate)
+#   ETAPA 3b [video]:  Edição do vídeo gravado (Remotion)
+#   ETAPA 4: Aprovação → APPROVE (posta) | REJECT (feedback loop + memória)
+#   ETAPA 5: Postagem (Meta Graph API)
+#   ETAPA 6: Análise de métricas → salva memória
+# ---------------------------------------------------------------
+
+stages:
+
+  # ============================================================
+  # ETAPA 1 — PESQUISA E IDEIA
+  # Agente: Pulse (trend-analyst)
+  # Objetivo: notícias quentes + trends → 1 ideia salva
+  # ============================================================
+  - id: research
+    name: 'Pesquisa e Ideia'
+    agent: trend-analyst
+
+    tasks:
+      - task: scan-hot-news
+        description: 'Busca notícias quentes nas últimas 48h via WebSearch'
+        input:
+          brand_niches: '{{brand.niches}}'
+          time_window: 48h
+          search_queries:
+            mandatory:
+              - 'marketing digital Brasil {{current_month}} {{current_year}}'
+              - 'Instagram algoritmo novidade 2026'
+              - 'tráfego pago tendências {{current_month}} 2026'
+              - 'produção de vídeo marketing tendências'
+          filter_relevance:
+            require_any: [marketing, video, branding, trafego, instagram, tiktok, agencia, conteudo]
+            discard_if: [politica, esporte, entretenimento_pessoal]
+        output_key: hot_news_report
+        tool: WebSearch
+        fail_gracefully: true
+
+      - task: scan-trends
+        input:
+          platforms: [instagram, tiktok]
+          niches: '{{brand.niches}}'
+          time_window: 48h
+          hot_news_context: '{{hot_news_report}}'
+        output_key: trend_scan
+
+      - task: suggest-content-from-trends
+        description: 'Gera ideias priorizando HOT news. Decide tipo (video|static) baseado no formato mais eficaz.'
+        input:
+          trend_scan: '{{trend_scan}}'
+          hot_news_report: '{{hot_news_report}}'
+          content_pillars: '{{brand.content_pillars}}'
+          brand_voice: '{{brand.voice_and_tone}}'
+          feedback_memory: '{{memory.post_feedback}}'  # aprende com feedback anterior
+          prioritize_hot: true
+        output_key: content_idea
+
+    mind_council_consult:
+      trigger: always
+      specialists: [rafael-kiso, gary-vaynerchuk]
+      question: |
+        Hot news: {{hot_news_report.synthesis.top_opportunity}}
+        Trends: {{trend_scan}}
+        Qual ideia tem maior potencial? Video ou estático para este tema?
+
+    # IDEIA SALVA — ponto de retomada
+    deliverable:
+      type: post_idea
+      saved_to: 'data/current-idea.json'
+      fields:
+        - chosen_topic: string
+        - content_type: 'video | static'
+        - format: 'reels | carousel | feed | stories | tiktok'
+        - trend_urgency: 'immediate | this_week | evergreen'
+        - hot_news_angle: string|null
+        - hook_direction: string
+        - content_pillar: 'educational | entertainment | inspirational | bts | proof | promotional'
+        - funnel_stage: 'awareness | trust | conversion'
+        - command: string  # /command from commands-library
+
+    next_stage: script
+    human_checkpoint: false
+
+  # ============================================================
+  # ETAPA 2 — ROTEIRO
+  # Agente: Nova (content-strategist) + Lyra (copy-writer)
+  # Mind Council: Paulo Cuenca (visual) + Gary (copy)
+  # Bifurca por tipo: video → script cinematográfico | static → briefing visual + copy
+  # ============================================================
+  - id: script
+    name: 'Roteiro'
+    agent: content-strategist
+    depends_on: research
+    input:
+      post_idea: '{{research.deliverable}}'
+      brandbook: '{{brand.all}}'
+      commands_library: 'data/commands-library.yaml'
+      feedback_memory: '{{memory.post_feedback}}'
+
+    tasks:
+      - task: consult-mind-council
+        input:
+          specialists: [paulo-cuenca, gary-vaynerchuk]
+          question: |
+            Tipo: {{post_idea.content_type}} | Formato: {{post_idea.format}}
+            Tema: {{post_idea.chosen_topic}}
+            Hook direction: {{post_idea.hook_direction}}
+            Escreva o roteiro completo para este conteúdo.
+        output_key: mind_council_script
+
+      # --- Caminho VIDEO ---
+      - task: write-video-script
+        condition: 'content_type == video'
+        description: 'Roteiro completo para gravação: hook falado, cenas, textos na tela, duração, áudio'
+        input:
+          idea: '{{post_idea}}'
+          council_input: '{{mind_council_script}}'
+          brand_voice: '{{brand.voice_and_tone}}'
+          technical_specs: 'data/technical-specs.yaml'
+        output_key: video_script
+
+      # --- Caminho STATIC ---
+      - task: write-static-script
+        condition: 'content_type == static'
+        description: 'Briefing visual completo + copy finalizada. Se precisar de foto real, especifica o que fotografar.'
+        input:
+          idea: '{{post_idea}}'
+          council_input: '{{mind_council_script}}'
+          brand_voice: '{{brand.voice_and_tone}}'
+          commands_library: 'data/commands-library.yaml'
+        output_key: static_script
+
+    output:
+      script_package:
+        content_type: '{{post_idea.content_type}}'
+        format: '{{post_idea.format}}'
+        command: '{{post_idea.command}}'
+        script: '{{video_script | static_script}}'  # depende do tipo
+        caption: string      # legenda final
+        hashtags: [array]    # 8-15 hashtags
+        cta: string          # CTA final
+
+    # HUMAN CHECKPOINT — varia por tipo
+    human_checkpoint: true
+    human_checkpoint_type: '{{post_idea.content_type}}'
+    human_instructions:
+      static: |
+        O agente pode solicitar foto de sócio, cliente ou produto.
+        Se necessário: tire a foto conforme o briefing e envie o arquivo.
+        Se a IA vai gerar a imagem: apenas aprove para continuar.
+      video: |
+        Grave o vídeo seguindo o roteiro acima.
+        Envie o arquivo de vídeo para continuar com a edição.
+
+    next_stage_video: production_video
+    next_stage_static: production_static
+
+  # ============================================================
+  # ETAPA 3a — PRODUÇÃO ESTÁTICO
+  # Agente: Pixel (canva-designer) + Replicate (IA image)
+  # Geração: Replicate para imagem IA | Canva para branding + texto
+  # ============================================================
+  - id: production_static
+    name: 'Produção — Imagem Estática'
+    agent: canva-designer
+    depends_on: script
+    condition: 'content_type == static'
+    input:
+      script_package: '{{script.output.script_package}}'
+      brandbook_visual: '{{brand.visual}}'
+      photo_from_human: '{{human.provided_photo}}'  # null se IA vai gerar
+
+    mind_council_consult:
+      trigger: before_execution
+      specialists: [paulo-cuenca]
+      question: 'Gere briefing de imagem para Replicate: tema={{script.output.script_package.script.visual_concept}}, brand={{brand.identity}}'
+      output_key: image_prompt
+
+    tasks:
+      - task: generate-ai-image
+        description: 'Gera imagem com Replicate (se não houver foto do humano)'
+        condition: 'human.provided_photo == null'
+        input:
+          prompt: '{{image_prompt}}'
+          model: 'black-forest-labs/flux-1.1-pro'
+          aspect_ratio: '{{technical_specs[script_package.format].aspect_ratio}}'
+        tool: mcp__replicate__create_predictions
+        output_key: ai_image_url
+
+      - task: apply-branding
+        description: 'Aplica branding Carbon Films via Canva API: logo, tipografia, cores'
+        input:
+          image: '{{ai_image_url | human.provided_photo}}'
+          command: '{{script_package.command}}'
+          hook_text: '{{script_package.script.hook_text}}'
+          brandbook: '{{brand.visual}}'
+        output_key: final_image
+
+    quality_gate:
+      - dimensions_correct: true
+      - text_in_safe_zones: true
+      - brand_colors_accurate: true
+      - logo_applied: true
+
+    output:
+      production_package:
+        type: static
+        final_file: '{{final_image}}'
+        dimensions: string
+        canva_design_id: string
+
+    next_stage: approval
+
+  # ============================================================
+  # ETAPA 3b — PRODUÇÃO VÍDEO
+  # Agente: Remi (remotion-editor)
+  # Input: vídeo gravado pelo humano + roteiro
+  # Output: vídeo editado com texto, música, cortes
+  # ============================================================
+  - id: production_video
+    name: 'Produção — Edição de Vídeo (Remotion)'
+    agent: remotion-editor
+    depends_on: script
+    condition: 'content_type == video'
+    input:
+      script_package: '{{script.output.script_package}}'
+      raw_video: '{{human.provided_video}}'  # vídeo gravado pelo humano
+      brandbook: '{{brand.all}}'
+      technical_specs: 'data/technical-specs.yaml'
+
+    tasks:
+      - task: edit-video-remotion
+        description: |
+          Edita o vídeo usando Remotion:
+          - Aplica cortes conforme roteiro
+          - Adiciona textos na tela (hook, subtítulos, CTA)
+          - Aplica branding (logo, cores)
+          - Sugere trilha sonora trending
+          - Exporta em formato adequado para a plataforma
+        input:
+          raw_video: '{{raw_video}}'
+          video_script: '{{script_package.script}}'
+          format: '{{script_package.format}}'
+          platform: '{{post_idea.format}}'
+          brand: '{{brandbook.visual}}'
+        output_key: edited_video
+
+    quality_gate:
+      - hook_in_first_3s: true
+      - correct_aspect_ratio: true
+      - text_in_safe_zones: true
+      - duration_within_limit: true
+      - loop_technique_applied: true
+
+    output:
+      production_package:
+        type: video
+        final_file: '{{edited_video}}'
+        duration_seconds: integer
+        format: mp4
+
+    next_stage: quality_gate
+
+  # ============================================================
+  # ETAPA 4 — QUALITY GATE (VERA — QUALITY INSPECTOR)
+  # Substitui aprovação manual do usuário.
+  # Vera analisa copy + visual + brand + estratégia e emite veredicto.
+  # APPROVED → vai para postagem automaticamente
+  # REJECTED → retorna para o agente responsável com feedback cirúrgico
+  # Máximo 3 iterações antes de escalar para revisão humana.
+  # ============================================================
+  - id: quality_gate
+    name: 'Quality Gate — Vera'
+    agent: quality-inspector
+    depends_on: [production_static, production_video]
+    human_checkpoint: false  # Vera substitui o humano aqui
+
+    input:
+      production_package: '{{production_package.final_file}}'
+      copy_package:
+        hook: '{{script.output.script_package.script.hook_text}}'
+        body: '{{script.output.script_package.script.body}}'
+        caption: '{{script.output.script_package.caption}}'
+        hashtags: '{{script.output.script_package.hashtags}}'
+        cta: '{{script.output.script_package.cta}}'
+      content_idea: '{{research.deliverable}}'
+      format: '{{post_idea.format}}'
+      iteration: '{{quality_gate.current_iteration | default: 1}}'
+
+    tasks:
+      - task: quality-inspector-final-gate
+        description: 'Executa avaliação completa das 5 dimensões (impacto, marca, copy, visual, estratégia)'
+        input:
+          production_package: '{{input.production_package}}'
+          copy_package: '{{input.copy_package}}'
+          content_idea: '{{input.content_idea}}'
+          format: '{{input.format}}'
+          iteration: '{{input.iteration}}'
+        output_key: gate_result
+
+    on_approved:
+      - task: quality-inspector-approve-content
+        input:
+          verdict_report: '{{gate_result}}'
+          production_package: '{{production_package}}'
+          content_idea: '{{research.deliverable}}'
+        action: proceed_to_post
+        save_to_memory:
+          key: 'memory.quality_approvals'
+          data:
+            topic: '{{post_idea.chosen_topic}}'
+            score: '{{gate_result.score_ponderado}}'
+            format: '{{post_idea.format}}'
+            timestamp: '{{current_timestamp}}'
+
+    on_rejected:
+      - task: quality-inspector-reject-content
+        input:
+          verdict_report: '{{gate_result}}'
+          production_package: '{{production_package}}'
+          iteration: '{{input.iteration}}'
+        save_to_memory:
+          key: 'memory.post_feedback'
+          data:
+            topic: '{{post_idea.chosen_topic}}'
+            type: '{{production_package.type}}'
+            format: '{{script_package.format}}'
+            feedback: '{{gate_result.rejection_details.problems}}'
+            timestamp: '{{current_timestamp}}'
+        re_run_stage:
+          target: '{{production_package.type == video ? production_video : production_static}}'
+          inject_feedback: '{{gate_result.rejection_details}}'
+          max_iterations: 3
+
+    on_escalate:
+      condition: 'iteration >= 3 AND verdict == REJECTED'
+      action: human_review_required
+      human_checkpoint: true
+      message: |
+        🚨 Conteúdo rejeitado por Vera por 3 iterações consecutivas.
+        Revisão manual necessária antes de prosseguir.
+        Ver relatório completo em: data/quality-rejections.json
+
+    next_stage_approved: post
+    next_stage_rejected: '[production_static | production_video]'  # volta para produção com feedback
+
+  # ============================================================
+  # ETAPA 5 — POSTAGEM
+  # Agente: Rhythm (scheduler)
+  # Só executa após APPROVED do quality gate
+  # ============================================================
+  - id: post
+    name: 'Postagem'
+    agent: scheduler
+    depends_on: quality_gate
+    condition: 'quality_gate.verdict == APPROVED'
+
+    tasks:
+      - task: schedule-post
+        input:
+          file: '{{quality_gate.posting_package.file}}'
+          type: '{{production_package.type}}'
+          caption: '{{quality_gate.posting_package.caption}}'
+          hashtags: '{{quality_gate.posting_package.hashtags}}'
+          platform: instagram
+          posting_time: '{{quality_gate.posting_package.authorized_time}}'
+        output_key: post_confirmation
+
+      - task: update-goals
+        input:
+          platform: instagram
+          format: '{{script_package.format}}'
+          command_used: '{{post_idea.command}}'
+          status: posted
+
+    output:
+      post_result:
+        status: posted
+        post_id: string
+        platform: instagram
+        posted_at: datetime
+        content_type: '{{production_package.type}}'
+
+    next_stage: metrics
+    # Espera antes de coletar métricas
+    metrics_delay: 24h
+
+  # ============================================================
+  # ETAPA 6 — ANÁLISE DE MÉTRICAS
+  # Agente: Echo (performance-analyst) + Neil Patel mindclone
+  # Objetivo: verificar se bateu a meta → salvar memória de aprendizado
+  # ============================================================
+  - id: metrics
+    name: 'Análise de Métricas'
+    agent: performance-analyst
+    depends_on: post
+    trigger: 'scheduled'
+    trigger_delay: 24h  # roda 24h após a postagem
+
+    tasks:
+      - task: collect-metrics
+        description: 'Coleta métricas reais via Meta Graph API após 24h'
+        input:
+          post_id: '{{post.output.post_result.post_id}}'
+          platform: instagram
+          metrics: [reach, impressions, saves, shares, comments, likes, profile_visits]
+        output_key: raw_metrics
+
+      - task: analyze-engagement
+        description: 'Compara métricas com metas do brandbook. Verifica se bateu target.'
+        input:
+          raw_metrics: '{{raw_metrics}}'
+          targets: '{{brand.metrics_and_goals.primary_kpis}}'
+          baseline: '{{brand.metrics_and_goals.performance_baselines}}'
+          post_type: '{{production_package.type}}'
+          format: '{{script_package.format}}'
+          command: '{{post_idea.command}}'
+          topic: '{{post_idea.chosen_topic}}'
+          content_pillar: '{{post_idea.content_pillar}}'
+        output_key: performance_analysis
+
+    mind_council_consult:
+      trigger: always
+      specialists: [neil-patel, rafael-kiso]
+      question: |
+        Post: {{post_idea.chosen_topic}} | Tipo: {{production_package.type}}
+        Métricas: {{raw_metrics}}
+        Targets: {{brand.metrics_and_goals.primary_kpis}}
+        O que funcionou? O que não funcionou? O que mudar na próxima vez?
+      output_key: council_learning
+
+    # MEMÓRIA DE APRENDIZADO — salva para próximas iterações
+    save_to_memory:
+      key: 'memory.performance_learnings'
+      data:
+        topic: '{{post_idea.chosen_topic}}'
+        content_type: '{{production_package.type}}'
+        format: '{{script_package.format}}'
+        command: '{{post_idea.command}}'
+        content_pillar: '{{post_idea.content_pillar}}'
+        hook_used: '{{script_package.script.hook_text}}'
+        metrics: '{{raw_metrics}}'
+        hit_targets: '{{performance_analysis.targets_hit}}'
+        council_learning: '{{council_learning}}'
+        timestamp: '{{current_timestamp}}'
+
+    output:
+      metrics_report:
+        hit_targets: boolean
+        targets_hit: [array]
+        targets_missed: [array]
+        top_insight: string
+        recommendation_for_next: string
+        memory_saved: true
+
+    final_stage: true
+
+# ---------------------------------------------------------------
+# WORKFLOW INPUT
+# ---------------------------------------------------------------
+workflow_input:
+  required: []  # Tudo pode ser gerado pelo squad
+  optional:
+    - topic_hint: 'Tema ou ideia inicial'
+    - command_override: 'Forçar /comando específico'
+    - photo: 'Foto já pronta (pula geração IA)'
+    - video: 'Vídeo já gravado (pula checkpoint de gravação)'
+
+# ---------------------------------------------------------------
+# MEMÓRIA DO WORKFLOW
+# Acumulada entre sessões para melhorar resultados
+# ---------------------------------------------------------------
+memory:
+  post_feedback:
+    description: 'Feedbacks de rejeição na aprovação — evitar os mesmos erros'
+    path: 'data/memory-feedback.json'
+    max_entries: 50
+
+  performance_learnings:
+    description: 'O que funcionou e não funcionou por tipo/formato/tema'
+    path: 'data/memory-performance.json'
+    max_entries: 100
+
+# ---------------------------------------------------------------
+# INTEGRAÇÕES
+# ---------------------------------------------------------------
+integrations:
+  canva_api:
+    required: true
+    credential: CANVA_CLIENT_ID + CANVA_CLIENT_SECRET
+    status: configured
+    use: branding de imagens estáticas
+
+  replicate_api:
+    required: true  # para path static sem foto humana
+    credential: REPLICATE_API_TOKEN
+    model: 'black-forest-labs/flux-1.1-pro'
+    status: configured_in_mcp
+    use: geração de imagem IA
+
+  instagram_api:
+    required: true  # para postagem
+    credential: META_ACCESS_TOKEN + INSTAGRAM_BUSINESS_ACCOUNT_ID
+    status: pending_configuration
+    use: postagem e coleta de métricas
+
+  apify:
+    required: false  # fallback: screenshot manual
+    credential: APIFY_TOKEN
+    status: configured
+    use: análise de perfil concorrente
+
+  remotion:
+    required: true  # para path video
+    credential: none  # local rendering
+    status: agent_created
+    use: edição de vídeo programática
+
+# ---------------------------------------------------------------
+# PERFORMANCE TARGETS
+# ---------------------------------------------------------------
+performance:
+  target_total_time: '< 8 min (excluindo human checkpoints)'
+  stages_timing:
+    research: '< 90s'
+    script: '< 60s'
+    production_static: '< 120s'
+    production_video: '< 300s'
+    approval: 'human dependent'
+    post: '< 30s'
+    metrics: '24h delay + < 60s analysis'

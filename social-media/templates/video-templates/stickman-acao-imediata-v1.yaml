@@ -1,0 +1,306 @@
+name: stickman-acao-imediata-v1
+version: 1.0.0
+description: 'Template de vídeo motivacional animado com stickman. Tema: parar de procrastinar e agir agora. Fundo preto, grid cinza, stickman branco, destaques vermelho. Arco emocional: tensão → identificação → realidade dura → decisão. 32 segundos.'
+category: motivacional
+format: reels
+aspect_ratio: '9:16'
+duration_seconds: 32
+style: stickman-animated
+created: '2026-03-31'
+agent: remotion-editor
+
+# ---------------------------------------------------------------
+# ESTILO VISUAL GERAL
+# ---------------------------------------------------------------
+visual_style:
+  background: '#000000'
+  grid:
+    color: '#1A1A1A'
+    spacing: 40px
+    opacity: 0.4
+    style: 'linhas finas, cinza sutil'
+  character:
+    type: stickman
+    style: 'ícone branco simples e limpo — não infantil'
+    color: '#FFFFFF'
+    stroke_weight: 3px
+  color_palette:
+    primary: '#000000'
+    text_default: '#FFFFFF'
+    text_accent: '#FF0000'
+    character: '#FFFFFF'
+  typography:
+    font: 'bold sans-serif (Anton ou Bebas Neue)'
+    weight: 900
+    size_main: '72-96px'
+    color_default: '#FFFFFF'
+    color_emphasis: '#FF0000'
+    animation: 'fade in + leve zoom (scale 0.95 → 1.0)'
+  animation_feel: 'cortes rápidos, progressão emocional crescente, motion limpo'
+  energy: 'ação imediata / urgência / levemente confrontacional'
+
+# ---------------------------------------------------------------
+# AI GENERATION PROMPT (Runway / Sora / Pika)
+# ---------------------------------------------------------------
+ai_prompt: |
+  Create a vertical 9:16 motivational animated video with a minimalist style.
+
+  Visual style:
+  - Black background with subtle grid
+  - White stickman character (simple, clean icon style)
+  - Bold sans-serif typography
+  - Colors: white and red for emphasis
+  - Smooth, simple animations
+  - Clean motion graphics look
+
+  Scene 1:
+  Stickman standing still. Text: "SE VOCÊ ESPERAR". Slight zoom in.
+
+  Scene 2:
+  Same position. Text: "PELO MOMENTO PERFEITO". Static shot.
+
+  Scene 3:
+  Stickman posture drops slightly (discouraged). Text: "VOCÊ VAI FICAR PARADO". Slight zoom.
+
+  Scene 4:
+  Stickman raises finger (advice gesture). Text: "A VERDADE É". Quick cut.
+
+  Scene 5:
+  Stickman walking forward. Text: "NADA VAI SE ALINHAR". Tracking camera.
+
+  Scene 6:
+  Continues walking. Text: "SE VOCÊ NÃO COMEÇAR".
+
+  Scene 7:
+  Stickman sitting, head down (frustrated). Text: "VOCÊ SÓ VAI SE FRUSTRAR". Dramatic zoom in.
+
+  Scene 8:
+  Stickman stands up with determination. Text: "COMECE AGORA" in strong red.
+
+  Animation:
+  - Smooth transitions
+  - Quick cuts
+  - Subtle zooms and tracking
+
+  Mood:
+  Motivational, urgent, direct, slightly confrontational.
+
+  Lighting:
+  Flat vector style, no shadows.
+
+# ---------------------------------------------------------------
+# ROTEIRO DETALHADO — CENA A CENA
+# ---------------------------------------------------------------
+scenes:
+
+  - id: cena-1
+    name: 'HOOK'
+    time_start: 0
+    time_end: 3
+    duration: 3s
+    character_pose: 'em pé, neutro — postura parada'
+    character_extras: []
+    text_lines:
+      - content: 'SE VOCÊ'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'ESPERAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + scale 0.95→1.0'
+    camera: 'leve zoom in'
+    emotion: 'início de tensão'
+    remotion_notes: 'Personagem completamente estático — inércia intencional. Texto com spring() para entrada suave.'
+
+  - id: cena-2
+    name: 'CONFLITO'
+    time_start: 3
+    time_end: 6
+    duration: 3s
+    character_pose: 'mesmo — continua parado (reforça inércia)'
+    character_extras: []
+    text_lines:
+      - content: 'PELO MOMENTO'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'PERFEITO'
+        color: '#FF0000'
+        position: center
+    text_animation: 'corte seco na troca de cena'
+    camera: 'estática'
+    emotion: 'reflexão / identificação'
+    remotion_notes: 'Nenhum movimento — a imobilidade do personagem é a mensagem. Transição: corte seco sem interpolação.'
+
+  - id: cena-3
+    name: 'CONSEQUÊNCIA'
+    time_start: 6
+    time_end: 9
+    duration: 3s
+    character_pose: 'ombros caem levemente — postura de desânimo'
+    character_extras:
+      - 'micro movimento: ombros descendo ~5px em 0.5s (interpolação ease-out)'
+    text_lines:
+      - content: 'VOCÊ VAI'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'FICAR PARADO'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + leve zoom'
+    camera: 'leve zoom in'
+    emotion: 'alerta'
+    remotion_notes: 'Micro animação de desânimo: translateY(+5px) nos ombros. Simples e eficaz. Texto aparece 0.2s após o corte.'
+
+  - id: cena-4
+    name: 'QUEBRA DE CRENÇA'
+    time_start: 9
+    time_end: 13
+    duration: 4s
+    character_pose: 'dedo levantado — gesto de conselho / autoridade'
+    character_extras: []
+    text_lines:
+      - content: 'A VERDADE É'
+        color: '#FFFFFF'
+        position: center
+    text_animation: 'corte seco + fade in rápido'
+    camera: 'corte seco + leve aproximação'
+    emotion: 'autoridade'
+    remotion_notes: 'Apenas 1 linha de texto — mais impacto. Dedo levantado estático com leve wobble (oscillate pequeno). Pausa antes do próximo corte: 0.5s.'
+
+  - id: cena-5
+    name: 'VERDADE FORTE'
+    time_start: 13
+    time_end: 17
+    duration: 4s
+    character_pose: 'andando para frente — movimento contínuo'
+    character_extras:
+      - 'animação de caminhada (loop de 2 ciclos)'
+    text_lines:
+      - content: 'NADA VAI'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'SE ALINHAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'slide in da esquerda'
+    camera: 'tracking leve acompanhando o movimento'
+    emotion: 'realidade dura'
+    remotion_notes: 'Personagem caminhando: translateX animado +20px por ciclo. Camera tracking: pan horizontal leve (interpolateInput).'
+
+  - id: cena-6
+    name: 'REALIDADE'
+    time_start: 17
+    time_end: 21
+    duration: 4s
+    character_pose: 'andando continuamente — ritmo constante'
+    character_extras:
+      - 'continuação da animação de caminhada da cena anterior'
+    text_lines:
+      - content: 'SE VOCÊ NÃO'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'COMEÇAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in suave'
+    camera: 'acompanha o personagem — continuidade'
+    emotion: 'urgência'
+    remotion_notes: 'Continuidade visual com cena 5 — mesma animação de caminhada. Texto muda mas o movimento não para. Cria sensação de ritmo crescente.'
+
+  - id: cena-7
+    name: 'FRUSTRAÇÃO'
+    time_start: 21
+    time_end: 26
+    duration: 5s
+    character_pose: 'sentado, cabeça baixa — postura derrotada'
+    character_extras:
+      - 'cabeça inclinada para baixo (~15° de rotação)'
+    text_lines:
+      - content: 'VOCÊ SÓ VAI'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'SE FRUSTRAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + zoom dramático'
+    camera: 'zoom in dramático — aproxima do personagem'
+    emotion: 'dor / identificação'
+    remotion_notes: 'Cena mais impactante junto com cena 8. Zoom pronunciado: scale(1.0→1.15) em 1s. "SE FRUSTRAR" com delay de 0.5s para impacto máximo.'
+
+  - id: cena-8
+    name: 'FINAL — CTA FORTE'
+    time_start: 26
+    time_end: 32
+    duration: 6s
+    character_pose: 'levanta lentamente — postura de decisão e determinação'
+    character_extras:
+      - 'animação de levantar: translateY de posição sentada para em pé (1s ease-out)'
+    text_lines:
+      - content: 'COMECE'
+        color: '#FF0000'
+        position: top-center
+      - content: 'AGORA'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + zoom out leve'
+    camera: 'leve zoom out — abre campo visual'
+    emotion: 'decisão / ação imediata'
+    remotion_notes: 'Todo o texto em vermelho — ruptura visual com o padrão branco/vermelho das cenas anteriores. Zoom out final: scale(1.1→1.0) cria sensação de libertação. Pausa de 1s antes do fade out geral.'
+
+# ---------------------------------------------------------------
+# ARCO EMOCIONAL GERAL
+# ---------------------------------------------------------------
+emotional_arc:
+  - phase: 'Tensão' # cenas 1-2
+    feeling: 'Identificação — "isso sou eu esperando o momento perfeito"'
+  - phase: 'Alerta' # cena 3
+    feeling: 'Consequência da inação — começa a doer'
+  - phase: 'Autoridade' # cena 4
+    feeling: 'Alguém vai me dizer uma verdade'
+  - phase: 'Realidade dura' # cenas 5-6
+    feeling: 'A caminhada = ação. Sem começar, nada muda.'
+  - phase: 'Dor' # cena 7
+    feeling: 'Frustração real da procrastinação — máxima identificação'
+  - phase: 'Decisão' # cena 8
+    feeling: 'CTA emocional — agora é o momento'
+
+# ---------------------------------------------------------------
+# DIFERENCIAL EM RELAÇÃO AO TEMPLATE V1
+# ---------------------------------------------------------------
+vs_stickman_motivacional_v1:
+  ritmo: 'Mais rápido — cortes de 3-4s vs 3-5s do v1'
+  arco: 'V1 foca em reflexão final; este foca em decisão imediata'
+  cta: 'V1 termina com responsabilidade pessoal; este termina com ação direta'
+  texto: 'Menos linhas por cena — mais impacto visual'
+  uso_ideal: 'Conteúdo de topo de funil com alto CTR — usuário deve sentir urgência imediata'
+
+# ---------------------------------------------------------------
+# CONFIGURAÇÕES REMOTION
+# ---------------------------------------------------------------
+remotion_config:
+  fps: 30
+  total_frames: 960  # 32s × 30fps
+  width: 1080
+  height: 1920
+  background_color: '#000000'
+  composition_id: 'StickmanAcaoImediata'
+  output_format: 'mp4'
+  codec: 'h264'
+  audio_suggestion:
+    type: 'beat minimalista com crescendo — urgência sem distração'
+    bpm_range: '128-145'
+    feel: 'trap instrumental leve ou hip-hop minimalista com build-up na cena 7-8'
+
+# ---------------------------------------------------------------
+# ADAPTAÇÃO PARA CARBON FILMS
+# ---------------------------------------------------------------
+carbon_films_adaptation:
+  topic_fit: 'Agências e empresas que "esperam o momento certo" para investir em marketing digital / produção de conteúdo'
+  hook_adapted: '"SE VOCÊ ESPERAR" → contexto: esperar ter budget, esperar ter tempo, esperar ter conteúdo perfeito'
+  cta_adapted: '"COMECE AGORA" → "CHAMA A CARBON AGORA"'
+  color_override: 'Manter preto/branco/vermelho — alinhado com identidade Carbon Films'
+  use_cases:
+    - 'Conteúdo de topo de funil — awareness + geração de lead'
+    - 'Engajamento por dor — "identificação máxima"'
+    - 'Reels de alto alcance orgânico — formato testado'
+    - 'Anúncio pago — criativo de awareness'

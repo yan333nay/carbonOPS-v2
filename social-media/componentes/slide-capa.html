@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Slide Capa — Carbon Films</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1350px; overflow: hidden; background: #050505; }
+
+.slide {
+  width: 1080px; height: 1350px;
+  position: relative; overflow: hidden;
+}
+
+.bg-image {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center top;
+  z-index: 0;
+}
+
+.bg-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(5,5,5,0.00)  0%,
+    rgba(5,5,5,0.00) 18%,
+    rgba(5,5,5,0.30) 40%,
+    rgba(5,5,5,0.80) 58%,
+    rgba(5,5,5,0.97) 74%,
+    rgba(5,5,5,1.00) 100%
+  );
+  z-index: 1;
+}
+
+.grain {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Header minimalista — logo + número */
+.header {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 48px 64px 0;
+}
+.logo-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.18);
+  overflow: hidden; background: #111; flex-shrink: 0;
+}
+.logo-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.header-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 20px;
+  color: rgba(255,255,255,0.28); letter-spacing: 0.14em;
+}
+
+/* Conteúdo empilhado na base */
+.conteudo {
+  position: absolute; inset: 0; z-index: 3;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 64px 56px;
+}
+
+/* Chip de categoria */
+.categoria-chip {
+  display: inline-flex; align-items: center; gap: 14px;
+  margin-bottom: 28px; align-self: flex-start;
+}
+.chip-linha { width: 26px; height: 1.5px; background: rgba(255,255,255,0.42); }
+.chip-txt {
+  font-family: 'JetBrains Mono', monospace; font-size: 20px;
+  color: rgba(255,255,255,0.52); letter-spacing: 0.20em; text-transform: uppercase;
+}
+
+/* Título principal */
+.titulo {
+  font-family: 'Anton', sans-serif;
+  font-size: 112px;
+  color: #fff; line-height: 0.90; letter-spacing: -2px;
+  text-transform: uppercase; white-space: pre-line;
+  margin-bottom: 48px;
+}
+
+/* Rodapé: handle + barras de progresso */
+.rodape {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.handle {
+  font-family: 'JetBrains Mono', monospace; font-size: 21px;
+  color: rgba(255,255,255,0.32); letter-spacing: 0.06em;
+}
+.progress-bars { display: flex; gap: 8px; align-items: center; }
+.bar { height: 2px; background: rgba(255,255,255,0.16); border-radius: 2px; }
+.bar.ativo { background: rgba(255,255,255,0.75); }
+.bar-l { width: 48px; }
+.bar-s { width: 15px; }
+</style>
+</head>
+<body>
+<script>
+const SLIDE = {
+  label:  'CF_001 / MARKETING',
+  titulo: '3 ERROS QUE MATAM\nSEU TRÁFEGO',
+  corpo:  'Descubra o que está consumindo seu budget sem gerar resultado.',
+  imagem: '',
+  numero: '01 / 05',
+  tema:   'dark',
+};
+</script>
+
+<div class="slide" id="slide-capa">
+  <div class="bg-image" id="bg"></div>
+  <div class="bg-overlay" id="bg-overlay"></div>
+  <div class="grain"></div>
+
+  <div class="header">
+    <div class="logo-circle">
+      <img src="../assets/logo-carbon.png" alt="" onerror="this.style.display='none'">
+    </div>
+    <span class="header-num" id="header-num">01 / 05</span>
+  </div>
+
+  <div class="conteudo">
+    <div class="categoria-chip">
+      <span class="chip-linha"></span>
+      <span class="chip-txt" id="chip-txt">Marketing</span>
+    </div>
+
+    <h1 class="titulo" id="titulo">3 ERROS QUE MATAM<br>SEU TRÁFEGO</h1>
+
+    <div class="rodape">
+      <span class="handle">@carbonfilms.sc</span>
+      <div class="progress-bars" id="progress-bars"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('titulo').innerHTML = SLIDE.titulo.replace(/\n/g, '<br>');
+document.getElementById('header-num').textContent = SLIDE.numero;
+
+// Extrai parte do label para o chip (ex: "CF_001 / MARKETING" → "MARKETING")
+const labelParts = SLIDE.label.split('/');
+document.getElementById('chip-txt').textContent = (labelParts[1] || SLIDE.label).trim();
+
+// Barras de progresso (5 slides)
+const bars = document.getElementById('progress-bars');
+const total = 5;
+const current = parseInt(SLIDE.numero) || 1;
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'bar ' + (i === current ? 'bar-l ativo' : 'bar-s');
+  bars.appendChild(d);
+}
+
+if (SLIDE.imagem) {
+  document.getElementById('bg').style.backgroundImage = `url('${SLIDE.imagem}')`;
+}
+
+// Tema white
+if (SLIDE.tema === 'white') {
+  document.getElementById('bg-overlay').style.background = 'linear-gradient(to bottom, rgba(250,250,250,0) 0%, rgba(250,250,250,0) 18%, rgba(250,250,250,0.55) 45%, rgba(250,250,250,0.97) 68%, rgba(250,250,250,1) 100%)';
+  document.querySelector('.titulo').style.color = '#0A0A0A';
+  document.querySelector('.handle').style.color = 'rgba(10,10,10,0.35)';
+  document.querySelector('.header-num').style.color = 'rgba(10,10,10,0.28)';
+  document.querySelector('.chip-linha').style.background = 'rgba(10,10,10,0.4)';
+  document.querySelector('.chip-txt').style.color = 'rgba(10,10,10,0.45)';
+  document.querySelectorAll('.bar').forEach(b => {
+    b.style.background = b.classList.contains('ativo') ? 'rgba(10,10,10,0.7)' : 'rgba(10,10,10,0.14)';
+  });
+}
+</script>
+</body>
+</html>

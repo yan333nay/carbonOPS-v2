@@ -1,0 +1,164 @@
+name: goals-tracker
+version: 1.0.0
+description: 'Weekly and daily goals tracking structure. Connected to WhatsApp bot — auto-decrements targets as posts are published. Rhythm (scheduler) reads this to generate daily checklists and Neil Patel mindclone uses it for weekly review.'
+last_updated: '2026-03-27'
+
+# ---------------------------------------------------------------
+# HOW THIS WORKS
+# 1. Every Sunday, Rhythm resets weekly_targets to base values
+# 2. After each approved + scheduled post, Kai updates remaining counts
+# 3. Daily alarm messages (8h) include today's remaining targets
+# 4. Neil generates weekly report every Sunday with actual vs target
+# ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# Base Weekly Targets (configurable per client/brand)
+# ---------------------------------------------------------------
+weekly_targets_base:
+  feed_posts:
+    target: 7
+    description: '1 post de feed por dia'
+
+  stories:
+    target: 21
+    description: '3 stories por dia'
+
+  reels_or_tiktoks:
+    target: 3
+    description: 'Mínimo semanal de vídeos'
+
+  photo_session:
+    target: 1
+    description: 'Ao menos 1 sessão de fotos/vídeos por semana'
+
+  metrics_review:
+    target: 1
+    description: '1 análise de métricas na semana'
+
+# ---------------------------------------------------------------
+# Alarm Schedule
+# Rhythm sends WhatsApp messages at these times with context
+# ---------------------------------------------------------------
+alarms:
+  morning_checklist:
+    time: '08:00'
+    timezone: 'America/Sao_Paulo'
+    message_template: |
+      Bom dia! Checklist do dia {date}:
+
+      📊 Progresso da semana:
+      - Feed: {feed_published}/{feed_target} posts
+      - Stories: {stories_published}/{stories_target}
+      - Reels/TikTok: {reels_published}/{reels_target}
+
+      📋 Para hoje:
+      {daily_tasks_list}
+
+      Envie a foto + /comando para começar 🚀
+
+  afternoon_stories:
+    time: '12:00'
+    timezone: 'America/Sao_Paulo'
+    message_template: |
+      ⏰ Janela de stories da tarde.
+      Stories das 12h têm engajamento 28% maior.
+
+      Você já postou {stories_today} stories hoje.
+      Meta: 3 stories/dia — faltam {stories_remaining_today}.
+
+      Envie a foto + /stories-simples
+
+  feed_prime_time:
+    time: '17:00'
+    timezone: 'America/Sao_Paulo'
+    message_template: |
+      📸 Hora nobre do feed Instagram (17h-18h).
+      Melhor janela de engajamento do dia.
+
+      {feed_today_status}
+
+      Envie a foto + /feed-impactante ou /autoridade
+
+  reels_prime_time:
+    time: '19:00'
+    timezone: 'America/Sao_Paulo'
+    message_template: |
+      🎬 Horário nobre TikTok e Reels (19h-20h).
+      Maior alcance orgânico — algoritmo prioriza publicações nesse horário.
+
+      {reels_this_week_status}
+
+      Envie o vídeo + /reels-trend ou /tiktok-viral
+
+  end_of_day:
+    time: '22:00'
+    timezone: 'America/Sao_Paulo'
+    message_template: |
+      📊 Resumo do dia {date}:
+
+      ✅ Publicado hoje:
+      {published_today_list}
+
+      📋 Pendências do dia:
+      {pending_list}
+
+      Dicas para amanhã: {tomorrows_tip}
+
+# ---------------------------------------------------------------
+# Weekly Report Template (sent Sunday by Neil mindclone)
+# ---------------------------------------------------------------
+weekly_report:
+  send_day: sunday
+  send_time: '20:00'
+  template: |
+    📈 Relatório Semanal — Semana {week_number}
+
+    PUBLICADO vs META:
+    - Feed: {feed_published}/{feed_target} ({feed_rate}%)
+    - Stories: {stories_published}/{stories_target} ({stories_rate}%)
+    - Reels/TikTok: {reels_published}/{reels_target} ({reels_rate}%)
+
+    🏆 TOP PERFORMERS:
+    1. {top_post_1_description} — {top_post_1_metric}
+    2. {top_post_2_description} — {top_post_2_metric}
+    3. {top_post_3_description} — {top_post_3_metric}
+
+    📉 UNDERPERFORMERS:
+    - {underperformer_1} — {reason_1}
+
+    🎯 AJUSTE DE ESTRATÉGIA PARA PRÓXIMA SEMANA:
+    {neil_strategy_recommendation}
+
+    Começando semana {week_next} com meta de {next_week_target} posts.
+
+# ---------------------------------------------------------------
+# Post Log Schema
+# Every published post is logged here by Kai after scheduling
+# ---------------------------------------------------------------
+post_log_schema:
+  fields:
+    - date: 'YYYY-MM-DD'
+    - time_published: 'HH:MM'
+    - platform: 'instagram | tiktok'
+    - format: 'feed | stories | reels | carousel | tiktok-video'
+    - command_used: '/command-name'
+    - status: 'published | scheduled | draft | failed'
+    - engagement:
+        reach: 0
+        likes: 0
+        comments: 0
+        saves: 0
+        shares: 0
+        engagement_rate: 0.0
+    - neil_score: 0  # Predicted score at time of creation (1-10)
+    - actual_score: 0  # Filled by Echo after 24h
+
+# ---------------------------------------------------------------
+# Multi-Client Extension
+# When squad is used for multiple clients, each gets own tracker
+# ---------------------------------------------------------------
+multi_client:
+  isolation: strict  # Each client's brandbook cannot contaminate another
+  client_id_required: true
+  data_separation: 'Each client gets own goals-tracker-{client-id}.yaml'
+  approval_channel: 'Separate WhatsApp group or thread per client'

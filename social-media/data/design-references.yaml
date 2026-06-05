@@ -1,0 +1,654 @@
+name: design-references
+version: 3.0.0
+description: 'Referências visuais analisadas a partir de 18 posts + 6 carrosséis reais. Pixel e Paulo Cuenca consultam este arquivo para calibrar estilo visual dos posts da Carbon Films.'
+last_updated: '2026-03-31'
+status: active
+source_folder: 'C:/Users/suzam/Downloads/Referências de posts'
+
+# ================================================================
+# PADRÕES VISUAIS EXTRAÍDOS — ANÁLISE COMPLETA
+# 18 posts de feed + 6 carrosséis (40+ slides analisados)
+# ================================================================
+
+visual_patterns:
+
+  typography:
+    headline_weight: 'Extra-Bold ou Black (900) — ocupa 50-80% do espaço visual'
+    headline_case: 'Caixa alta para palavra de maior impacto, title case para o restante'
+    accent_technique: 'Uma palavra-chave em cor diferente (azul, dourado, vermelho, verde) no headline'
+    subtitle_weight: 'Regular ou Light — contraste intencional com o headline'
+    mixed_weights_in_headline: 'Comum misturar "Essa é a rotina do" (light) + "EMPRESÁRIO NO CAOS" (black)'
+    editorial_style: 'Serifa Display (alto contraste thick/thin) para posts premium/editoriais'
+    fonts_observed:
+      - 'Anton (Google Fonts) — headlines cinematográficos, carrosséis de impacto'
+      - 'Bebas Neue — posts dark dramáticos'
+      - 'Inter Bold/Black — layouts clean e corporativos (EAG)'
+      - 'Playfair Display / serifa alto contraste — estilo editorial premium (MIII)'
+      - 'Poppins Bold — uso geral, versátil'
+    size_hierarchy:
+      hook_main: '64-96px equivalente — palavra de maior impacto'
+      hook_support: '32-48px — restante do headline'
+      subtitle: '18-24px'
+      cta_label: '14-16px'
+      brand_tag: '11-13px — discreto, canto superior'
+
+  color_palettes:
+    dark_dramatic:
+      description: 'Fundo escuro quase preto + texto branco + 1 cor de acento'
+      background: '#080808 a #1C1C1C'
+      text_primary: '#FFFFFF'
+      accent_blue: '#3B82F6'
+      accent_gold: '#F59E0B'
+      accent_red: '#DC2626'
+      accent_green: '#22C55E'
+      use_for: 'Posts de impacto, dor do cliente, provocação, autoridade'
+      examples:
+        - 'Geovane Rocha (bomba de dinheiro + azul)'
+        - 'Fiden (xadrez + tráfego pago + azul)'
+        - 'NexOn DiCaprio (venda todos os dias + vermelho)'
+        - 'João Mendes (escritório + verde)'
+
+    warm_dark:
+      description: 'Fundo dourado/marrom escuro + overlay + texto branco e dourado'
+      background: '#1A0F00 a #2A1800'
+      overlay: 'gradiente radial escuro sobre imagem quente'
+      text_primary: '#FFFFFF'
+      text_accent: '#F59E0B'
+      use_for: 'Posts com celebridade, autoridade máxima, resultado premium'
+      examples:
+        - 'EAG Elon Musk (delegação)'
+        - 'EAG DiCaprio (boca tapada)'
+        - 'EAG empresário no caos'
+        - 'Unusual (dinheiro queimando + golden)'
+
+    high_contrast_red:
+      description: 'Vermelho profundo + branco — urgência e revelação de dados'
+      background: '#7F1D1D a #991B1B'
+      text_primary: '#FFFFFF'
+      accent: '#FCA5A5'
+      use_for: 'Carrosséis de problema, "a dura verdade", lista de erros'
+
+    clean_light_yellow:
+      description: 'Amarelo/bege claro + texto escuro — educativo, acessível'
+      background: '#FEF3C7 a #FDE68A'
+      text_primary: '#111827'
+      accent_icon: '#EF4444'
+      card_bg: '#FFFFFF'
+      use_for: 'Carrosséis educativos, listas de dicas, conteúdo positivo'
+
+    clean_white_gray:
+      description: 'Branco/cinza claríssimo + texto escuro — premium, minimalista'
+      background: '#F8F8F8 a #FFFFFF'
+      text_primary: '#111827'
+      accent: '#3B82F6 ou #F59E0B'
+      divider: 'linha fina cinza clara'
+      use_for: 'Carrosséis ultra-clean, slides de solução, CTA final'
+
+    dark_navy_educational:
+      description: 'Azul marinho escuro + cards brancos — educativo premium'
+      background: '#0F172A a #1E293B'
+      text_primary: '#FFFFFF'
+      card_bg: '#FFFFFF'
+      card_text: '#111827'
+      accent: '#F59E0B (badge numerado)'
+      use_for: 'Carrosséis com steps numerados, listas de processos, frameworks'
+
+    editorial_minimal:
+      description: 'Fundo claro ou foto ambiente + serifa elegante — tom reflexivo'
+      background: 'Fotografia de ambiente (natureza, textura) ou branco puro'
+      text: 'Escuro sobre claro, variando serifada thin/bold'
+      use_for: 'Carrosséis de reflexão, frases de impacto, conteúdo filosófico sobre negócios'
+
+  imagery_types:
+    type_1_celebrity_authority:
+      description: 'Celebridade ou figura de autoridade reconhecida mundialmente'
+      treatment: 'Photo realista com color grade frio ou quente, fundo de cena contextual'
+      examples: 'Elon Musk, DiCaprio, Zuckerberg vs Page'
+      use_for: 'Hooks de provocação associados a grandes nomes'
+      adapt_carbon: 'Trocar por sócio em pose séria com equipamento — a câmera é o símbolo de autoridade'
+
+    type_2_dramatic_object:
+      description: 'Objeto com carga simbólica intensa em situação dramática'
+      examples: 'Dinheiro queimando, bomba de notas, xadrez + dinheiro, planta em moedas'
+      treatment: 'Iluminação dramática spot, fundo escuro ou desfocado, renderização 3D ou foto real'
+      use_for: 'Metáfora visual para dor financeira ou consequência de erro'
+      adapt_carbon: 'Câmera quebrando, filme inutilizado, claquete rasgada, monitor sem conteúdo'
+
+    type_3_archetype_photo:
+      description: 'Personagem arquétipo do cliente-alvo em situação do dia a dia'
+      examples: 'Mecânico com chave, empresário no caos, vendedor preguiçoso'
+      treatment: 'AI-generated realista ou stock foto, expressão intensa, fundo contextual desfocado'
+      use_for: 'Identificação imediata — "esse sou eu"'
+      adapt_carbon: 'Empresário olhando para celular sem conteúdo, gestor de marketing estressado'
+
+    type_4_absurd_humor:
+      description: 'Personagem inusitado ou absurdo para quebrar padrão do feed'
+      examples: 'Preguiça (Zootopia) sentada como atendente ruim, animal em escritório'
+      treatment: 'AI-generated ou personagem 3D animado em ambiente realista'
+      use_for: 'Posts de humor com crítica — "seu atendente parece isso"'
+      adapt_carbon: 'Câmera antiga/quebrada como "seu conteúdo de hoje"'
+
+    type_5_real_partner_photo:
+      description: 'Foto real do sócio/fundador — máxima autenticidade'
+      examples: 'MORO no sofá com laptop, @guilhermeo1 em fundo preto'
+      treatment: 'Foto profissional em ambiente neutro ou de trabalho, iluminação de estúdio simples'
+      layout: 'Texto grande sobre fundo preto/escuro, foto do sócio integrada'
+      use_for: 'Autoridade pessoal, o que fazemos, nossa visão, provocação direta'
+      adapt_carbon: 'PRIORIDADE — sócios com câmera ou em set de gravação'
+      notes: 'Quando o rosto do dono aparece, o engajamento aumenta significativamente'
+
+    type_6_versus_battle:
+      description: 'Dois elementos em confronto visual — A vs B'
+      examples: 'Zuckerberg vs Larry Page em octógono de MMA'
+      treatment: 'Montagem/composição digital com os dois sujeitos em pose de confronto'
+      use_for: 'Comparativos ("qual é melhor?"), debates do setor'
+      adapt_carbon: 'Vídeo Profissional vs Celular, Agência vs Freelancer'
+
+    type_7_product_person:
+      description: 'Pessoa segurando produto de forma assertiva'
+      examples: 'Cara tatuado segurando frasco de shampoo'
+      treatment: 'Fundo de ambiente contextual, iluminação de estúdio, expressão confiante/intensa'
+      use_for: 'Promoção de produto/serviço com personalidade forte'
+      adapt_carbon: 'Sócio segurando câmera/equipamento com expressão confiante'
+
+  hook_formulas_observed:
+    provocacao_direta:
+      formula: '[Não faça/Não contrate/Demita] [coisa que parece óbvia]'
+      examples:
+        - 'Não contrate esse tipo de vendedor'
+        - 'Demita seu atendente o quanto antes'
+
+    dado_chocante:
+      formula: '[X%] das [pessoas/empresas] [perdem/erram] [coisa crítica]'
+      examples:
+        - '90% das oficinas perdem o cliente no atendimento'
+
+    contradicao_crenca:
+      formula: '[Você não precisa] [do que todos dizem que precisa]'
+      examples:
+        - 'Você não precisa abaixar o seu preço'
+        - 'Bonito não paga boleto'
+
+    consequencia_inevitavel:
+      formula: '[Ação comum] sem [X] = [resultado negativo forte]'
+      examples:
+        - 'Conteúdo sem estratégia é como queimar dinheiro'
+        - 'Tráfego pago sem estratégia: atalho para perda de dinheiro'
+
+    diagnostico_problema:
+      formula: '[Sua/Seu X] está [problema] — [consequência invisível]'
+      examples:
+        - 'Seu Instagram está FRAGMENTADO — seu cliente não te conhece de verdade'
+        - 'Essa é a rotina do empresário no caos'
+
+    pergunta_autocritica:
+      formula: '[Você sabe/consegue] [habilidade crítica]?'
+      examples:
+        - 'Você sabe delegar tarefas?'
+        - 'Por que é tão difícil vender?'
+
+    confronto_logico:
+      formula: 'Se você [faz X], por que alguém não [faria X de você]?'
+      examples:
+        - 'Se você compra de anúncios, por que alguém não compraria dos seus?'
+
+    revelacao_verdade:
+      formula: 'A verdade que ninguém quer ouvir: [fato contra-intuitivo]'
+      examples:
+        - 'Liberdade não nasce do caos. Ela nasce da autogestão.'
+        - 'Não ter estratégia não é economia. É prejuízo operacional.'
+
+    batalha_comparativa:
+      formula: '[Opção A] ou [Opção B]? Quem [resultado]?'
+      examples:
+        - 'Meta Ads ou Google? Quem traz mais clientes?'
+
+  cta_patterns:
+    swipe_ctas:
+      - 'Arrasta para o lado →'
+      - 'Passe para o lado >'
+      - 'Arraste para o lado →'
+      - 'Continue vendo →'
+    engagement_ctas:
+      - 'Leia a legenda ↓'
+      - 'Calma que tem mais...'
+      - 'Clique no link da bio'
+      - 'Compartilhe com quem precisa ouvir isso'
+    design_style: 'Pill/cápsula arredondado, borda fina, fundo semi-transparente ou branco leve'
+
+  layout_patterns:
+    feed_cover_with_photo:
+      structure: 'Imagem full-bleed + overlay gradiente de baixo + texto na metade inferior'
+      logo_position: 'Canto superior esquerdo ou centro topo, pequeno e discreto'
+      badge_agency: 'Rodapé esquerdo — logo + nome da agência + CTA direito'
+      cta_position: 'Rodapé — pill arredondado "Arrasta para o lado"'
+
+    feed_partner_focus:
+      structure: 'Fundo sólido escuro + foto do sócio integrada + headline gigante em cima/ao lado'
+      text_categories: 'Serviços em linha fina no topo (Conteúdo / Tráfego / Marketing)'
+      headline_style: 'Extra-bold em caixa alta, muito grande, sobreposto à foto'
+
+    feed_text_dominant:
+      structure: 'Fundo sólido ou com textura sutil + só tipografia como elemento visual'
+      use_for: 'Posts de autoridade onde o copy é tão forte que dispensa imagem'
+
+    carousel_interior_numbered:
+      structure: 'Badge número dourado + título do step + visual do conceito (agenda, lista, ícone)'
+      progression: 'Cada slide = 1 step numerado do framework'
+      visual_aids: 'Cards brancos arredondados com conteúdo dentro, ícones coloridos'
+
+    carousel_interior_list:
+      structure: 'Fundo sólido + título "O erro está em:" + cards brancos com ícone X ou check'
+      icon_error: 'X vermelho/laranja em círculo — para lista de problemas'
+      icon_success: 'Check verde em círculo — para lista de soluções'
+
+    carousel_interior_clean_text:
+      structure: 'Fundo branco/cinza claro + texto grande bold + bullet points com ">"'
+      accent: '1 linha de resultado em azul ou gold para fechar o argumento'
+      feel: 'Artigo de blog — direto, escaneável, sem imagem'
+
+    carousel_last_slide_cta:
+      options:
+        - 'Foto real da pessoa/equipe + CTA direto ("Clique no link da bio")'
+        - 'Slide tipográfico clean + pergunta de engajamento + chamada para compartilhar'
+        - 'Fundo da marca + frase de impacto final + handle'
+
+# ================================================================
+# REFERÊNCIAS DE FEED — 18 POSTS ANALISADOS
+# ================================================================
+feed_references:
+  - id: ref-feed-01
+    file: '0ba1db7246cf431b4bcd70514ce70e74.jpg'
+    source: 'EAG Educação'
+    hook: 'Não contrate esse tipo de vendedor'
+    type: celebrity_authority
+    palette: warm_dark
+    imagery: 'DiCaprio com fita na boca — autoridade silenciada'
+    what_works: 'Hook contra-intuitivo + imagem de celebridade reconhecível imediatamente'
+    adapt: 'Sócio com expressão séria segurando câmera — "Não contrate qualquer agência de vídeo"'
+
+  - id: ref-feed-02
+    file: '1115c5336337dcd3c0a87cc84ed872b7.webp'
+    source: 'Geovane Rocha'
+    hook: 'Você não precisa abaixar o seu preço'
+    type: dramatic_object
+    palette: dark_dramatic (blue accent)
+    imagery: 'Bomba feita de notas de dólar com pavio aceso'
+    what_works: 'Contradição de crença comum + metáfora visual de explosão do paradigma'
+    adapt: '"Você não precisa de equipe grande para criar conteúdo profissional" — câmera em fundo escuro'
+
+  - id: ref-feed-03
+    file: '18f297f285b73b5a5120883e78402990.jpg'
+    source: 'ObTX Designer'
+    hook: 'Só vender não é o suficiente'
+    type: dramatic_object
+    palette: dark (textured)
+    imagery: 'Papel rasgado revelando nota de 100 dólares atrás'
+    what_works: 'Textura de papel + dinheiro escondido = revelação de camada oculta do negócio'
+    adapt: '"Só postar não é o suficiente" — rolo de filme rasgado revelando conteúdo'
+
+  - id: ref-feed-04
+    file: '20aac38f27315fc925ac64a1021cb525.jpg'
+    source: 'EAG Educação'
+    hook: 'Você sabe delegar tarefas?'
+    type: celebrity_authority
+    palette: warm_dark (gold accent)
+    imagery: 'Elon Musk em pose séria com ícones HUD flutuando ao redor'
+    what_works: 'Associação com autoridade máxima + elementos gráficos tech criam visual de inteligência'
+    adapt: 'Sócio no set de gravação com ícones de câmera/play flutuando — "Você sabe criar conteúdo que vende?"'
+
+  - id: ref-feed-05
+    file: '274b7b0f8f5ec3b2885b65e5aa973a15.jpg'
+    source: 'Fiden'
+    hook: 'O que é TRÁFEGO PAGO'
+    type: dramatic_object
+    palette: dark_dramatic (blue)
+    imagery: 'Peça de xadrez (rainha) + notas de dólar — estratégia + dinheiro'
+    what_works: 'Responde dúvida frequente + fundo azul marinho incomum + peso tipográfico extremo'
+    adapt: '"O que é CONTEÚDO DE CONVERSÃO" — câmera + gráfico de resultado'
+
+  - id: ref-feed-06
+    file: '274b7b0f8f5ec3b2885b65e5aa973a15.jpg'
+    source: '@lp_gds'
+    hook: 'Seu Instagram está FRAGMENTADO'
+    type: graphic_composition
+    palette: dark_dramatic
+    imagery: 'Rosto masculino fragmentado como vidro quebrado'
+    what_works: 'Metáfora visual literal — fragmentado no texto E na imagem simultaneamente'
+    adapt: '"Sua marca está INVISÍVEL" — câmera desfocada ou tela preta'
+
+  - id: ref-feed-07
+    file: 'a61f920c6153cc71193f9fd2fb85b235.jpg'
+    source: 'Agência NexOn'
+    hook: 'Oficina Bagunçada. Não vende. Entenda o motivo.'
+    type: archetype_photo
+    palette: warm_dark
+    imagery: 'Mecânico com expressão intensa segurando chave inglesa, fundo de oficina'
+    what_works: 'Identificação imediata — público vê a si mesmo + headline de 3 frases curtas e diretas'
+    adapt: '"Empresa sem vídeo. Invisível. Veja por quê." + foto de empresário olhando para câmera'
+
+  - id: ref-feed-08
+    file: 'e36915c1010e9b33db00a94644e57f72.webp'
+    source: 'Métrica Pro'
+    hook: 'Um atalho direto para a perda de dinheiro'
+    type: dramatic_object
+    palette: warm_dark
+    imagery: 'Nota de 100 dólares pegando fogo com chamas reais'
+    what_works: 'Loss aversion máxima + imagem de destruição impossível de ignorar'
+    adapt: '"Vídeo sem estratégia: dinheiro no lixo" — câmera ou rolo de filme em fogo'
+
+  - id: ref-feed-09
+    file: '290e9863dc9a81556b2ac9bd5f0ecb11.jpg'
+    source: 'EAG Educação'
+    hook: 'Essa é a rotina do empresário no caos'
+    type: archetype_photo
+    palette: warm_dark
+    imagery: 'Empresário segurando cabeça em desespero, escritório pegando fogo ao fundo'
+    what_works: 'Exagero dramático cômico que todos reconhecem + "essa é a rotina" é diagnóstico direto'
+    adapt: '"Essa é a rotina de quem não tem conteúdo" + gestor de marketing sobrecarregado'
+
+  - id: ref-feed-10
+    file: '3128e19b7a46b4c557e7ba577901aa9b.jpg'
+    source: 'Agência NexOn'
+    hook: 'Demita seu atendente. O quanto antes.'
+    type: absurd_humor
+    palette: warm_dark
+    imagery: 'Preguiça (personagem Zootopia) sentada em cadeira de escritório com gravata'
+    what_works: 'Personagem absurdo + headline agressivo = quebra de padrão absoluta no feed'
+    adapt: '"Sua câmera velha está perdendo clientes" — câmera arcaica animada em pose arrogante'
+
+  - id: ref-feed-11
+    file: '6ce260fd13a28f49add845cd091b5c95.jpg'
+    source: 'Agência NexOn'
+    hook: 'Meta Ads ou Google? Quem traz mais clientes?'
+    type: versus_battle
+    palette: dark_dramatic (red/blue)
+    imagery: 'Zuckerberg vs Larry Page em octógono de MMA — composição digital'
+    what_works: 'Debate que todo público do nicho quer resolver + visual de confronto cria urgência'
+    adapt: '"Vídeo profissional ou celular? Quem converte mais?" — câmera pro vs smartphone'
+
+  - id: ref-feed-12
+    file: '7f3cc3ab3567e6d3ed77b08cb60b5039.jpg'
+    source: 'Thiago Barreto Designer'
+    hook: 'Bonito não paga boleto'
+    type: archetype_photo
+    palette: dark_dramatic
+    imagery: 'Empresário bem-vestido sentado em poltrona rodeado de malas de dinheiro'
+    what_works: 'Ironia sofisticada — parece que "bonito paga" mas o copy nega + aspiração visual'
+    adapt: '"Vídeo bonito sem copy não converte" — sócio com câmera top em ambiente premium'
+
+  - id: ref-feed-13
+    file: '914b6c56d1708832227a5f6c10358eed.jpg'
+    source: 'Agência NexOn'
+    hook: 'Venda todos os dias através do Google Ads'
+    type: celebrity_authority
+    palette: dark_dramatic (red accent)
+    imagery: 'DiCaprio segurando nota de 1 dólar, fundo de escritório vermelho'
+    what_works: 'Resultado concreto ("todos os dias") + promessa direta + figura de confiança'
+    adapt: '"Apareça todos os dias para seu cliente" — sócio com câmera, fundo dark'
+
+  - id: ref-feed-14
+    file: '9edeaf552837109a9b76717563d365da.jpg'
+    source: 'João Mendes'
+    hook: 'Por que é tão difícil vender?'
+    type: real_partner_photo
+    palette: dark_dramatic (green accent)
+    imagery: 'Jovem empresário sério em primeiro plano, fundo desfocado de festa/movimento'
+    what_works: 'Foto real do fundador cria autoridade pessoal + pergunta que todos se fazem'
+    adapt: 'IDEAL PARA CARBON — sócio em fundo de estúdio ou set de gravação, expressão séria'
+
+  - id: ref-feed-15
+    file: 'a859d80af324fe3037b01bb02fa05f01.jpg'
+    source: 'Unusual'
+    hook: 'Conteúdo sem estratégia é como queimar dinheiro'
+    type: dramatic_object
+    palette: warm_dark (golden)
+    imagery: 'Dinheiro queimando sobre laptop, iluminação dourada'
+    what_works: 'Analogia visual perfeita + fundo dourado premium destoa do padrão escuro total'
+    adapt: 'DIRETO PARA CARBON — "Vídeo sem estratégia é dinheiro no lixo" — rolo de filme queimando'
+
+  - id: ref-feed-16
+    file: 'c4b4011196b11c21857d2b756577b9a0.jpg'
+    source: 'MORO Agência'
+    hook: 'O que nós fazemos'
+    type: real_partner_photo
+    palette: dark (pure black)
+    imagery: 'Sócio real no sofá com laptop, pose descontraída mas confiante, fundo preto'
+    layout_note: 'Serviços em linha fina no topo (Conteúdo / Tráfego / Marketing) + headline gigante'
+    what_works: 'Foto real + fundo preto = foco total na pessoa + headline explicativo + elementos de WhatsApp como prova social'
+    adapt: 'PRIORIDADE CARBON — foto do sócio + "O que fazemos: Vídeo / Estratégia / Conteúdo"'
+
+  - id: ref-feed-17
+    file: 'e0e6efa7d2bc87beb5d057904cc664a4.jpg'
+    source: '@guilhermeo1 / GO1 Assessoria'
+    hook: 'Se você compra de anúncios, por que alguém não compraria dos seus?'
+    type: real_partner_photo
+    palette: dark (pure black)
+    imagery: 'Sócio em pose relaxada, fundo preto, texto sobreposto fragmentado na foto'
+    layout_note: 'Texto fragmentado em camadas sobre e sob a foto do sócio — layout editorial'
+    what_works: 'Lógica irrefutável em forma de pergunta + foto do dono = confiança instantânea'
+    adapt: 'CARBON: "Se você assiste vídeos, por que seus clientes não assistiriam os seus?"'
+
+  - id: ref-feed-18
+    file: 'ff84300dbe22a22649212ecdf7edb8f0.jpg'
+    source: 'Agência NexOn'
+    hook: 'Como ter recorrência? Faça seu cliente voltar todo mês.'
+    type: product_person
+    palette: warm_dark
+    imagery: 'Homem tatuado segurando produto (frasco) com expressão confiante/agressiva'
+    what_works: 'Personalidade forte + produto em destaque + promessa de resultado recorrente'
+    adapt: 'Sócio segurando câmera com expressão confiante — "Como fidelizar clientes com conteúdo"'
+
+# ================================================================
+# REFERÊNCIAS DE CARROSSEL — 6 ESTILOS DISTINTOS
+# ================================================================
+carousel_references:
+  - id: ref-carousel-01
+    folder: 'Carrosel 1'
+    source: 'Agência NexOn'
+    style: 'dark_problem_list'
+    palette: high_contrast_red
+    slides_approx: 7
+    cover: 'Foto de arquétipo (mecânico) + headline de problema forte'
+    interior: 'Fundo vermelho sólido + título branco + cards brancos com X vermelho'
+    last_slide: 'CTA direto com logo da agência'
+    progression: 'Problema revelado → dado chocante → lista de causas (X) → solução implícita'
+    hook: 'A DURA VERDADE: 90% das oficinas perdem o cliente no atendimento'
+    what_works: 'Cover humana gera identificação; interior vermelho cria urgência; lista de X cria reconhecimento de dor'
+    adapt: '"A DURA VERDADE: 90% dos empresários perdem clientes por não aparecer no digital"'
+
+  - id: ref-carousel-02
+    folder: 'Carrosel 2'
+    source: 'EAG Educação'
+    style: 'clean_yellow_educational'
+    palette: clean_light_yellow
+    slides_approx: 6
+    cover: 'Fundo amarelo + headline escuro + subtítulo pequeno'
+    interior: 'Fundo amarelo + título grande + cards brancos com X laranja'
+    last_slide: 'CTA amarelo com botão pill'
+    progression: 'Premissa neutra → revelação do erro real → 3 erros listados → solução → CTA'
+    hook: 'Nenhum desses perfis é melhor do que o outro. O erro está em:'
+    what_works: 'Amarelo para o scroll — cor incomum; cards brancos tornam lista escaneável rapidamente'
+    adapt: '"Não é o equipamento que define. O erro está em:" → lista de erros de estratégia de conteúdo'
+
+  - id: ref-carousel-03
+    folder: 'Carrosel 3'
+    source: 'EAG Educação'
+    style: 'ultra_clean_white'
+    palette: clean_white_gray
+    slides_approx: 5
+    cover: 'Fundo branco/cinza claro + ícone dourado circular + título bold escuro'
+    interior: 'Fundo quase branco + texto hierárquico + destaque amarelo inline em frase-chave'
+    last_slide: 'Foto real de evento/pessoa + CTA "Clique no link da bio"'
+    progression: 'Dica ou step → explicação expandida → prova → CTA com foto real'
+    hook: 'Faça junto no começo — acompanhe, tire dúvidas e ajuste no caminho'
+    what_works: 'Ultra-clean dá sensação de conteúdo premium/editorial; destaque inline chama atenção sem poluir'
+    adapt: 'Para conteúdo de dica prática — "Faça assim no primeiro vídeo" com steps'
+
+  - id: ref-carousel-04
+    folder: 'Carrosel 4'
+    source: 'EAG Educação'
+    style: 'dark_numbered_framework'
+    palette: dark_navy_educational
+    slides_approx: 7
+    cover: 'Fundo escuro + headline grande + subtítulo + CTA pill'
+    interior: 'Badge numerado dourado + título do step + visual conceitual (agenda, lista com cards, mapa)'
+    last_slide: 'Resumo ou CTA final com logo'
+    progression: 'Framework numerado (1, 2, 3...) — cada slide = 1 princípio com visual que ilustra'
+    hook: '5 Meça o que importa / 3 Domine sua agenda'
+    what_works: 'Numeração cria promessa de completude ("vou ver todos os X"); visuais conceituais ensinam sem texto excessivo'
+    adapt: '"5 tipos de vídeo que toda empresa precisa fazer" — cada slide com exemplo visual'
+
+  - id: ref-carousel-05
+    folder: 'Carrosel 5'
+    source: 'MIII'
+    style: 'editorial_typographic'
+    palette: editorial_minimal
+    slides_approx: 8
+    cover: 'Foto de produto/objeto com texto serifado overlay ou fundo branco com serifa'
+    interior: 'Mix de: fundo branco ultra-clean com serifa bold, foto de ambiente com copy reflexivo'
+    last_slide: 'Ícones de interação do Instagram simulados + CTA editorial tipográfico'
+    progression: 'Frase de impacto → desenvolvimento do argumento → virada → CTA inteligente'
+    hook: 'Não ter estratégia não é economia. É prejuízo operacional.'
+    hook_2: 'Sem rotina, você vive apagando incêndio:'
+    what_works: 'Tom premium/editorial diferencia de posts comuns; serifa cria sensação de profundidade intelectual'
+    adapt: 'Para conteúdo mais reflexivo da Carbon — "Vídeo não é custo. É o seu melhor vendedor."'
+
+  - id: ref-carousel-06
+    folder: 'Carrosel 6'
+    source: 'desconhecido (autogestão)'
+    style: 'photographic_copy_overlay'
+    palette: editorial_minimal
+    slides_approx: 5
+    cover: 'Foto de paisagem/ambiente natural + copy reflexivo sobreposto'
+    interior: 'Fundo cinza claro simples + texto bold direto + lista com ">" + destaque colorido'
+    last_slide: 'Foto de ambiente + frase de fechamento + handle'
+    progression: 'Verdade provocativa → desenvolvimento → lista de sintomas → revelação → CTA sutil'
+    hook: 'A verdade que ninguém quer ouvir: Liberdade não nasce do caos. Ela nasce da autogestão.'
+    what_works: 'Foto de natureza contrasta com feeds de negócios; tom de reflexão pessoal cria conexão emocional'
+    adapt: '"A verdade que ninguém fala: Vídeo barato custa mais caro no final."'
+
+# ================================================================
+# TEMPLATE PRÓPRIO CARBON FILMS — CANVA
+# Estilo atual em uso — base para novos carrosséis
+# ================================================================
+carbon_films_own_template:
+  id: cf-template-canva-01
+  folder: 'C:/Users/suzam/Downloads/referências posts instagram agência'
+  slides: 5
+  style_name: 'Carbon Dark Editorial'
+  status: 'ativo — template atual no Canva'
+
+  structure:
+    slide_1_cover:
+      background: '#000000 (preto puro)'
+      top_element: 'Avatar circular Carbon Films + "Carbon films" bold + @carbonfilms.sc + badge verificado azul'
+      title: 'Frase de introdução do tema — tom de dica/convite'
+      body: '2-3 linhas explicando o contexto, tom acessível e direto'
+      image: 'Foto stock contextual ao tema — ocupa ~40% inferior'
+      footer: 'Ícone pequeno cinza + "arrasta para o lado"'
+      example: 'Confira dicas de Marketing para o seu negócio.'
+
+    slide_interior:
+      background: '#000000'
+      top_element: 'Mesmo perfil do cover'
+      title: 'Título da dica em bold branco — sentence case (não caixa alta)'
+      body: '3-4 linhas de texto explicativo, regular, branco'
+      image: 'Foto contextual diferente por slide'
+      footer: 'Ícone + "arrasta para o lado"'
+      examples:
+        - 'Faça marketing de conteúdo!'
+        - 'Utilize as redes sociais ao seu favor'
+        - 'Ofereça promoções e descontos!'
+
+    slide_last_cta:
+      background: '#000000'
+      element: 'Avatar circular Carbon Films centralizado'
+      handle: '@carbonfilms.sc — centralizado abaixo do avatar'
+      cta_text: 'Me segue, para mais dicas de marketing para seu negócio.'
+      tagline: 'Juntos nós podemos evoluir o seu negócio com estratégias acessíveis e simples.'
+      no_image: true
+
+  typography:
+    font_family: 'Sans-serif limpa (Inter ou Poppins)'
+    title_weight: 'Bold (700)'
+    title_case: 'Sentence case — não caixa alta'
+    title_size: '~24-28px equivalent'
+    body_weight: 'Regular (400)'
+    body_size: '~14-16px equivalent'
+    color: '#FFFFFF sobre #000000'
+
+  tone:
+    description: 'Educativo, acessível, tom de dica — menos drama que as referências externas'
+    target: 'Empresários que estão começando no digital'
+    feel: 'Próximo, didático, sem jargão'
+
+  design_notes:
+    - 'Este é o template Canva ATUAL da Carbon Films — usado como base para séries de dicas'
+    - 'Menos impactante visualmente que os concorrentes — oportunidade de elevar com mais drama'
+    - 'Manter estrutura mas testar variações: título maior, foto mais dramática, hook mais forte'
+    - 'O último slide de CTA é excelente — perfil centralizado, texto limpo, muito profissional'
+
+  evolution_suggestions:
+    - 'Testar título em caixa alta para posts de maior impacto'
+    - 'Adicionar accent color (dourado ou azul) em palavra-chave do título'
+    - 'Usar foto mais dramática/emocional no cover — stock atual é genérico'
+    - 'Testar versão com foto do sócio no cover para série de autoridade'
+
+# ================================================================
+# PADRÕES PARA CARBON FILMS — ADAPTAÇÕES ESPECÍFICAS
+# ================================================================
+carbon_films_adaptations:
+  nicho: 'Agência de vídeo e conteúdo para empresas'
+  publico_alvo: 'Empresários e gestores de marketing, 28-45 anos, que precisam de presença digital visual'
+
+  dores_mapeadas:
+    - 'Invisível no digital — concorrentes aparecem, eu não'
+    - 'Gasto com vídeo mas não vejo retorno'
+    - 'Não sei o que postar, quando postar, como postar'
+    - 'Minha equipe interna não tem capacidade técnica'
+    - 'Produção cara demais para a frequência que preciso'
+
+  hooks_prontos_para_uso:
+    provocacao:
+      - 'Seu concorrente já aparece todo dia. Onde você está?'
+      - 'Demita seu conteúdo ruim. O quanto antes.'
+      - 'Não contrate qualquer agência de vídeo'
+    dado_chocante:
+      - 'X% das empresas perdem clientes por não aparecer no digital'
+      - 'Empresas com vídeo vendem [X]x mais que as sem'
+    contradicao:
+      - 'Você não precisa de estúdio para converter'
+      - 'Vídeo bonito sem estratégia é dinheiro no lixo'
+      - 'Câmera cara não faz conteúdo bom'
+    diagnostico:
+      - 'Seu conteúdo está INVISÍVEL — seu cliente não te encontra'
+      - 'Essa é a rotina de quem não tem presença digital'
+    logica_irrefutavel:
+      - 'Se você assiste vídeos, por que seus clientes não assistiriam os seus?'
+      - 'Se você compra de empresas que aparecem, por que não aparece para quem compra de você?'
+    reflexao:
+      - 'Não ter conteúdo não é economia. É prejuízo silencioso.'
+      - 'Presença digital não é custo. É o seu vendedor que trabalha 24h.'
+
+  visual_direction:
+    primary_style: 'dark_dramatic com accent dourado — premium, autoridade, resultado'
+    secondary_style: 'real_partner_photo em fundo preto — autenticidade e confiança'
+    educational_style: 'dark_numbered_framework ou clean_white_gray — conteúdo de valor'
+    avoid:
+      - 'Stock photos genéricas sem contexto'
+      - 'Cores pastéis ou tons muito suaves'
+      - 'Tom informal ou engraçado demais (não é o nicho)'
+      - 'Texto pequeno demais no visual — deve ser legível em thumbnail'
+
+  priority_photos_needed:
+    - desc: 'Sócio em pose séria/confiante, olhando direto para câmera, fundo preto ou neutro'
+      use: 'Posts de autoridade, provocação direta, "nossa visão"'
+    - desc: 'Sócio segurando câmera profissional com expressão confiante'
+      use: 'Posts de produto/serviço, "o que fazemos"'
+    - desc: 'Sócio em set de gravação — câmera, luz, monitores visíveis ao fundo'
+      use: 'Bastidores, autoridade técnica, "como trabalhamos"'
+    - desc: 'Ambos os sócios juntos em ambiente profissional'
+      use: 'Apresentação da empresa, posts institucionais'
+    - desc: 'Close da câmera ou equipamento com iluminação dramática'
+      use: 'Posts sem foto humana — metáfora, objeto dramático'

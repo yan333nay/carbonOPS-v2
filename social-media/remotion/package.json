@@ -1,0 +1,23 @@
+{
+  "name": "social-media-squad-remotion",
+  "version": "1.0.0",
+  "description": "Remi — Remotion video compositions for Carbon Films stickman templates",
+  "scripts": {
+    "preview": "npx remotion preview src/Root.tsx",
+    "render:motivacional": "npx remotion render src/Root.tsx StickmanMotivacional --output ../output/videos/stickman-motivacional.mp4",
+    "render:acao": "npx remotion render src/Root.tsx StickmanAcaoImediata --output ../output/videos/stickman-acao-imediata.mp4",
+    "studio": "npx remotion studio src/Root.tsx"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.290",
+    "@remotion/renderer": "4.0.290",
+    "remotion": "4.0.290",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.3.3"
+  }
+}

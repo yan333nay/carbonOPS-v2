@@ -1,0 +1,118 @@
+name: static-template
+version: 2.0.0
+description: 'Template de post estático Carbon Films — imagem única, 4:5 recomendado'
+format: static
+agent: canva-designer
+
+technical_specs:
+  dimensions_recommended: '1080x1350px (4:5) — máximo espaço no feed'
+  dimensions_square: '1080x1080px (1:1) — opção alternativa'
+  dimensions_landscape: '1080x566px (1.91:1) — evitar, ocupa menos espaço'
+  file_format: 'JPG'
+  max_file_size: '8MB'
+  color_profile: 'sRGB'
+  resolution: '72dpi'
+  safe_zone: '72px todos os lados'
+  alt_text: 'Preencher sempre (acessibilidade + SEO do Instagram)'
+  caption_overlay_safe: 'Últimos 100px do bottom são cobertos pelo caption — não colocar info crítica'
+
+why_4_5:
+  reason: '4:5 ocupa 20% mais espaço no feed que 1:1, aumentando probabilidade de interação'
+  data: 'Posts 4:5 têm em média +15% mais alcance que 1:1 no mesmo perfil'
+  rule: 'SEMPRE usar 4:5 como formato padrão para posts estáticos de feed'
+
+brandbook:
+  background: '#050505'
+  gold: '#C9A84C'
+  white: '#FFFFFF'
+  red_accent: '#FF0000'
+  font_display: 'Anton (UPPERCASE sempre)'
+  font_body: 'Montserrat 400/700'
+  font_mono: 'JetBrains Mono'
+  handle: '@carbonfilms.sc'
+
+layouts:
+  layout_01_resultado:
+    use_for: 'Entrega de projeto, portfólio, case de cliente'
+    structure:
+      background: 'Foto dark do projeto/produto'
+      overlay: 'linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.45) 55%, transparent 100%)'
+      top_bar: 'CARBON FILMS (gold) | TIPO DE PROJETO (mono gray)'
+      bottom:
+        - 'Número destaque (Anton 96px, gold) — ex: "3M" de views'
+        - 'Linha gold 52px × 3px'
+        - 'Headline resultado (Anton 64px, branco)'
+        - '@carbonfilms.sc (mono, gray)'
+
+  layout_02_educativo:
+    use_for: 'Dica rápida, dado, estatística, frase impactante'
+    structure:
+      background: '#050505 sólido'
+      top_bar: 'CARBON FILMS | CF_001 / DICA'
+      center:
+        - 'Headline principal (Anton 72px, branco, última palavra vermelha)'
+        - 'Linha gold 64px × 3px'
+        - 'Corpo (Montserrat 400, 26px, gray-400, max 3 linhas)'
+      bottom: '@carbonfilms.sc'
+    hook_formulas:
+      - '[DADO NUMÉRICO] das empresas [PROBLEMA]'
+      - 'Você está [AÇÃO ERRADA] e nem percebe'
+      - 'A diferença entre [OPÇÃO A] e [OPÇÃO B]'
+
+  layout_03_institucional:
+    use_for: 'Datas comemorativas, comunicados, identidade de marca'
+    structure:
+      background: '#050505 com borda gold sutil (1px, opacity 0.15, margin 20px)'
+      center:
+        - 'CARBON FILMS (Anton 36px, gold, centralizado)'
+        - 'Linha gold 80px × 3px'
+        - 'Mensagem (Anton 64px, branco, centralizado)'
+        - 'Subline (Montserrat 700, 24px, gray)'
+      bottom: '@carbonfilms.sc | Ano'
+
+  layout_04_citacao:
+    use_for: 'Quote de cliente, sócio, ou dado de mercado com fonte'
+    structure:
+      background: '#050505'
+      center:
+        - 'Aspas decorativas (Anton 96px, gold, opacity 0.25)'
+        - 'Citação (Montserrat 700 italic, 30px, branco, centralizada)'
+        - 'Linha gold 40px × 2px'
+        - 'Fonte/autor (JetBrains Mono 16px, gray-500)'
+      top_left: 'CARBON FILMS'
+      bottom: '@carbonfilms.sc'
+
+copy_framework:
+  caption_template: |
+    [HOOK — dado, pergunta ou afirmação que para o scroll]
+
+    [CONTEXTO — 2-3 linhas que amplificam o visual]
+
+    [CTA — pergunta, salva, comenta]
+
+    [HASHTAGS — 8-12 hashtags relevantes]
+
+  caption_length: '150-400 chars (curto funciona melhor em posts estáticos)'
+  hashtag_strategy:
+    total: '8-12'
+    mix:
+      - '3-4 hashtags grandes (>1M posts) — alcance'
+      - '3-4 hashtags médias (100k-1M) — relevância'
+      - '2-4 hashtags nicho (<100k) — conversão'
+    examples:
+      - '#marketingdigital'
+      - '#agenciadecomunicacao'
+      - '#trafegopagosc'
+      - '#carbonfilms'
+      - '#marketingsc'
+
+pipeline:
+  command: 'node scripts/run-workflow.js carousel --topic "TEMA" --format feed'
+  output_dir: 'output/slides/'
+  dimensions: '1080x1350 (feed) ou 1080x1080 (carousel)'
+
+benchmarks:
+  reach_target: 'Baseline do perfil (ver instagram-benchmarks.yaml)'
+  save_rate_target: '>1.5% do alcance'
+  best_posting_times: ['12h-13h', '19h-21h BRT']
+  frequency: '1 post estático por dia'

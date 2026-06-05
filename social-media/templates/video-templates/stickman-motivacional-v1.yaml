@@ -1,0 +1,291 @@
+name: stickman-motivacional-v1
+version: 1.0.0
+description: 'Template de vídeo motivacional animado com stickman. Estilo minimalista, fundo preto, grid cinza, personagem branco, destaques em vermelho. Arco emocional: confiança → frustração → reflexão. 33 segundos.'
+category: motivacional
+format: reels
+aspect_ratio: '9:16'
+duration_seconds: 33
+style: stickman-animated
+created: '2026-03-31'
+agent: remotion-editor
+
+# ---------------------------------------------------------------
+# ESTILO VISUAL GERAL
+# ---------------------------------------------------------------
+visual_style:
+  background: '#000000'
+  grid:
+    color: '#1A1A1A'
+    spacing: 40px
+    opacity: 0.4
+    style: 'linhas finas, cinza sutil'
+  character:
+    type: stickman
+    style: 'ícone branco moderno, sofisticado — não infantil'
+    color: '#FFFFFF'
+    stroke_weight: 3px
+  color_palette:
+    primary: '#000000'
+    text_default: '#FFFFFF'
+    text_accent: '#FF0000'
+    character: '#FFFFFF'
+  typography:
+    font: 'bold sans-serif (Anton ou Bebas Neue)'
+    weight: 900
+    size_main: '72-96px'
+    color_default: '#FFFFFF'
+    color_emphasis: '#FF0000'
+    animation: 'fade in + leve zoom (scale 0.95 → 1.0)'
+  animation_feel: 'simples, fluida, motion leve — não sobrecarregado'
+  energy: 'motivacional + urgência + levemente confrontacional'
+
+# ---------------------------------------------------------------
+# AI GENERATION PROMPT (Runway / Sora / Pika)
+# ---------------------------------------------------------------
+ai_prompt: |
+  Create a vertical 9:16 motivational animated video with a minimalist style.
+
+  Scene style:
+  - Black background with subtle gray grid
+  - White stickman character (clean, modern icon style)
+  - High contrast visuals (black, white, red accents)
+  - Smooth simple animations
+  - Bold sans-serif typography
+
+  Scene 1:
+  A confident white stickman standing with one foot on a block, sparkles around. Text appears: "PERFEITO NA SUA VIDA" (white and red emphasis). Slight zoom in.
+
+  Scene 2:
+  Cut to stickman with a clock inside his body, standing still. Text: "E ENQUANTO VOCÊ ESPERA". Static camera.
+
+  Scene 3:
+  Stickman raises one finger as if giving advice. Text: "ENTÃO BOTA UMA COISA NA CABEÇA". Slight zoom.
+
+  Scene 4:
+  Stickman walking forward. Text: "MAS COMEÇAR JÁ É A CONDIÇÃO". Subtle tracking camera.
+
+  Scene 5:
+  Stickman holding a calendar. Text: "A SE ALINHAR". Static shot.
+
+  Scene 6:
+  Stickman sitting, sad and closed posture. Text: "E VOCÊ NUNCA VAI COMEÇAR". Dramatic zoom in.
+
+  Scene 7:
+  Stickman stressed, sweating, holding head. Text: "SÓ FICAR SE LAMENTANDO".
+
+  Scene 8:
+  Stickman confused, scratching head. Text: "POR CONTA PRÓPRIA!".
+
+  Animation style:
+  - Smooth transitions
+  - Slight zooms and cuts
+  - Clean motion graphics feel
+  - Emotional progression from confidence → frustration → reflection
+
+  Lighting:
+  - Flat design, no shadows
+  - Clean vector look
+
+  Mood:
+  Motivational, urgent, slightly confrontational.
+
+# ---------------------------------------------------------------
+# ROTEIRO DETALHADO — CENA A CENA
+# ---------------------------------------------------------------
+scenes:
+
+  - id: cena-1
+    name: 'HOOK'
+    time_start: 0
+    time_end: 3
+    duration: 3s
+    character_pose: 'confiante — pé apoiado em bloco, olhando para frente'
+    character_extras:
+      - 'sparkles (brilhos) ao redor do personagem'
+    text_lines:
+      - content: 'PERFEITO'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'NA SUA VIDA'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + scale 0.95→1.0'
+    camera: 'leve zoom in'
+    emotion: 'idealização / perfeição / status'
+    remotion_notes: 'Usar spring() para entrada do texto. Sparkles: partículas brancas com opacity fade.'
+
+  - id: cena-2
+    name: 'QUEBRA'
+    time_start: 3
+    time_end: 6
+    duration: 3s
+    character_pose: 'parado, esperando — postura passiva'
+    character_extras:
+      - 'relógio visível no/sobre o corpo do personagem'
+    text_lines:
+      - content: 'E ENQUANTO'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'VOCÊ ESPERA'
+        color: '#FF0000'
+        position: center
+    text_animation: 'cut seco — troca rápida de cena'
+    camera: 'estática'
+    emotion: 'reflexão + tensão'
+    remotion_notes: 'Transição: corte seco (sem interpolação). Relógio: ícone circular simples.'
+
+  - id: cena-3
+    name: 'IDEIA'
+    time_start: 6
+    time_end: 10
+    duration: 4s
+    character_pose: 'dedo levantado — gesto de ideia/explicação'
+    text_lines:
+      - content: 'ENTÃO BOTA UMA'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'COISA NA CABEÇA'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + leve zoom'
+    camera: 'leve zoom in'
+    emotion: 'instrução direta / autoridade'
+    remotion_notes: 'Dedo levantado: pose estática com leve wobble (oscillate). Texto com delay 0.3s após corte.'
+
+  - id: cena-4
+    name: 'TRANSIÇÃO DE AÇÃO'
+    time_start: 10
+    time_end: 14
+    duration: 4s
+    character_pose: 'andando para frente — movimento contínuo'
+    character_extras:
+      - 'movimento de caminhada animado (loop)'
+    text_lines:
+      - content: 'MAS COMEÇAR'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'JÁ É A CONDIÇÃO'
+        color: '#FF0000'
+        position: center
+    text_animation: 'slide in da esquerda'
+    camera: 'tracking leve acompanhando o movimento'
+    emotion: 'progresso / ação'
+    remotion_notes: 'Personagem: translateX animado simulando caminhada. Camera tracking: leve pan horizontal.'
+
+  - id: cena-5
+    name: 'ILUSÃO DO MOMENTO PERFEITO'
+    time_start: 14
+    time_end: 18
+    duration: 4s
+    character_pose: 'segurando calendário — planejando'
+    character_extras:
+      - 'calendário/agenda na mão do personagem'
+    text_lines:
+      - content: 'A SE ALINHAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in suave'
+    camera: 'estática'
+    emotion: 'falsa organização / procrastinação disfarçada'
+    remotion_notes: 'Apenas 1 linha de texto — mais impacto. Calendário: ícone simples retangular com grade.'
+
+  - id: cena-6
+    name: 'FRUSTRAÇÃO'
+    time_start: 18
+    time_end: 23
+    duration: 5s
+    character_pose: 'sentado, triste, encolhido — postura derrotada'
+    text_lines:
+      - content: 'E VOCÊ NUNCA'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'VAI COMEÇAR'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + zoom dramático'
+    camera: 'leve zoom in dramático — aproxima do personagem'
+    emotion: 'frustração / verdade dura'
+    remotion_notes: 'Essa é a cena mais impactante — zoom mais pronunciado. Texto "VAI COMEÇAR" com delay dramático de 0.5s.'
+
+  - id: cena-7
+    name: 'CONSEQUÊNCIA'
+    time_start: 23
+    time_end: 28
+    duration: 5s
+    character_pose: 'chorando/desesperado — mão na cabeça'
+    character_extras:
+      - 'gotas de suor/lágrima ao redor da cabeça'
+    text_lines:
+      - content: 'SÓ FICAR SE'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'LAMENTANDO'
+        color: '#FF0000'
+        position: center
+    text_animation: 'cut + fade rápido'
+    camera: 'estática, levemente mais fechada'
+    emotion: 'ansiedade / arrependimento'
+    remotion_notes: 'Gotas: pequenos elementos circulares brancos com fade in/out alternado (animação de gotejamento).'
+
+  - id: cena-8
+    name: 'FINAL — CTA EMOCIONAL'
+    time_start: 28
+    time_end: 33
+    duration: 5s
+    character_pose: 'confuso, coçando cabeça — pausa reflexiva'
+    text_lines:
+      - content: 'POR CONTA'
+        color: '#FFFFFF'
+        position: top-center
+      - content: 'PRÓPRIA!'
+        color: '#FF0000'
+        position: center
+    text_animation: 'fade in + zoom out leve'
+    camera: 'leve zoom out — abre o campo'
+    emotion: 'responsabilidade pessoal / reflexão'
+    remotion_notes: 'Zoom out final cria sensação de "olhar para si mesmo". Pausa de 1s antes do fade out geral.'
+
+# ---------------------------------------------------------------
+# ARCO EMOCIONAL GERAL
+# ---------------------------------------------------------------
+emotional_arc:
+  - phase: 'Confiança' # cenas 1-2
+    feeling: 'Idealização do futuro perfeito'
+  - phase: 'Instrução' # cenas 3-4
+    feeling: 'Autoridade — "ouve isso aqui"'
+  - phase: 'Ilusão' # cena 5
+    feeling: 'Procrastinação disfarçada de planejamento'
+  - phase: 'Queda' # cenas 6-7
+    feeling: 'Consequência real da inação'
+  - phase: 'Reflexão' # cena 8
+    feeling: 'Responsabilidade pessoal — CTA emocional'
+
+# ---------------------------------------------------------------
+# CONFIGURAÇÕES REMOTION
+# ---------------------------------------------------------------
+remotion_config:
+  fps: 30
+  total_frames: 990  # 33s × 30fps
+  width: 1080
+  height: 1920
+  background_color: '#000000'
+  composition_id: 'StickmanMotivacional'
+  output_format: 'mp4'
+  codec: 'h264'
+  audio_suggestion:
+    type: 'instrumental urgente, beats simples, sem letra'
+    bpm_range: '120-140'
+    feel: 'lo-fi motivacional ou hip-hop minimalista'
+
+# ---------------------------------------------------------------
+# ADAPTAÇÃO PARA CARBON FILMS
+# ---------------------------------------------------------------
+carbon_films_adaptation:
+  topic_fit: 'Procrastinação no marketing / "você está esperando o momento perfeito para começar a criar conteúdo"'
+  hook_adapted: '"PERFEITO" → "INVISÍVEL NO DIGITAL"'
+  cta_adapted: '"Por conta própria!" → "Ou chama a Carbon."'
+  color_override: 'Manter preto/branco/vermelho — combina com identidade da marca'
+  use_cases:
+    - 'Série motivacional sobre presença digital'
+    - 'Conteúdo de topo de funil — awareness'
+    - 'Engajamento por identificação — "isso sou eu"'

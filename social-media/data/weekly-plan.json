@@ -1,0 +1,279 @@
+{
+  "version": "1.0.0",
+  "brand": "Carbon Films",
+  "handle": "@carbonfilms.sc",
+  "last_updated": "2026-04-04",
+  "philosophy": "Cordilheira (Paulo Cuenca) + Funil (Rafael Kiso) + Volume (Gary Vee) + Score (Neil Patel)",
+  "weekly_targets": {
+    "feed_posts": 7,
+    "stories_per_day": 3,
+    "reels": 2,
+    "carousels": 3,
+    "statics": 2
+  },
+  "theme_sequence": "dark|white|dark|white|dark",
+  "days": {
+    "monday": {
+      "label": "Segunda",
+      "focus": "Abertura de semana — conteúdo educativo de alto valor (saves)",
+      "slots": [
+        {
+          "time": "09:00",
+          "format": "carousel",
+          "pillar": "educativo",
+          "funnel_stage": "awareness",
+          "theme": "alternating",
+          "topic_type": "3-erros | X-dicas | como-fazer",
+          "specialist": "paulo_cuenca",
+          "insight": "Abre a semana com conteúdo que posiciona autoridade",
+          "automation_cmd": "carousel --topic auto",
+          "auto_post": false,
+          "priority": "alta"
+        },
+        {
+          "time": "12:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "bastidor | pergunta | enquete",
+          "specialist": "rafael_kiso",
+          "insight": "Stories de meio-dia têm 28% mais engajamento",
+          "auto_post": true,
+          "priority": "media"
+        },
+        {
+          "time": "21:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "dica-rapida | reflexao",
+          "specialist": "gary_vaynerchuk",
+          "insight": "Stories noturnos — audiência em modo relaxado, mais receptiva",
+          "auto_post": true,
+          "priority": "baixa"
+        }
+      ]
+    },
+    "tuesday": {
+      "label": "Terça",
+      "focus": "Melhor dia do Instagram — carousel inspiracional + reel discovery",
+      "slots": [
+        {
+          "time": "09:00",
+          "format": "carousel",
+          "pillar": "inspiracional",
+          "funnel_stage": "awareness_to_trust",
+          "theme": "alternating",
+          "topic_type": "transformacao | visao-de-mundo | posicionamento",
+          "specialist": "paulo_cuenca",
+          "insight": "Terça 9h = maior janela educational do Instagram. Posicionamento de visão de mundo.",
+          "automation_cmd": "carousel --topic auto",
+          "auto_post": false,
+          "priority": "alta"
+        },
+        {
+          "time": "12:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "repost | resultado-cliente",
+          "specialist": "neil_patel",
+          "insight": "Prova social no horário de almoço — decisões são tomadas aqui",
+          "auto_post": true,
+          "priority": "media"
+        },
+        {
+          "time": "19:00",
+          "format": "reel",
+          "pillar": "entretenimento",
+          "funnel_stage": "awareness",
+          "topic_type": "trend-audio | bastidor-dinamico | dica-rapida-video",
+          "specialist": "casey_neistat",
+          "insight": "Terça 19h = sweet spot Reels. Hook nos primeiros 3 frames.",
+          "automation_cmd": "reel --type trending",
+          "auto_post": false,
+          "priority": "alta"
+        }
+      ]
+    },
+    "wednesday": {
+      "label": "Quarta",
+      "focus": "Conteúdo de meio de semana — static de alto impacto + stories de bastidor",
+      "slots": [
+        {
+          "time": "09:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "processo-criativo | dia-a-dia",
+          "specialist": "paulo_cuenca",
+          "insight": "Bastidores matinal — humaniza a marca",
+          "auto_post": true,
+          "priority": "media"
+        },
+        {
+          "time": "17:00",
+          "format": "static",
+          "pillar": "educativo",
+          "funnel_stage": "consideration",
+          "topic_type": "citacao-autoridade | dado-mercado | fato-surpresa",
+          "specialist": "neil_patel",
+          "insight": "Quarta 17h = pós-trabalho. Static de impacto = share natural.",
+          "automation_cmd": "static --type quote",
+          "auto_post": false,
+          "priority": "media"
+        },
+        {
+          "time": "21:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "cta-suave | link-bio | novidade",
+          "specialist": "neil_patel",
+          "insight": "Deslize do stories à noite → link bio = conversão silenciosa",
+          "auto_post": true,
+          "priority": "baixa"
+        }
+      ]
+    },
+    "thursday": {
+      "label": "Quinta",
+      "focus": "Prova social + Reel de autoridade — converter audiência em clientes",
+      "slots": [
+        {
+          "time": "09:00",
+          "format": "carousel",
+          "pillar": "prova_social",
+          "funnel_stage": "trust_to_conversion",
+          "theme": "alternating",
+          "topic_type": "resultado-cliente | antes-depois | case-de-sucesso",
+          "specialist": "rafael_kiso",
+          "insight": "Saves em prova social indicam intenção de compra latente.",
+          "automation_cmd": "carousel --topic auto",
+          "auto_post": false,
+          "priority": "alta"
+        },
+        {
+          "time": "12:00",
+          "format": "stories",
+          "pillar": "conversao",
+          "funnel_stage": "decision",
+          "topic_type": "oferta | contato | orcamento",
+          "specialist": "gary_vaynerchuk",
+          "insight": "Quinta 12h = right hook. Após 3 jabs (Seg/Ter/Qua) — hora do CTA.",
+          "auto_post": true,
+          "priority": "alta"
+        },
+        {
+          "time": "17:00",
+          "format": "reel",
+          "pillar": "educativo",
+          "funnel_stage": "consideration",
+          "topic_type": "processo-agencia | dica-avancada | desmistificando",
+          "specialist": "casey_neistat",
+          "insight": "Quinta 17h = segundo sweet spot Reels. Conteúdo técnico performa bem.",
+          "automation_cmd": "reel --type educational",
+          "auto_post": false,
+          "priority": "alta"
+        }
+      ]
+    },
+    "friday": {
+      "label": "Sexta",
+      "focus": "Entretenimento + leveza — fim de semana está chegando",
+      "slots": [
+        {
+          "time": "09:00",
+          "format": "stories",
+          "pillar": "entretenimento",
+          "funnel_stage": "awareness",
+          "topic_type": "meme-nicho | desafio | interativo",
+          "specialist": "gary_vaynerchuk",
+          "insight": "Sexta pede leveza. Entretenimento com posicionamento.",
+          "auto_post": true,
+          "priority": "media"
+        },
+        {
+          "time": "12:00",
+          "format": "static",
+          "pillar": "entretenimento",
+          "funnel_stage": "awareness",
+          "topic_type": "frase-impacto | mood-fim-de-semana | humor-nicho",
+          "specialist": "peter_mckinnon",
+          "insight": "Static visual forte — compartilhável no domingo por quem salvou na sexta.",
+          "automation_cmd": "static --type impact",
+          "auto_post": false,
+          "priority": "media"
+        },
+        {
+          "time": "18:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "recomendacao | conteudo-parceiro",
+          "specialist": "paulo_cuenca",
+          "insight": "Colaborativo — crescimento conjunto conforme método Cuenca.",
+          "auto_post": true,
+          "priority": "baixa"
+        }
+      ]
+    },
+    "saturday": {
+      "label": "Sábado",
+      "focus": "Bastidores autênticos + conteúdo de comunidade",
+      "slots": [
+        {
+          "time": "08:00",
+          "format": "static",
+          "pillar": "bastidores",
+          "funnel_stage": "trust",
+          "topic_type": "bastidor-producao | equipe | processo",
+          "specialist": "paulo_cuenca",
+          "insight": "Sábado 8h = rotina de fim de semana. Conteúdo humano gera DMs.",
+          "automation_cmd": "static --type bts",
+          "auto_post": false,
+          "priority": "media"
+        },
+        {
+          "time": "12:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "atividade-fim-de-semana | lifestyle",
+          "specialist": "casey_neistat",
+          "insight": "Stories de sábado ao meio-dia — audiência mais disponível.",
+          "auto_post": true,
+          "priority": "baixa"
+        }
+      ]
+    },
+    "sunday": {
+      "label": "Domingo",
+      "focus": "Review + planejamento — Neil faz relatório semanal",
+      "slots": [
+        {
+          "time": "10:00",
+          "format": "stories",
+          "pillar": "relacionamento",
+          "funnel_stage": "trust",
+          "topic_type": "reflexao-semana | teaser-proxima-semana",
+          "specialist": "neil_patel",
+          "insight": "Teaser do que vem na semana — cria antecipação e aumenta reach de segunda.",
+          "auto_post": true,
+          "priority": "baixa"
+        },
+        {
+          "time": "20:00",
+          "format": "review",
+          "pillar": "metricas",
+          "funnel_stage": "internal",
+          "topic_type": "relatorio-neil | analise-semana",
+          "specialist": "neil_patel",
+          "insight": "Domingo 20h = Neil Patel review. Ajusta estratégia para próxima semana.",
+          "auto_post": false,
+          "priority": "alta"
+        }
+      ]
+    }
+  }
+}

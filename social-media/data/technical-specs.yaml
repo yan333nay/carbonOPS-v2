@@ -1,0 +1,160 @@
+name: technical-specs
+version: 1.0.0
+description: 'Technical specifications per format and platform. Used by Canva Designer (Pixel) and Paulo Cuenca mindclone for accurate visual briefings.'
+last_updated: '2026-03-27'
+
+# ---------------------------------------------------------------
+# Platform technical specs for all supported formats
+# Source: Instagram/TikTok official developer documentation
+# ---------------------------------------------------------------
+
+platforms:
+
+  instagram:
+    feed:
+      square:
+        dimensions: '1080x1080'
+        aspect_ratio: '1:1'
+        min_dimensions: '400x400'
+        format: [JPG, PNG]
+        max_file_size: '8MB'
+        notes: 'Default safe option. Works well for most content types.'
+
+      portrait:
+        dimensions: '1080x1350'
+        aspect_ratio: '4:5'
+        min_dimensions: '400x500'
+        format: [JPG, PNG]
+        max_file_size: '8MB'
+        notes: 'Takes more screen space in feed. Recommended for maximum visibility.'
+
+      landscape:
+        dimensions: '1080x566'
+        aspect_ratio: '1.91:1'
+        min_dimensions: '400x210'
+        format: [JPG, PNG]
+        max_file_size: '8MB'
+        notes: 'Use only when content demands horizontal (panoramas, comparisons).'
+
+    stories:
+      dimensions: '1080x1920'
+      aspect_ratio: '9:16'
+      min_dimensions: '500x889'
+      format: [JPG, PNG, MP4, MOV]
+      max_file_size_image: '8MB'
+      max_file_size_video: '4GB'
+      max_duration: '60s per segment'
+      safe_zones:
+        top: '14% (250px) — avoid for key content'
+        bottom: '20% (384px) — avoid for key content'
+        sides: '5% (54px each) — avoid for key content'
+      notes: 'Safe zone is critical — top and bottom covered by UI elements.'
+
+    reels:
+      dimensions: '1080x1920'
+      aspect_ratio: '9:16'
+      min_dimensions: '500x889'
+      format: [MP4, MOV]
+      max_file_size: '4GB'
+      max_duration: '90s'
+      recommended_duration: '15-30s'
+      frame_rate: [23.98, 24, 25, 29.97, 30, 48, 50, 60]
+      safe_zones:
+        top: '14% (250px)'
+        bottom: '35% (672px) — extra space for caption overlay'
+        sides: '5% (54px)'
+      audio:
+        recommended_codec: AAC
+        sample_rate: 48000
+      notes: 'Recommended duration under 30s for best completion rate.'
+
+    carousel:
+      dimensions: '1080x1080 or 1080x1350'
+      aspect_ratio: '1:1 or 4:5'
+      format: [JPG, PNG, MP4, MOV]
+      max_slides: 20
+      recommended_slides: '6-10'
+      min_slides: 2
+      max_file_size_image: '8MB'
+      max_file_size_video: '4GB'
+      notes: 'All slides must have same aspect ratio. First slide = thumbnail = most important.'
+
+  tiktok:
+    video:
+      dimensions: '1080x1920'
+      aspect_ratio: '9:16'
+      alternative_ratios: ['1:1', '16:9']
+      format: [MP4, MOV, AVI, MKV, WebM]
+      max_file_size: '10GB'
+      max_duration: '10 min'
+      recommended_duration: '15-30s'
+      frame_rate: [23.98, 24, 25, 29.97, 30, 60]
+      min_resolution: '540x960'
+      safe_zones:
+        top: '10% — top navigation bar'
+        bottom: '25% — caption, sounds, buttons overlay'
+        right: '15% — action buttons (like, comment, share)'
+        left: '0%'
+      audio:
+        recommended_codec: AAC
+        sample_rate: 44100
+      notes: 'Right side has permanent UI overlay. Never put key content there.'
+
+    photo_mode:
+      dimensions: '1080x1920'
+      aspect_ratio: '9:16'
+      format: [JPG, PNG]
+      max_images: 35
+      min_images: 2
+      max_file_size: '72MB per image'
+      notes: 'TikTok Photo Mode auto-advances slides like a story. Growing format as of 2025.'
+
+# ---------------------------------------------------------------
+# Safe Zone Summary (pixel values for 1080x1920)
+# ---------------------------------------------------------------
+safe_zones_summary:
+  instagram_stories:
+    safe_top: 250px
+    safe_bottom: 384px
+    safe_left: 54px
+    safe_right: 54px
+    safe_area_height: '1286px (1920 - 250 - 384)'
+    safe_area_width: '972px (1080 - 54 - 54)'
+
+  instagram_reels:
+    safe_top: 250px
+    safe_bottom: 672px
+    safe_left: 54px
+    safe_right: 54px
+    safe_area_height: '998px (1920 - 250 - 672)'
+    safe_area_width: '972px (1080 - 54 - 54)'
+
+  tiktok_video:
+    safe_top: 192px
+    safe_bottom: 480px
+    safe_left: 0px
+    safe_right: 162px
+    safe_area_height: '1248px (1920 - 192 - 480)'
+    safe_area_width: '918px (1080 - 0 - 162)'
+
+# ---------------------------------------------------------------
+# Performance Benchmarks (from data/best-posting-times.json)
+# ---------------------------------------------------------------
+benchmarks:
+  instagram_reels:
+    completion_rate_good: '>40%'
+    engagement_rate_good: '>3%'
+    viral_threshold_views: '100K'
+
+  tiktok_video:
+    completion_rate_good: '>50%'
+    engagement_rate_good: '>5%'
+    viral_threshold_views: '500K'
+
+  instagram_carousel:
+    swipe_through_good: '>30% reach all slides'
+    save_rate_good: '>3%'
+
+  instagram_feed:
+    engagement_rate_good: '>2%'
+    save_rate_good: '>1%'

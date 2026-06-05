@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Componentes — Carbon Films</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #030303;
+  padding: 60px 40px 80px;
+  font-family: 'Montserrat', sans-serif;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1480px;
+  margin: 0 auto 56px;
+}
+.logo-txt {
+  font-family: 'JetBrains Mono', monospace;
+  color: #C9A84C;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid #222;
+  padding: 6px 14px;
+  border-radius: 4px;
+}
+h1 {
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+/* CARD */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0 0 12px 2px;
+  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-label span { color: #2a2a2a; }
+
+/* IFRAME */
+.frame-wrap {
+  width: 100%;
+  aspect-ratio: 1080 / 1350;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid #1a1a1a;
+  background: #050505;
+}
+.frame-wrap iframe {
+  width: 1080px;
+  height: 1350px;
+  border: none;
+  transform-origin: top left;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/* FOOTER */
+footer {
+  max-width: 1480px;
+  margin: 56px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #1a1a1a;
+  padding-top: 28px;
+}
+footer p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #333;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo-txt">Carbon Films — Componentes de Carrossel</div>
+    <div style="margin-top:6px;"><h1>6 componentes · 1080×1350px · Instagram Feed 4:5</h1></div>
+  </div>
+  <div class="badge">v1.0.0</div>
+</header>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-label">
+      slide-capa.html
+      <span>CAPA / INTRO</span>
+    </div>
+    <div class="frame-wrap" id="wrap-capa">
+      <iframe src="slide-capa.html" id="frame-capa" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">
+      slide-dica.html
+      <span>DICA / PASSO / ERRO</span>
+    </div>
+    <div class="frame-wrap" id="wrap-dica">
+      <iframe src="slide-dica.html" id="frame-dica" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">
+      slide-dado.html
+      <span>NÚMERO / ESTATÍSTICA</span>
+    </div>
+    <div class="frame-wrap" id="wrap-dado">
+      <iframe src="slide-dado.html" id="frame-dado" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">
+      slide-lista.html
+      <span>LISTA DE ITENS</span>
+    </div>
+    <div class="frame-wrap" id="wrap-lista">
+      <iframe src="slide-lista.html" id="frame-lista" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">
+      slide-citacao.html
+      <span>CITAÇÃO / QUOTE</span>
+    </div>
+    <div class="frame-wrap" id="wrap-citacao">
+      <iframe src="slide-citacao.html" id="frame-citacao" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">
+      slide-cta.html
+      <span>CTA FINAL</span>
+    </div>
+    <div class="frame-wrap" id="wrap-cta">
+      <iframe src="slide-cta.html" id="frame-cta" scrolling="no"></iframe>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Carbon Films · Social Media Squad · componentes/</p>
+  <p>Edite o bloco CUSTOMIZE AQUI em cada arquivo</p>
+</footer>
+
+<script>
+// Escala cada iframe para caber no card
+function scaleFrames() {
+  document.querySelectorAll('.frame-wrap').forEach(wrap => {
+    const scale = wrap.offsetWidth / 1080;
+    const iframe = wrap.querySelector('iframe');
+    if (iframe) {
+      iframe.style.transform = `scale(${scale})`;
+      wrap.style.height = `${1350 * scale}px`;
+    }
+  });
+}
+scaleFrames();
+window.addEventListener('resize', scaleFrames);
+</script>
+</body>
+</html>

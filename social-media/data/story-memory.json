@@ -1,0 +1,32 @@
+{
+  "used_names": [
+    "Cris Arcangeli",
+    "Guilherme Benchimol",
+    "Tory Burch",
+    "Thomas Edison",
+    "Helena Rubinstein",
+    "Ray Kroc",
+    "Phil Knight",
+    "Mary Kay Ash",
+    "Jack Ma",
+    "Sam Walton"
+  ],
+  "used_ids": [
+    "cris-arcangeli-transformacao",
+    "guilherme-benchimol-xp-empire",
+    "tory-burch-império-moda",
+    "thomas-edison-mil-fracassos",
+    "helena-rubinstein-imperio-beleza",
+    "ray-kroc-mcdonald-s-imperio",
+    "phil-knight-nike-story",
+    "mary-kay-ash-empire",
+    "jack-ma-alibaba-ascensao",
+    "sam-walton-walmart-empire"
+  ],
+  "last_used": "sam-walton-walmart-empire",
+  "last_post": {
+    "sent_at": "2026-06-05T17:00:59.850Z",
+    "story": "sam-walton-walmart-empire",
+    "person": "Sam Walton"
+  }
+}

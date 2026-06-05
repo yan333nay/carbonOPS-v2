@@ -1,0 +1,138 @@
+name: carousel-template
+version: 2.0.0
+description: 'Template de carrossel Instagram Carbon Films — maior taxa de salvamento da plataforma'
+format: carousel
+agent: canva-designer
+
+# ---------------------------------------------------------------
+# ESPECIFICAÇÕES TÉCNICAS
+# ---------------------------------------------------------------
+technical_specs:
+  dimensions: '1080x1080px'
+  aspect_ratio: '1:1'
+  file_format: 'JPG'
+  max_file_size: '8MB por slide'
+  color_profile: 'sRGB'
+  resolution: '72dpi (display) — 300dpi (print)'
+  safe_zone: '80px todos os lados'
+  max_slides: 10
+  min_slides: 3
+
+instagram_limits:
+  max_slides: 10
+  caption_chars: 2200
+  hashtags_max: 30
+  hashtags_recommended: '8-12'
+
+# ---------------------------------------------------------------
+# BRANDBOOK CARBON FILMS
+# ---------------------------------------------------------------
+brandbook:
+  background: '#050505'
+  surface: '#111111'
+  gold: '#C9A84C'
+  white: '#FFFFFF'
+  red_accent: '#FF0000'
+  gray_text: '#888888'
+  font_display: 'Anton (UPPERCASE sempre)'
+  font_body: 'Montserrat 400/700'
+  font_mono: 'JetBrains Mono'
+  handle: '@carbonfilms.sc'
+
+# ---------------------------------------------------------------
+# ESTRUTURA DE SLIDES
+# ---------------------------------------------------------------
+structure:
+  slide_1_cover:
+    purpose: 'Parar o scroll — funciona como thumbnail'
+    required:
+      - 'Headline principal (Anton, 72-86px, UPPERCASE)'
+      - 'Linha gold separadora (64px × 3px, #C9A84C)'
+      - 'Label top-right (CF_001 / CATEGORIA)'
+      - 'CARBON FILMS top-left (gold)'
+    optional:
+      - 'Background: foto dark ou sólido #050505'
+      - 'Indicador swipe (→)'
+    design_rules:
+      - 'Última palavra do headline em vermelho (#FF0000)'
+      - 'Overlay escuro sobre foto: rgba(5,5,5,0.75) bottom, rgba(5,5,5,0.20) top'
+      - 'Headline máximo 3 linhas'
+
+  slides_2_to_N:
+    purpose: 'Entregar o valor prometido na capa — 1 ponto por slide'
+    required:
+      - 'CARBON FILMS top-left + contador N/Total top-right'
+      - 'Linha gold (52px × 3px)'
+      - 'Hook do slide (Anton, 72-82px)'
+      - 'Texto do corpo (Montserrat 400, 26-29px, #888)'
+      - '@carbonfilms.sc bottom-left'
+    design_rules:
+      - 'Última palavra do hook em vermelho'
+      - 'Corpo: máximo 2-3 linhas'
+      - 'Consistência visual obrigatória entre slides'
+
+  last_slide_cta:
+    purpose: 'Converter engajamento em ação'
+    required:
+      - 'CARBON FILMS (centralizado, gold)'
+      - 'Headline CTA (Anton, centralizado)'
+      - 'Linha gold (80px × 3px, centralizada)'
+      - 'Botão CTA (Montserrat 700, bg branco, texto dark)'
+      - '@carbonfilms.sc (centralizado, bottom)'
+    cta_options:
+      - 'FALAR COM A CARBON'
+      - 'SOLICITAR ORÇAMENTO'
+      - 'VER PORTFÓLIO'
+      - 'AGENDAR REUNIÃO'
+
+# ---------------------------------------------------------------
+# COPY FRAMEWORK
+# ---------------------------------------------------------------
+copy_framework:
+  hook_formulas:
+    - '[N] erros que fazem [PROBLEMA]'
+    - 'Por que [CRENÇA COMUM] está errada'
+    - 'Como [RESULTADO] sem [OBSTÁCULO]'
+    - 'A verdade sobre [TEMA POLÊMICO]'
+    - 'O que ninguém te conta sobre [TEMA]'
+
+  caption_template: |
+    [HOOK — espelha ou aprofunda a capa]
+
+    Arrasta para ver os [N] [pontos/erros/estratégias] →
+
+    [1-2 linhas de preview do conteúdo]
+
+    [CTA — salva, comenta, manda DM]
+
+    [HASHTAGS]
+
+  slide_count:
+    sweet_spot: 6
+    minimum: 3
+    maximum: 10
+
+# ---------------------------------------------------------------
+# PIPELINE DE GERAÇÃO
+# ---------------------------------------------------------------
+pipeline:
+  command: 'node scripts/run-workflow.js carousel --topic "TEMA"'
+  steps:
+    1: 'Pulse pesquisa tendências e valida tópico'
+    2: 'Lyra gera hook + copy de cada slide + caption'
+    3: 'OpenRouter (Gemini/Flux) gera backgrounds cinematográficos'
+    4: 'HTML engine monta os slides com brandbook Carbon Films'
+    5: 'Playwright screenshots 1080x1080'
+    6: 'Aprovação humana → post via Meta Graph API'
+  output_dir: 'output/slides/'
+  briefing_file: 'data/carousel-latest.json'
+
+# ---------------------------------------------------------------
+# PERFORMANCE BENCHMARKS
+# ---------------------------------------------------------------
+benchmarks:
+  saves_rate_target: '>3% do alcance'
+  completion_rate_target: '>30% chegam ao último slide'
+  best_posting_times: ['19h-21h', '07h-09h']
+  caption_min_chars: 150
+  caption_max_chars: 600

@@ -1,0 +1,203 @@
+{
+  "name": "WF-P09-B — Envio NOVA (WhatsApp)",
+  "nodes": [
+    {
+      "id": "p09b-01",
+      "name": "A cada 30 minutos",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [180, 300],
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "minutes", "minutesInterval": 30 }]
+        }
+      }
+    },
+    {
+      "id": "p09b-02",
+      "name": "HubSpot — Buscar Deals Aprovados",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [400, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ filterGroups: [{ filters: [{ propertyName: 'dealstage', operator: 'EQ', value: $vars.HUBSPOT_STAGE_APROVADO }] }], properties: ['dealname', 'contato_nome', 'contato_whatsapp', 'segmento', 'website', 'ponto_de_dor', 'ponto_dor_validado', 'gancho_mira', 'canal_outbound'], limit: 100 }) }}"
+      }
+    },
+    {
+      "id": "p09b-03",
+      "name": "Extrair Deals Aprovados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [620, 300],
+      "parameters": {
+        "jsCode": "const r = $json;\nif (!r.total || r.total === 0) return [];\nreturn r.results.map(d => ({\n  json: {\n    dealId: d.id,\n    dealName: d.properties.dealname || 'Sem nome',\n    contatoNome: d.properties.contato_nome || '',\n    contatoWhatsapp: d.properties.contato_whatsapp || '',\n    segmento: d.properties.segmento || '',\n    website: d.properties.website || '',\n    pontoDeDor: d.properties.ponto_de_dor || '',\n    pontoDorValidado: d.properties.ponto_dor_validado || '',\n    ganchoMira: d.properties.gancho_mira || '',\n    canalOutbound: d.properties.canal_outbound || 'WhatsApp'\n  }\n}));"
+      }
+    },
+    {
+      "id": "p09b-04",
+      "name": "Processar 1 por vez",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [840, 300],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "p09b-05",
+      "name": "Preparar Prompt NOVA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1060, 300],
+      "parameters": {
+        "jsCode": "const d = $json;\n\nconst system = `Você é NOVA, representante comercial da Carbon Films — agência de marketing visual cinematográfico em Santa Catarina, Brasil. Sua tarefa é escrever a mensagem de PRIMEIRO CONTATO via WhatsApp para um prospect.\n\nRegras INEGOCIÁVEIS:\n- Inicie com [NOVA]:\n- Máximo 3 parágrafos curtos\n- Use o gancho da MIRA como base — não invente outro\n- Tom consultivo: você identificou um problema, não está 'vendendo'\n- Termine com UMA pergunta aberta\n- Nunca mencione preço ou pacotes\n- Nunca use: 'transforme', 'resultados incríveis', 'clique aqui'\n- Nada genérico — cada palavra deve fazer sentido para ESTA empresa específica\n\nResponda SOMENTE com o texto da mensagem, sem explicações ou markdown.`;\n\nconst user = `Escreva a mensagem para:\n- Prospect: ${d.contatoNome || d.dealName}\n- Empresa: ${d.dealName}\n- Segmento: ${d.segmento}\n- Gancho MIRA: ${d.ganchoMira}\n- Ponto de dor: ${d.pontoDorValidado || d.pontoDeDor}\n- Canal: WhatsApp`;\n\nreturn [{\n  json: {\n    ...d,\n    claudeBody: JSON.stringify({\n      model: 'claude-sonnet-4-5',\n      max_tokens: 400,\n      system,\n      messages: [{ role: 'user', content: user }]\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "p09b-06",
+      "name": "Claude API — NOVA",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1280, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $vars.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.claudeBody }}"
+      }
+    },
+    {
+      "id": "p09b-07",
+      "name": "Extrair Mensagem NOVA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300],
+      "parameters": {
+        "jsCode": "const response = $json;\nconst prev = $('Preparar Prompt NOVA').first().json;\n\nlet mensagem = '';\ntry {\n  mensagem = response.content[0].text.trim();\n} catch(e) {\n  mensagem = `[NOVA]: Olá, ${prev.contatoNome || prev.dealName}! Vi o trabalho de vocês e tenho uma ideia que pode fazer sentido para a ${prev.dealName}. Vale uma conversa rápida?`;\n}\n\nconst now = Date.now();\n\nreturn [{\n  json: {\n    ...prev,\n    mensagemNova: mensagem,\n    dataUltimoContato: String(now),\n    whatsappBody: JSON.stringify({\n      to: prev.contatoWhatsapp,\n      type: 'text',\n      text: { body: mensagem }\n    }),\n    hubspotUpdateBody: JSON.stringify({\n      properties: {\n        draft_nova: mensagem,\n        data_ultimo_contato: String(now),\n        dealstage: $vars.HUBSPOT_STAGE_AGUARDANDO\n      }\n    }),\n    hubspotNoteBody: JSON.stringify({\n      engagement: { active: true, type: 'NOTE' },\n      associations: { dealIds: [Number(prev.dealId)] },\n      metadata: { body: `[NOVA - D+0]: Primeiro contato enviado via WhatsApp.\\n\\nMensagem enviada:\\n${mensagem}` }\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "p09b-08",
+      "name": "WhatsApp — Enviar para Prospect",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1720, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://waba.360dialog.io/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "D360-API-KEY", "value": "={{ $vars.WHATSAPP_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.whatsappBody }}"
+      }
+    },
+    {
+      "id": "p09b-09",
+      "name": "HubSpot — Avançar Stage e Salvar Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1940, 300],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://api.hubapi.com/crm/v3/objects/deals/' + $json.dealId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.hubspotUpdateBody }}"
+      }
+    },
+    {
+      "id": "p09b-10",
+      "name": "HubSpot — Criar Nota de Envio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2160, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/engagements/v1/engagements",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.hubspotNoteBody }}"
+      }
+    }
+  ],
+  "connections": {
+    "A cada 30 minutos": {
+      "main": [[{ "node": "HubSpot — Buscar Deals Aprovados", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Buscar Deals Aprovados": {
+      "main": [[{ "node": "Extrair Deals Aprovados", "type": "main", "index": 0 }]]
+    },
+    "Extrair Deals Aprovados": {
+      "main": [[{ "node": "Processar 1 por vez", "type": "main", "index": 0 }]]
+    },
+    "Processar 1 por vez": {
+      "main": [
+        [{ "node": "Preparar Prompt NOVA", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Preparar Prompt NOVA": {
+      "main": [[{ "node": "Claude API — NOVA", "type": "main", "index": 0 }]]
+    },
+    "Claude API — NOVA": {
+      "main": [[{ "node": "Extrair Mensagem NOVA", "type": "main", "index": 0 }]]
+    },
+    "Extrair Mensagem NOVA": {
+      "main": [[{ "node": "WhatsApp — Enviar para Prospect", "type": "main", "index": 0 }]]
+    },
+    "WhatsApp — Enviar para Prospect": {
+      "main": [[{ "node": "HubSpot — Avançar Stage e Salvar Data", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Avançar Stage e Salvar Data": {
+      "main": [[{ "node": "HubSpot — Criar Nota de Envio", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Criar Nota de Envio": {
+      "main": [[{ "node": "Processar 1 por vez", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "id": "wf-p09-b",
+  "tags": [{ "name": "P09" }, { "name": "NOVA" }, { "name": "Prospecção" }]
+}

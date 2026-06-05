@@ -1,0 +1,535 @@
+name: brandbook-carbon-films
+version: 2.0.0
+description: 'Brandbook operacional da Carbon Films. Extraído do brandbook oficial v2.0 (docs/brandbook/carbon-films-brandbook.html). Contexto fixo injetado em TODOS os agentes do squad. Fonte única de verdade para decisões de design, copy e estratégia.'
+source: 'docs/brandbook/carbon-films-brandbook.html'
+last_updated: '2026-03-27'
+status: active
+client_id: carbon-films
+
+# ---------------------------------------------------------------
+# SECTION 01 — IDENTIDADE DE MARCA
+# ---------------------------------------------------------------
+identity:
+  brand_name: 'Carbon Films'
+  tagline: 'Marketing visual com estratégia'
+  handle_instagram: '@carbonfilms.sc'
+  location: 'Santa Catarina, Brasil — Atendimento Nacional'
+  founded: 2019
+  contact:
+    phone: '+55 (47) 8922-7584'
+    email: 'syfilms2.0@gmail.com'
+
+  brand_promise: 'Na Carbon, excelência não é um objetivo — é o ponto de partida.'
+
+  mission: 'Elevar o nível visual e estratégico de marcas que querem ser reconhecidas como referência no seu mercado.'
+
+  vision: 'Ser a agência de marketing visual que toda marca ambiciosa de Santa Catarina e do Brasil escolhe quando decide parar de ser mediana.'
+
+  positioning: 'A intersecção entre produção cinematográfica e performance digital — onde conteúdo de alto impacto encontra resultado mensurável.'
+
+  values:
+    - name: Respeito
+      description: 'Cada cliente, cada prazo tratados com seriedade absoluta. Sem exceções.'
+    - name: Honestidade
+      description: 'Prometemos o que entregamos. Sempre. Sem superestimativa, sem promessa vazia.'
+    - name: Esforço Mútuo
+      description: 'O sucesso da parceria depende dos dois lados. Crescemos juntos ou não crescemos.'
+    - name: Excelência
+      description: 'Na Carbon, o mínimo aqui é o máximo em outros lugares. Padrão inegociável.'
+    - name: Estratégia
+      description: 'Cada pixel, cada campanha tem propósito claro. Nada é aleatório.'
+    - name: Comprometimento
+      description: 'Assumimos o projeto e assumimos o resultado. A responsabilidade é nossa.'
+
+  brand_archetypes:
+    primary:
+      name: Criador
+      pct: 50
+      description: 'Essência criativa cinematográfica. Onde a arte encontra a técnica.'
+    secondary:
+      name: Governante
+      pct: 30
+      description: 'Autoridade e excelência no mercado. Estabelecemos o padrão.'
+    tertiary:
+      name: Sábio
+      pct: 20
+      description: 'Estratégia e conhecimento técnico. Decisões baseadas em dados.'
+
+  proof_points:
+    - '+300% ROI médio'
+    - '+5 anos no mercado'
+    - '9 serviços'
+
+  niches: [marketing-visual, producao-audiovisual, trafego-pago, branding, agencia-sc]
+
+  competitors:
+    - handle: '@maisqmarketing'
+      url: 'https://www.instagram.com/maisqmarketing/'
+      monitor: true
+      notes: 'Monitorar frequência de posts, formatos usados, hooks, engajamento'
+
+    - handle: '@agenciaexpmark'
+      url: 'https://www.instagram.com/agenciaexpmark/'
+      monitor: true
+      notes: 'Monitorar frequência de posts, formatos usados, hooks, engajamento'
+
+# ---------------------------------------------------------------
+# SECTION 02 — SISTEMA VISUAL
+# ---------------------------------------------------------------
+visual:
+  colors:
+    # Backgrounds
+    bg:
+      hex: '#050505'
+      name: 'Carbon Black'
+      usage: 'Fundo principal — base de tudo'
+
+    surface:
+      hex: '#111111'
+      name: 'Surface Dark'
+      usage: 'Cards, seções, backgrounds secundários'
+
+    glass:
+      hex: '#1A1A1A'
+      name: 'Glass'
+      usage: 'Hover states, overlays leves'
+
+    elevated:
+      hex: '#161616'
+      name: 'Elevated'
+      usage: 'Elementos elevados sobre surface'
+
+    # Borders
+    border_dark:
+      hex: '#1F1F1F'
+      name: 'Border Dark'
+      usage: 'Bordas sutis, divisores'
+
+    border_light:
+      hex: '#2A2A2A'
+      name: 'Border Light'
+      usage: 'Bordas em hover, separadores ativos'
+
+    # Text
+    white:
+      hex: '#FFFFFF'
+      name: 'White'
+      usage: 'Texto principal, títulos'
+
+    gray_400:
+      hex: '#A0A0A0'
+      name: 'Gray 400'
+      usage: 'Texto secundário, subtítulos'
+
+    gray_600:
+      hex: '#6B6B6B'
+      name: 'Gray 600'
+      usage: 'Texto terciário, metadados, timestamps'
+
+    dim:
+      hex: '#3A3A3A'
+      name: 'Dim'
+      usage: 'Elementos desabilitados, placeholders'
+
+    # Accent — MONOCROMÁTICO (gold REMOVIDO em 2026-05)
+    # REGRA: usar apenas preto, branco e tons de cinza nos slides de social media
+    white_accent:
+      hex: '#FFFFFF'
+      name: 'White Accent'
+      usage: 'Destaques, elementos ativos, ícones em fundo escuro'
+
+    gray_accent:
+      hex: '#383838'
+      name: 'Gray Accent'
+      usage: 'Labels, metadados, números de slide, handles'
+
+    # CORES PROIBIDAS — nunca usar em posts/slides
+    forbidden_colors:
+      - '#C9A84C — Carbon Gold (REMOVIDO — proibido em todos os slides)'
+      - '#E8C97A — Gold Light (REMOVIDO)'
+      - '#8B6914 — Gold Dark (REMOVIDO)'
+      - 'Qualquer tom dourado ou amarelado'
+      - 'Branco puro como background principal'
+      - 'Cores saturadas brilhantes (vermelho, azul, verde) sem contexto'
+
+  social_media_palette:
+    dark_theme:
+      bg: '#050505'
+      surface: '#0D0D0D'
+      border: '#1E1E1E'
+      titulo_cor: '#FFFFFF'
+      corpo_cor: '#666666'
+      sub_cor: '#383838'
+    white_theme:
+      bg: '#FFFFFF'
+      surface: '#F5F5F5'
+      border: '#E5E5E5'
+      titulo_cor: '#0A0A0A'
+      corpo_cor: '#888888'
+      sub_cor: '#CCCCCC'
+
+  typography:
+    display_font:
+      name: 'Anton'
+      google_fonts: 'Anton'
+      usage: 'Títulos, headlines, hooks, números grandes, todo conteúdo de alto impacto'
+      weight: '400 (only weight available — já é bold por natureza)'
+      case: 'UPPERCASE sempre'
+      letter_spacing: '-0.02em (tight — sem tracking positivo)'
+      line_height: '1.0'
+      example: 'VÍDEOS QUE FECHAM VENDAS'
+
+    body_font:
+      name: 'Montserrat'
+      google_fonts: 'Montserrat:wght@300;400;700;800'
+      usage: 'Corpo de texto, CTAs, botões, legendas, parágrafos'
+      weights_allowed: [300, 400, 700, 800]
+      letter_spacing_buttons: '0.12em (uppercase buttons)'
+      example: 'Marketing visual com estratégia'
+
+    elegant_font:
+      name: 'Playfair Display'
+      google_fonts: 'Playfair+Display:ital@1'
+      usage: 'Apenas italic — citações, taglines elegantes, contraste com Anton'
+      style: 'italic only'
+      example: '"Descubra o potencial visual"'
+
+    mono_font:
+      name: 'JetBrains Mono'
+      google_fonts: 'JetBrains+Mono:wght@300;400;500'
+      usage: 'Labels técnicos, códigos de referência (CF_001), metadados, microcopy'
+      case: 'UPPERCASE com letter-spacing 0.08-0.15em'
+      example: 'CF_047 / SOCIAL MEDIA'
+
+    forbidden_fonts:
+      - 'Comic Sans'
+      - 'Papyrus'
+      - 'System fonts sem fallback'
+      - 'Qualquer fonte não listada acima'
+
+  logo:
+    versions:
+      principal:
+        file: 'docs/brandbook/assets/logo-principal.png'
+        description: 'Versão metálica prata — uso primário digital premium e impresso escuro'
+        background: 'escuro apenas'
+
+      mono_preta:
+        file: 'docs/brandbook/assets/logo-mono-preto.png'
+        description: 'Preta sobre fundos claros. Documentos, papelaria, contratos.'
+        background: 'claro apenas'
+
+      prata_branco:
+        file: 'docs/brandbook/assets/logo-prata-branco.png'
+        description: 'Versão prata sobre fundo claro/branco. Papelaria premium, embalagens.'
+        background: 'claro apenas'
+
+      simbolo_isolado:
+        file: 'docs/brandbook/assets/logo-principal.png'  # crop to icon
+        description: 'Favicon, ícone de app, perfil social.'
+        minimum_size: '32×32px'
+
+    rules:
+      minimum_size_digital: '80px de largura'
+      minimum_size_print: '25mm'
+      clear_space: 'x em todos os lados (x = altura da letra C do logotipo)'
+      anatomy: 'CARBON (Anton bold) + FILMS (JetBrains Mono) + ícone Camera+BarChart à direita, alinhado ao baseline'
+
+    forbidden_uses:
+      - 'Esticar ou distorcer proporções'
+      - 'Aplicar em fundo com baixo contraste'
+      - 'Adicionar sombras não especificadas'
+      - 'Recolorir (apenas versões oficiais)'
+      - 'Usar abaixo do tamanho mínimo'
+      - 'Rotacionar'
+
+  icons_style: 'Geométrico, linha fina, minimalista'
+  shape_language: 'Reto, anguloso, sem border-radius. Exceção: círculos em elementos decorativos'
+
+  decorative_elements:
+    grain_texture: 'Overlay de ruído fractal sutil (opacity 0.04) — presente em todos os backgrounds'
+    radial_glow: 'Gradiente radial gold (rgba(201,168,76,0.06–0.1)) em cantos de cards e elementos destacados'
+    gold_line: 'Linha horizontal gold 1px — separador e elemento decorativo padrão'
+    grid_lines: 'Linhas de construção geométrica douradas (opacity 0.06-0.15) em headers e hero sections'
+
+# ---------------------------------------------------------------
+# SECTION 03 — VOZ E TOM
+# ---------------------------------------------------------------
+voice_and_tone:
+  personality_traits:
+    - 'Direto — vai ao ponto, sem rodeios'
+    - 'Autoritativo — fala com quem sabe o que está fazendo'
+    - 'Preciso — dados e resultados específicos, nunca vago'
+
+  formality_level: 'Semi-formal — não íntimo, não frio'
+
+  copy_rules:
+    do:
+      - 'Use dados e números específicos: "+300% de engajamento em 90 dias"'
+      - 'UPPERCASE em títulos, headlines e CTAs (Anton é sempre maiúscula)'
+      - 'CTAs com direção clara: "AGENDAR REUNIÃO", "VER SERVIÇOS", "FALAR COM A GENTE"'
+      - 'Frases curtas e de alto impacto'
+      - 'Verbo forte + resultado no início'
+      - 'Gold como metáfora de excelência e premium'
+
+    never:
+      - 'Emojis — proibidos em qualquer contexto'
+      - 'Superlativos sem prova: "A melhor agência do Brasil" ✗'
+      - 'Jargão vazio: "Soluções inovadoras e disruptivas" ✗'
+      - 'CTAs sem direção: "CLIQUE AQUI" ✗'
+      - 'Botões em minúsculas'
+      - 'Tom casual demais, gírias'
+      - 'Promessas que não podem ser provadas'
+
+  copy_formulas_by_format:
+    hero:
+      formula: 'VERBO FORTE + RESULTADO'
+      rules: '≤ 8 palavras · Caixa alta'
+      examples:
+        - 'VÍDEOS QUE FECHAM VENDAS'
+        - 'SUA MARCA EM OUTRO NÍVEL'
+        - 'MARKETING QUE GERA RESULTADO'
+
+    feed_instagram:
+      formula: 'DADO/STAT + CONTEXTO'
+      rules: 'Legenda máximo 3 linhas de corpo'
+      examples:
+        - '+300% de engajamento em 90 dias'
+        - '5 anos. Centenas de marcas.'
+        - '3 erros que matam seu tráfego.'
+
+    stories_reels:
+      formula: 'PERGUNTA DIRETA + CTA'
+      rules: 'Swipe-up ou CTA visível'
+      examples:
+        - 'Sua marca está crescendo? FALA COM A GENTE'
+        - 'Gravando em SC. Cada detalhe importa.'
+        - 'Quer o mesmo resultado? DM agora.'
+
+  use_emoji: false  # NEVER — proibido pelo brandbook
+  use_hashtags: true
+  hashtags_brand:
+    owned: ['#carbonfilms']
+    community:
+      - '#marketingvisual'
+      - '#marketingdigital'
+      - '#trafegopagosc'
+      - '#agenciadecomunicacao'
+      - '#dronevideos'
+      - '#brandingsc'
+      - '#marketingsc'
+      - '#santacatarina'
+
+  platform_voice_adaptation:
+    instagram: 'Semi-formal, autoritativo, dados + visual. Anton everywhere.'
+    tiktok: 'Levemente mais direto e rápido, mas mantém o tom premium. Sem memes ou trends que comprometam o posicionamento.'
+
+  approved_caption_examples:
+    - 'Case real: de 0 a +300% de engajamento em 90 dias. Não foi sorte. Foi sistema.'
+    - '5 anos transformando marcas em referências. O mínimo aqui é o máximo em outros lugares.'
+    - 'Bastidores da gravação em SC. Cada detalhe importa — do ângulo à edição final.'
+
+  rejected_caption_examples:
+    - 'Somos a melhor agência 🚀✨ — (emojis + superlativo sem prova)'
+    - 'Soluções criativas e inovadoras para o seu negócio! — (jargão vazio + exclamação)'
+    - 'clique aqui para saber mais — (minúsculas + CTA sem direção)'
+
+# ---------------------------------------------------------------
+# SECTION 04 — GUIA DE POSTS SOCIAL MEDIA
+# ---------------------------------------------------------------
+post_design_guide:
+  content_mix:
+    portfolio:
+      percentage: 40
+      description: 'Trabalhos finalizados, resultados de clientes, bastidores das gravações, antes/depois'
+
+    educativo:
+      percentage: 30
+      description: 'Dicas de marketing visual, tutoriais, erros comuns, dados do mercado'
+
+    institucional:
+      percentage: 20
+      description: 'Valores da agência, equipe, processo de trabalho, cultura'
+
+    promocional:
+      percentage: 10
+      description: 'CTAs diretos, ofertas especiais, datas comemorativas'
+
+  feed_square_1x1:
+    dimensions: '1080x1080'
+    aspect_ratio: '1:1'
+    safe_zone: '80px em todos os lados'
+
+    model_01_portfolio:
+      description: 'Foto/vídeo como background com overlay escuro gradiente. Métrica/resultado em destaque.'
+      layout:
+        overlay: 'linear-gradient(to top, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.3) 50%, transparent 100%)'
+        top_bar: 'CARBON FILMS (gold mono, left) + categoria (gray, right)'
+        bottom_content: 'Anton headline bold + linha gold 32px + label de resultado'
+        handle: 'não aparece (já está no top)'
+      typography:
+        headline_font: Anton
+        headline_size: '26-32px'
+        label_font: JetBrains Mono
+        label_size: '9px uppercase'
+      example_text:
+        headline: 'CASE REAL'
+        label: '+300% ENGAJAMENTO · 90 DIAS'
+
+    model_02_educativo:
+      description: 'Fundo escuro sólido, conteúdo tipográfico dominante. Para conteúdo educacional e dicas.'
+      layout:
+        background: '#050505 ou #111111'
+        radial_glow: 'top-right corner, rgba(201,168,76,0.06)'
+        top_label: 'CF_001 / DICA (gold mono)'
+        headline: 'Anton bold, grande, 3 linhas máx'
+        gold_line: '32px wide, 1px height, separador'
+        body: 'Montserrat 12px gray-400'
+        handle: 'bottom-right, mono gray-600'
+      example_text:
+        label: 'CF_001 / DICA'
+        headline: '3 ERROS QUE MATAM SEU TRÁFEGO'
+        body: '"Salve esse post para não esquecer."'
+
+    model_03_institucional:
+      description: 'Centrado, número grande em gold, texto de marca. Para marcos e números de impacto.'
+      layout:
+        background: '#050505'
+        border: '1px solid gold (opacity 0.2), margin 16px'
+        content: 'centered vertical + horizontal'
+        year_label: 'mono gold, uppercase'
+        number: 'Anton 64px gold'
+        title: 'Montserrat 700 uppercase'
+        subtitle: 'gray-400 small'
+      example_text:
+        year: '2019 — PRESENTE'
+        number: '+5'
+        title: 'ANOS DE EXCELÊNCIA'
+        subtitle: 'Transformando marcas em referências.'
+
+  stories_reels_9x16:
+    dimensions: '1080x1920'
+    aspect_ratio: '9:16'
+    safe_zone_top: '250px (UI do Instagram)'
+    safe_zone_bottom: '300px (área de CTA/legenda)'
+
+    story_01_cta:
+      description: 'Full-screen, headline central, CTA branco no bottom. Para conversão e ação.'
+      layout:
+        background: '#050505'
+        top_bar: 'CARBON FILMS (Anton 14px) + SEGUIR (gold mono 8px)'
+        center_headline: 'Anton 48px uppercase, Playfair italic subtitle'
+        cta_button: 'bg white, color #111, Montserrat 700 11px uppercase, padding 12px 28px'
+        swipe_hint: '⬆ ARRASTE PARA CIMA (mono gray 9px)'
+      example:
+        headline: 'SUA MARCA PODE MAIS'
+        subtitle: 'Descubra o potencial visual'
+        cta: 'FALAR COM A GENTE'
+
+    story_02_bastidores:
+      description: 'Raw, com foto real como bg, overlay de texto mínimo. Para humanizar a marca.'
+      layout:
+        top_bar: 'CARBON FILMS (Anton 14px)'
+        label: 'BASTIDORES (gold mono 9px)'
+        headline: 'Anton 32px uppercase'
+        gold_line: '40px'
+        body: 'Montserrat 13px gray-400'
+        handle: '@carbonfilms.sc (bottom center, mono gray-600)'
+      example:
+        label: 'BASTIDORES'
+        headline: 'GRAVANDO EM SC'
+        body: 'A equipe Carbon em ação. Cada detalhe importa.'
+
+    story_03_anatomy:
+      description: 'Template de referência de safe zones para uso interno.'
+      notes: 'Top 250px e Bottom 300px são áreas onde a UI do Instagram sobrepõe o conteúdo'
+
+  carousel_1x1:
+    dimensions: '1080x1080'
+    safe_zone: '80px todos os lados'
+    slide_cover: 'Igual a model_01 ou model_02 do feed — capa deve funcionar como thumbnail'
+    slide_body: 'Consistência visual obrigatória — mesma hierarquia em todos os slides'
+    slide_cta: 'Último slide sempre com CTA + handle'
+
+# ---------------------------------------------------------------
+# SECTION 05 — ESTILO FOTOGRÁFICO
+# ---------------------------------------------------------------
+photography:
+  mood: 'Cinematográfico, escuro, premium, contrastado'
+
+  color_temperature:
+    preferred: 'Neutro a frio — não usar warm/laranja excessivo'
+    avoid: 'Tons alaranjados de pele superaquecidos, HDR exagerado'
+
+  composition:
+    preferred_angles:
+      - 'Nível do olho para entrevistas e depoimentos'
+      - 'Plano americano para autoridade'
+      - 'Aerial/drone para estabelecer localização (ponto forte da Carbon)'
+      - 'Detalhe extremo para mostrar qualidade de produção'
+
+    framing:
+      - 'Regra dos terços'
+      - 'Espaço negativo intencional para inserção de texto'
+      - 'Linhas geométricas como guia visual'
+
+    negative_space: 'Deixar área limpa no top ou bottom para texto overlay'
+
+  approved_filters:
+    - name: 'Estilo Cinematográfico'
+      settings: 'Reduz highlights, levanta shadows ligeiramente, desaturação leve, curva em S suave'
+    - name: 'Clean/Minimal'
+      settings: 'Sem filtro ou apenas ajuste de exposição e contraste'
+
+  forbidden_filters:
+    - 'Filtros que adicionam grain excessivo'
+    - 'Oversaturação de cores vibrantes'
+    - 'Vinheta pesada'
+    - 'Efeitos lo-fi ou vintage'
+    - 'Filtros de redes sociais (Instagram auto-filters)'
+
+# ---------------------------------------------------------------
+# SECTION 06 — MÉTRICAS E METAS
+# ---------------------------------------------------------------
+metrics_and_goals:
+  primary_kpis:
+    - metric: saves
+      target: '>1% de alcance por post'
+      priority: 1
+      notes: 'Saves indicam valor percebido — métrica mais importante para educativo'
+
+    - metric: shares
+      target: '>0.5% de alcance'
+      priority: 2
+      notes: 'Shares = distribuição orgânica — prioridade em portfólio e educativo'
+
+    - metric: engagement_rate
+      target: '>3% por post'
+      priority: 3
+
+    - metric: reach
+      target: 'baseline crescente semanal'
+      priority: 4
+
+    - metric: followers
+      target: 'crescimento semanal positivo'
+      priority: 5
+
+  weekly_content_targets:
+    feed_posts: 7   # 1 por dia
+    stories: 21     # 3 por dia
+    reels_or_tiktoks: 3  # mínimo semanal
+
+  performance_baselines:
+    engagement_rate_baseline: null   # preencher com média atual do IG
+    average_reach_baseline: null     # preencher com alcance médio atual
+    saves_baseline: null             # preencher com taxa de saves atual
+
+  alert_thresholds:
+    anomaly_drop: '-20% do baseline = alerta'
+    anomaly_spike: '+100% do baseline = alerta positivo'
+
+  key_numbers_for_copy:
+    roi_medio: '+300%'
+    anos_mercado: '+5'
+    servicos: 9

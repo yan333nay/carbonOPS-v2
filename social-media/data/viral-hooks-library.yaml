@@ -1,0 +1,196 @@
+version: '2.0.0'
+last_updated: '2026-03-26'
+description: 'Proven viral hook formulas categorized by psychological trigger and content type. Expanded with Mind Council frameworks from Gary Vaynerchuk, Paulo Cuenca, Rafael Kiso and Neil Patel. Customize with your brand topic.'
+
+mind_council_hook_principles:
+  gary_vaynerchuk:
+    rule: 'First 3 words must stop the scroll or nothing else matters'
+    approach: 'Document dont create — authentic imperfect hooks beat scripted perfect ones'
+    platform: 'Adapt hook format to each platform native language'
+  paulo_cuenca:
+    rule: 'Hook + Body (short paragraphs) + one specific CTA — never multiples'
+    approach: 'Cordilheira — hooks must connect to the overall positioning line'
+    platform: 'Instagram caption hook in first 125 chars for SEO and preview'
+  rafael_kiso:
+    rule: 'Hook serves funnel stage — discovery hooks differ from consideration hooks'
+    approach: 'Infotenimento — hooks that promise information + entertainment win'
+    platform: 'Reels hook = first visual frame. Carousel hook = cover slide.'
+  neil_patel:
+    rule: 'Keywords in first 125 chars for Instagram SEO'
+    approach: 'Lead with data or surprising statistic — credibility stops the scroll'
+    platform: 'A/B test hooks systematically — run variations, measure retention rate'
+
+categories:
+
+  curiosity_gap:
+    description: 'Creates an information gap the viewer must fill by watching/reading'
+    trigger: curiosity
+    best_formats: [reel, carousel, tiktok]
+    formulas:
+      - template: 'O segredo de [resultado] que ninguém te conta'
+        example: 'O segredo de ter 10K seguidores que ninguém te conta'
+      - template: 'Por que [X% das pessoas] falha em [objetivo]'
+        example: 'Por que 97% das pessoas falha em emagrecer'
+      - template: 'O que [especialistas/experts] não querem que você saiba sobre [topic]'
+        example: 'O que as academias não querem que você saiba sobre suplementos'
+      - template: 'Eu descobri algo sobre [topic] que mudou tudo'
+        example: 'Eu descobri algo sobre produtividade que mudou tudo'
+      - template: 'A razão pela qual você não consegue [resultado]'
+        example: 'A razão pela qual você não consegue dormir bem'
+
+  bold_claim:
+    description: 'Makes a surprising or counterintuitive statement that demands proof'
+    trigger: surprise / skepticism
+    best_formats: [reel, carousel, static, linkedin]
+    formulas:
+      - template: 'Isso [resultado incrível] em [tempo]'
+        example: 'Isso triplicou minha renda em 6 meses'
+      - template: 'Eu [ação inesperada] e aconteceu [resultado surpreendente]'
+        example: 'Eu parei de trabalhar 8h por dia e faturei mais'
+      - template: 'Unpopular opinion: [opinião polêmica mas defensável]'
+        example: 'Unpopular opinion: dormir 9h é mais produtivo que acordar às 5h'
+      - template: '[Número] é o suficiente para [resultado ambicioso]'
+        example: '30 minutos por dia é o suficiente para aprender qualquer skill'
+
+  provocation:
+    description: 'Challenges the audience's current behavior or belief'
+    trigger: ego / defense mechanism
+    best_formats: [reel, tiktok, carousel]
+    formulas:
+      - template: 'Você está fazendo [ação comum] completamente errado'
+        example: 'Você está construindo sua audiência completamente errado'
+      - template: 'Para de [ação sabotadora] imediatamente'
+        example: 'Para de criar conteúdo todos os dias imediatamente'
+      - template: '[Ação que todo mundo faz] está destruindo seu [resultado]'
+        example: 'Postar todo dia está destruindo seu engajamento'
+      - template: 'Se você [ação comum], você nunca vai [objetivo desejado]'
+        example: 'Se você espera inspiração pra criar conteúdo, você nunca vai crescer'
+
+  numbers_and_specificity:
+    description: 'Specific numbers create credibility and set content expectations'
+    trigger: credibility / easy consumption
+    best_formats: [carousel, reel, static]
+    formulas:
+      - template: '[N] coisas que [grupo/especialistas] fazem e você não'
+        example: '7 coisas que pessoas ricas fazem de manhã'
+      - template: '[N] erros que estão impedindo seu [resultado]'
+        example: '5 erros que estão impedindo seu crescimento no Instagram'
+      - template: 'Em [N] dias, eu [resultado mensurável]'
+        example: 'Em 30 dias eu cresci 2.000 seguidores orgânicos'
+      - template: '[N]% das pessoas nunca [ação simples] — e perde [resultado]'
+        example: '80% das pessoas nunca salva posts — e perde as melhores dicas'
+
+  story_opener:
+    description: 'Opens with a narrative moment that creates emotional investment'
+    trigger: empathy / curiosity
+    best_formats: [reel, tiktok, carousel]
+    formulas:
+      - template: 'Com [X anos/tempo], eu [evento de virada]'
+        example: 'Com 23 anos, eu perdi meu emprego e tudo mudou'
+      - template: 'Há [tempo], eu era [situação ruim]. Hoje eu [situação melhor]'
+        example: 'Há 2 anos, eu tinha 300 seguidores. Hoje tenho 150K'
+      - template: 'Quando [evento que mudou tudo] aconteceu comigo...'
+        example: 'Quando meu maior cliente me demitiu, aprendi algo valioso'
+
+  relatability:
+    description: 'Creates instant connection by naming a shared experience'
+    trigger: identification / belonging
+    best_formats: [reel, tiktok, static, story]
+    formulas:
+      - template: 'Se você já [experiência frustrante], esse post é pra você'
+        example: 'Se você já passou noites sem dormir pensando em dinheiro, esse post é pra você'
+      - template: 'Aquela sensação de [experiência universal]...'
+        example: 'Aquela sensação de trabalhar muito e não evoluir...'
+      - template: 'Você também [comportamento sabotador]?'
+        example: 'Você também procrastina quando mais precisa agir?'
+
+  fear_and_urgency:
+    description: 'Creates urgency through loss aversion or fear of missing out'
+    trigger: fear / FOMO
+    best_formats: [reel, story, static]
+    formulas:
+      - template: 'Você está perdendo [oportunidade/tempo] sem saber'
+        example: 'Você está deixando dinheiro na mesa sem saber'
+      - template: 'Se você não [ação], vai [consequência negativa]'
+        example: 'Se você não otimizar seu perfil agora, vai perder relevância'
+      - template: 'A janela para [oportunidade] está fechando'
+        example: 'A janela para crescer organicamente no Instagram está fechando'
+
+  direct_command:
+    description: 'Opens with an action-oriented command that grabs attention'
+    trigger: authority / compliance
+    best_formats: [reel, tiktok, story]
+    formulas:
+      - template: 'Para. [Instrução direta].'
+        example: 'Para. Lê esse post antes de criar qualquer conteúdo.'
+      - template: 'Salva esse post. Você vai precisar depois.'
+      - template: 'Não role esse post se [condição que não se aplica ao público]'
+        example: 'Não role esse post se você não quer crescer nas redes sociais'
+
+mind_council_hooks:
+  gary_vee_style:
+    description: 'Hooks no estilo GaryVee — diretos, sem filtro, provocadores'
+    trigger: honesty / no-nonsense
+    best_formats: [reel, tiktok, story]
+    formulas:
+      - template: 'Voce esta perdendo tempo fazendo [atividade comum]. Para.'
+        example: 'Voce esta perdendo tempo postando todo dia. Para.'
+      - template: 'A verdade que ninguem tem coragem de te dizer sobre [topic]'
+        example: 'A verdade que ninguem tem coragem de te dizer sobre crescimento no Instagram'
+      - template: 'Document, dont create. Aqui esta o que isso significa na pratica.'
+      - template: 'Atencao e a moeda mais valiosa de 2025. Voce esta gastando a sua errado.'
+      - template: 'Nao e sobre [mito comum]. E sobre [verdade contraintuitiva].'
+        example: 'Nao e sobre postar mais. E sobre postar certo no lugar certo.'
+
+  paulo_cuenca_style:
+    description: 'Hooks no estilo Paulo Cuenca — estrategicos, urgentes, pragmaticos'
+    trigger: strategic urgency / methodology
+    best_formats: [carousel, reel, instagram]
+    formulas:
+      - template: 'Marketing de conteudo e o unico caminho. E voce esta no caminho errado.'
+      - template: '[N] tipos de conteudo que vao crescer seu Instagram em [prazo]'
+        example: '5 tipos de conteudo que vao crescer seu Instagram em 30 dias'
+      - template: 'Sua cordilheira de conteudo esta quebrada. Veja como consertar.'
+      - template: 'Quantidade leva a qualidade. Mas so se voce tem metodo.'
+      - template: 'Voce tem [N] seguidores e nao cresce porque [razao especifica].'
+        example: 'Voce tem 5 mil seguidores e nao cresce porque ignora essa metrica.'
+
+  rafael_kiso_style:
+    description: 'Hooks no estilo Rafael Kiso — dados, funil, metricas reais'
+    trigger: credibility / data-driven
+    best_formats: [carousel, reel, linkedin]
+    formulas:
+      - template: 'Estudamos [N] perfis. O que separava os que cresciam dos que estagnavam era isso.'
+      - template: 'Curtidas nao pagam boleto. Salve este post — ele vai mudar sua metrica.'
+      - template: 'Voce esta na etapa [etapa do funil] e postando conteudo de [etapa errada].'
+      - template: 'UGC converte 8.7x mais que influencer. Aqui esta como gerar o seu.'
+      - template: 'Seu funil de conteudo tem um furo. Aqui esta onde ele provavelmente esta.'
+
+  neil_patel_style:
+    description: 'Hooks no estilo Neil Patel — dados surpreendentes, credibilidade cientifica'
+    trigger: data shock / credibility
+    best_formats: [carousel, blog_to_reel, linkedin, instagram]
+    formulas:
+      - template: 'Analisei [N] contas de [nicho]. O que aprendi vai contradizer tudo que voce sabe.'
+        example: 'Analisei 150 contas de nutricao. O que aprendi vai contradizer tudo que voce sabe.'
+      - template: '[N]% das pessoas usa [metrica errada]. Aqui esta a metrica que realmente importa.'
+      - template: 'A maioria dos criadores ignora o SEO do Instagram. Aqui esta como usar a seu favor.'
+      - template: 'Voce nao precisa de mais conteudo. Precisa de uma estrategia de repurposing.'
+      - template: 'Growth hacking nao e hack. E um processo. Aqui esta o processo.'
+
+platform_optimization:
+  instagram_reels:
+    max_hook_words: 10
+    hook_delivery: 'Text overlay on first frame OR spoken in first second'
+    note: 'Visual hook + text overlay double the impact'
+  tiktok:
+    max_hook_words: 8
+    hook_delivery: 'Spoken aloud OR text overlay — never just visual'
+    note: 'TikTok is audio-first — always say the hook out loud'
+  instagram_carousel:
+    hook_placement: 'Cover slide headline'
+    max_hook_words: 15
+    note: 'Cover must tease without revealing — drive the swipe'
+  instagram_static:
+    hook_placement: 'First line of caption OR image text'
+    note: 'Caption hook more important for static since no motion to stop scroll'

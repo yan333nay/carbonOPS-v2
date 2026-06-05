@@ -1,0 +1,120 @@
+name: reels-template
+version: 2.0.0
+description: 'Template de Reels Instagram Carbon Films — 9:16, até 90s, maior alcance orgânico da plataforma'
+format: reels
+agent: remotion-editor
+
+technical_specs:
+  dimensions: '1080x1920px'
+  aspect_ratio: '9:16'
+  file_format: 'MP4 (H.264 ou H.265)'
+  max_file_size: '1GB'
+  color_profile: 'sRGB'
+  fps: 30
+  bitrate_recommended: '3.5-5 Mbps'
+  audio: 'AAC, 44.1kHz estéreo'
+  safe_zone_top: '250px (UI Instagram)'
+  safe_zone_bottom: '320px (caption, curtidas, comentários)'
+  safe_zone_sides: '60px'
+  content_area: '1080x1350px'
+  duration_options:
+    - '7-15s: máximo alcance (algoritmo favorece)'
+    - '15-30s: equilíbrio alcance/profundidade'
+    - '30-60s: conteúdo educacional'
+    - '60-90s: tutoriais, cases, storytelling'
+  thumbnail: '1080x1920 JPG — aparece no feed e no perfil'
+
+instagram_algorithm:
+  priority_signals:
+    - 'Watch rate (% que assiste até o fim)'
+    - 'Replays (assiste mais de uma vez)'
+    - 'Compartilhamentos (Stories, DM, fora do IG)'
+    - 'Saves (salva o Reel)'
+  penaliza:
+    - 'Marca d''água TikTok visível'
+    - 'Baixa resolução'
+    - 'Texto coberto pelas safe zones'
+
+brandbook:
+  background: '#050505'
+  gold: '#C9A84C'
+  white: '#FFFFFF'
+  red_accent: '#FF0000'
+  font_display: 'Anton'
+  font_body: 'Montserrat'
+  handle: '@carbonfilms.sc'
+
+layouts:
+  reel_01_educativo:
+    use_for: 'Dica, tutorial, "você sabia?", framework'
+    hook_window: '0-3s'
+    structure:
+      hook_frame: 'Texto gancho na tela + voz — Anton 80px, branco/vermelho'
+      content_frames: 'Cada ponto = 3-5s de tela com texto e visual'
+      cta_frame: 'Último frame: CTA + @carbonfilms.sc'
+    audio: 'Narração + música instrumental de fundo (vol. 20-30%)'
+
+  reel_02_showcase:
+    use_for: 'Portfólio, making of, resultado de cliente'
+    hook_window: '0-2s'
+    structure:
+      hook_frame: 'O resultado final em destaque — impacto imediato'
+      process_frames: 'Sequência de bastidores em cortes rápidos'
+      reveal_frame: 'Comparativo antes/depois ou resultado final'
+      cta_frame: 'Chama pra conversa + @carbonfilms.sc'
+    audio: 'Música que combina com o mood do projeto'
+    note: 'Mostrar o resultado ANTES do processo — curta o scroll'
+
+  reel_03_motivacional:
+    use_for: 'Conteúdo emocional, dor do cliente, reflexão'
+    hook_window: '0-3s'
+    structure:
+      hook_frame: 'Texto de identificação — "Você faz isso?" / "Isso soa familiar?"'
+      tension_frames: 'Desenvolvimento da dor ou reflexão'
+      insight_frame: 'A virada — autoridade / solução'
+      cta_frame: '"Se isso faz sentido, chama a Carbon"'
+    audio: 'Beat instrumental, urgente mas não agressivo (120-140bpm)'
+    template_files:
+      - 'templates/video-templates/stickman-motivacional-v1.yaml'
+      - 'templates/video-templates/stickman-acao-imediata-v1.yaml'
+
+  reel_04_trending:
+    use_for: 'Aproveitar trend sonora ou visual do momento'
+    hook_window: '0-1s'
+    structure:
+      format: 'Adaptar formato da trend com conteúdo da Carbon Films'
+      brand_touch: 'Manter identidade mesmo em trends — não perder o DNA'
+    note: 'Trend tem janela de 24-72h — agilidade é chave'
+
+hooks_visuais:
+  frame_0_3s:
+    - 'Texto direto na tela: "Você está perdendo dinheiro assim"'
+    - 'Visual impactante + legenda curiosa'
+    - 'Pergunta retórica que causa identificação'
+    - 'Stat chocante: "73% das empresas nunca fizeram isso"'
+  regra: 'Se não prender nos primeiros 3s, o algoritmo para de distribuir'
+
+copy_framework:
+  caption_hook: 'Espelha ou aprofunda o hook do vídeo'
+  caption_length: '150-300 chars (usuário lê antes de decidir se assiste)'
+  cta_options:
+    - 'Salva para usar depois'
+    - 'Manda isso pra quem precisa ver'
+    - 'Comenta SIM se já passou por isso'
+    - 'Chama no DM: [PALAVRA-CHAVE]'
+
+pipeline:
+  static_thumbnail:
+    command: 'node scripts/run-workflow.js carousel --topic "TEMA" --format reels'
+    output: 'output/slides/slide-1.jpg (thumbnail 1080x1920)'
+  video_production:
+    agent: 'Remi (remotion-editor)'
+    command: 'Ver templates/video-templates/ para roteiros'
+    tool: 'Remotion (programmatic video editing)'
+
+benchmarks:
+  watch_rate_target: '>50% completion'
+  share_rate_target: '>2% do alcance'
+  best_duration: '7-15s para alcance máximo'
+  best_posting_times: ['08h-10h', '19h-21h BRT']
+  frequency: '3-5 Reels por semana'

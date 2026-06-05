@@ -1,0 +1,236 @@
+name: social-media-squad
+version: 4.0.0
+description: 'Ultra Master Squad de Social Media. AI-driven squad with Mind Council integration + WhatsApp intake + HTML visual production (carrossel-carbon-films.html + Playwright + Unsplash). Human role: take photo, send via WhatsApp + /command, approve result. Squad handles everything else. 4 Mind Clones: Rafael Kiso (strategist), Paulo Cuenca (creative director), Gary Vaynerchuk (copywriter), Neil Patel (performance). 8 agents, 9 /commands, automated alarms, goals tracker, auto-scheduling.'
+author: Synkra AIOX
+license: MIT
+slashPrefix: social-media
+
+aiox:
+  minVersion: '2.1.0'
+  type: squad
+
+components:
+  agents:
+    # Core squad (v2)
+    - content-strategist.md
+    - copy-writer.md
+    - video-specialist.md
+    - trend-analyst.md
+    - scheduler.md
+    - performance-analyst.md
+    # v3 additions
+    - whatsapp-orchestrator.md
+    # v4 additions
+    - remotion-editor.md
+    - canva-designer.md
+    # v4 quality gate
+    - quality-inspector.md
+
+  ultra_master_pipeline:
+    description: 'WhatsApp photo → 4-mindclone pipeline → Canva design → preview → approval → auto-schedule'
+    entry_point: whatsapp-orchestrator
+    human_touchpoints:
+      - 'Send photo + /command via WhatsApp'
+      - 'Approve or request adjustment from preview'
+    zero_human_steps:
+      - 'Strategy decision (Kiso)'
+      - 'Visual briefing and design (Cuenca → Pixel)'
+      - 'Caption writing (Gary)'
+      - 'Hashtags, timing, scoring (Neil)'
+      - 'Canva API execution (Pixel)'
+      - 'Scheduling after approval (Rhythm)'
+      - 'Goals tracker update (Rhythm)'
+      - 'Daily alarms 5x/day (Rhythm)'
+    commands:
+      - /feed-impactante
+      - /stories-simples
+      - /carrossel-edu
+      - /reels-trend
+      - /resultado-cliente
+      - /bastidores
+      - /tiktok-viral
+      - /autoridade
+      - /edicao-basica
+    commands_file: data/commands-library.yaml
+  mind_council:
+    description: '4 mind clones embedded as advisory layer across all agents'
+    specialists:
+      - id: rafael-kiso
+        focus: 'Dados, funil (5 etapas), metricas reais, frequencia estrategica'
+        source: '../../mind-clones/rafael-kiso/rafael-kiso-mind-clone.md'
+        agent: '../../mind-clones/rafael-kiso/rafael-kiso-agent.md'
+        consult_for: [metrics, funnel_mapping, posting_frequency, kpis]
+      - id: paulo-cuenca
+        focus: 'Estrategia de conteudo, Cordilheira, posicionamento, Instagram'
+        source: '../../mind-clones/paulo-cuenca/paulo-cuenca-mind-clone.md'
+        agent: '../../mind-clones/paulo-cuenca/paulo-cuenca-agent.md'
+        consult_for: [content_strategy, editorial_calendar, positioning, instagram]
+      - id: gary-vaynerchuk
+        focus: 'Atencao, autenticidade, jab/right hook, distribuicao'
+        source: '../../mind-clones/gary-vaynerchuk/gary-vaynerchuk-mind-clone.md'
+        agent: '../../mind-clones/gary-vaynerchuk/gary-vaynerchuk-agent.md'
+        consult_for: [hooks, attention, content_distribution, monetization_timing]
+      - id: neil-patel
+        focus: 'SEO, dados, growth hacking, A/B testing, ROI'
+        source: '../../mind-clones/neil-patel/neil-patel-mind-clone.md'
+        agent: '../../mind-clones/neil-patel/neil-patel-agent.md'
+        consult_for: [seo, data_analysis, ab_testing, growth, roi]
+    frameworks_file: data/mind-council-frameworks.yaml
+    consult_task: tasks/consult-mind-council.md
+
+  tasks:
+    # quality-inspector (v4)
+    - quality-inspector-final-gate.md
+    - quality-inspector-review-copy.md
+    - quality-inspector-review-visual.md
+    - quality-inspector-approve-content.md
+    - quality-inspector-reject-content.md
+    # mind-council
+    - consult-mind-council.md
+    # whatsapp-orchestrator (v3)
+    - whatsapp-orchestrator-receive-command.md
+    - whatsapp-orchestrator-execute-pipeline.md
+    - whatsapp-orchestrator-send-preview.md
+    - whatsapp-orchestrator-handle-approval.md
+    # canva-designer (v3)
+    - canva-designer-generate-design.md
+    - canva-designer-apply-branding.md
+    # scheduler additions (v3)
+    - scheduler-send-alarm.md
+    - scheduler-update-goals.md
+    # content-strategist
+    - content-strategist-set-objective.md
+    - content-strategist-define-content-pillars.md
+    - content-strategist-create-editorial-calendar.md
+    - content-strategist-orchestrate.md
+    - content-strategist-weekly-review.md
+    # copy-writer
+    - copy-writer-write-caption.md
+    - copy-writer-create-hook.md
+    - copy-writer-generate-hashtags.md
+    - copy-writer-create-cta.md
+    - copy-writer-write-variations.md
+    # video-specialist
+    - video-specialist-create-video-brief.md
+    - video-specialist-define-reel-format.md
+    - video-specialist-suggest-trending-audio.md
+    - video-specialist-create-editing-script.md
+    - video-specialist-review-video-content.md
+    # trend-analyst
+    - trend-analyst-scan-hot-news.md    # v1.1: hot news via WebSearch (step 1a)
+    - trend-analyst-scan-trends.md
+    - trend-analyst-analyze-viral-patterns.md
+    - trend-analyst-competitor-analysis.md
+    - trend-analyst-trend-report.md
+    - trend-analyst-suggest-content-from-trends.md
+    - trend-analyst-analyze-own-profile.md  # v3: Apify profile scraper + manual fallback
+    # scheduler
+    - scheduler-schedule-post.md
+    - scheduler-daily-checklist.md
+    - scheduler-weekly-checklist.md
+    - scheduler-optimize-posting-times.md
+    - scheduler-generate-content-calendar.md
+    # performance-analyst
+    - performance-analyst-collect-metrics.md
+    - performance-analyst-analyze-engagement.md
+    - performance-analyst-detect-anomaly.md
+    - performance-analyst-generate-report.md
+    - performance-analyst-send-alert.md
+  checklists:
+    - daily-post-checklist.md
+    - weekly-content-checklist.md
+    - quality-gate-checklist.md
+  templates:
+    - post-templates/reels.yaml
+    - post-templates/carousel.yaml
+    - post-templates/static.yaml
+    - post-templates/stories.yaml
+  data:
+    - best-posting-times.json
+    - viral-hooks-library.yaml
+    - content-pillars-framework.yaml
+    - mind-council-frameworks.yaml
+    # Ultra Master Squad data (v3)
+    - commands-library.yaml
+    - technical-specs.yaml
+    - brandbook-context.yaml    # template — duplicate + fill per client
+    - goals-tracker.yaml        # template — duplicate + fill per client
+    - instagram-benchmarks.yaml  # benchmarks BR 2025-2026: engajamento, formatos, hooks, copy
+    - brandbook-carbon-films.yaml   # Carbon Films — status: active
+    - design-references.yaml     # referências visuais — preencher com images + vídeos
+  workflows:
+    - post-creation-workflow.yaml   # research → copy → design → performance → schedule
+  tools: []
+  scripts:
+    # Visual pipeline (HTML + Playwright — sem Canva)
+    - scripts/fetch-unsplash.js     # busca 1 imagem por slide via Unsplash API (requer UNSPLASH_ACCESS_KEY)
+    - scripts/generate-slides-html.js # injeta copy + imagens no templates/carrossel-carbon-films.html
+    - scripts/capture-slides.js     # Playwright screenshot 1080×1350px por slide → output/slides/*.jpg
+    # Instagram / Meta Graph API
+    - scripts/instagram-post.js     # posta imagem ou carousel no Instagram via Meta Graph API v19
+    # Orchestrator
+    - scripts/run-workflow.js       # pipeline completo: pesquisa → copy → Unsplash → HTML → screenshot → instagram
+
+config:
+  extends: extend
+  coding-standards: ../../docs/framework/coding-standards.md
+  tech-stack: ../../docs/framework/tech-stack.md
+  source-tree: ../../docs/framework/source-tree.md
+
+intelligence:
+  level: high
+  orchestrator: content-strategist
+  ultra_master_entry: whatsapp-orchestrator
+  model_spread:
+    opus: [content-strategist, quality-inspector]
+    sonnet: [copy-writer, video-specialist, trend-analyst, scheduler, whatsapp-orchestrator, canva-designer, remotion-editor]
+    haiku: [performance-analyst]
+
+mvp_sequence:
+  - phase: 1
+    agents: [trend-analyst, performance-analyst]
+    rationale: Intelligence foundation before creating
+  - phase: 2
+    agents: [copy-writer, scheduler]
+    rationale: Core production pipeline + cadence
+  - phase: 3
+    agents: [video-specialist]
+    rationale: Video layer when copy pipeline is stable
+  - phase: 4
+    agents: [content-strategist]
+    rationale: Full orchestration once all agents operational
+  - phase: 5
+    label: Ultra Master Squad
+    agents: [whatsapp-orchestrator, canva-designer]
+    prerequisites:
+      - Brandbook document filled (data/brandbook-{client}.yaml status=active)
+      - Canva API credentials configured
+      - WhatsApp webhook connected (Evolution API / n8n)
+      - At least 1 Canva template per /command created in brand account
+    rationale: WhatsApp + Canva layer enabling zero-edit human workflow
+    implementation_phases:
+      - 'Phase 5.1 — Fundação: brandbook + Canva API + /edicao-basica test'
+      - 'Phase 5.2 — Pipeline: all 9 commands operational'
+      - 'Phase 5.3 — Automação: 5 alarms + goals tracker connected'
+      - 'Phase 5.4 — Treinamento: 20+ historical posts fed into Neil baseline'
+      - 'Phase 5.5 — Validação: 10 real posts tested before client use'
+      - 'Phase 5.6 — Escala: multi-client onboarding process'
+
+dependencies:
+  node: []
+  python: []
+  squads: []
+
+tags:
+  - social-media
+  - content-creation
+  - viral-content
+  - video-production
+  - copywriting
+  - scheduling
+  - marketing
+  - whatsapp-automation
+  - canva-api
+  - zero-edit-workflow
+  - mind-clones
+  - ultra-master-squad

@@ -1,0 +1,428 @@
+name: commands-library
+version: 1.0.0
+description: 'Complete library of WhatsApp slash commands for the Ultra Master Squad. Each command is a pre-mounted briefing: format, dimensions, visual style, copy tone, mindclone leader, and template reference.'
+last_updated: '2026-03-27'
+
+# ---------------------------------------------------------------
+# COMMAND STRUCTURE
+# Each command contains:
+#   - description: what this command produces
+#   - platform: target social network(s)
+#   - format: content type
+#   - dimensions: pixel spec
+#   - aspect_ratio: proportion
+#   - pipeline_leader: which mindclone leads
+#   - pipeline_order: full activation sequence
+#   - canva_template: template reference in Canva account
+#   - visual_style: design direction
+#   - copy_tone: writing direction
+#   - brandbook_section: which brandbook section to load
+#   - example_caption: reference for the copy tone
+#   - dos: what to do
+#   - donts: what to avoid
+# ---------------------------------------------------------------
+
+commands:
+
+  feed-impactante:
+    trigger: '/feed-impactante'
+    description: 'Feed post com visual forte, hook visual, texto mínimo. Para parar o scroll com imagem de alto impacto.'
+    platform: [instagram]
+    format: feed-retrato
+    dimensions: '1080x1350'
+    aspect_ratio: '4:5'
+    pipeline_leader: paulo-cuenca
+    pipeline_validator: rafael-kiso
+    pipeline_order:
+      1: rafael-kiso   # decide objetivo e gancho
+      2: paulo-cuenca  # briefing visual para Canva API
+      3: gary          # escreve legenda com hook
+      4: neil          # score + hashtags + horário
+    canva_template: 'feed-impactante-template'
+    visual_style:
+      mood: strong
+      text_on_image: minimal (max 5 words)
+      photo_position: full-bleed or center-dominant
+      color_treatment: high-contrast
+      logo_position: bottom-right
+      typography: bold, large, uppercase hook only
+    copy_tone:
+      style: impactante
+      length: short (max 150 chars caption)
+      hook_words: max_8
+      cta: single, direct
+    brandbook_section: [02-visual, 04-posts]
+    example_caption: |
+      Isso mudou meu negócio em 30 dias.
+
+      [contexto em 2 linhas]
+
+      Salva pra não esquecer 👆
+
+      #marketing #agencia #resultado
+    dos:
+      - Visual deve fazer a foto falar
+      - Hook na imagem tem que ser lido em 2 segundos
+      - CTA na legenda, não na imagem
+    donts:
+      - Texto longo na imagem
+      - Mais de 1 CTA
+      - Filtros que distorcem as cores da marca
+
+  stories-simples:
+    trigger: '/stories-simples'
+    description: 'Story rápido com CTA direto e sticker de interação. Para manter presença diária e engajamento.'
+    platform: [instagram]
+    format: stories
+    dimensions: '1080x1920'
+    aspect_ratio: '9:16'
+    pipeline_leader: gary
+    pipeline_validator: neil
+    pipeline_order:
+      1: rafael-kiso   # decide objetivo
+      2: gary          # escreve copy e CTA
+      3: paulo-cuenca  # briefing visual rápido
+      4: neil          # valida horário e sticker de interação
+    canva_template: 'stories-simples-template'
+    visual_style:
+      mood: casual
+      text_on_image: central, readable
+      photo_position: background or side
+      color_treatment: brand-primary
+      logo_position: top-center or omit
+      typography: medium weight, friendly
+    copy_tone:
+      style: conversacional
+      length: ultra-short (max 60 chars on screen)
+      hook_words: max_5
+      cta: poll, question, or swipe-up
+    brandbook_section: [02-visual, 03-tom]
+    stickers_recommended: [poll, question, slider, countdown]
+    example_caption: |
+      Qual você prefere?
+
+      [Opção A] vs [Opção B]
+    dos:
+      - Usar sticker de interação sempre
+      - CTA deve ser óbvio e de baixo esforço
+      - Stories devem ser postados 3x/dia
+    donts:
+      - Story sem CTA
+      - Mais de 1 mensagem por frame
+      - Texto menor que 30pt
+
+  carrossel-edu:
+    trigger: '/carrossel-edu'
+    description: 'Carrossel educacional de 8-10 slides com capa forte e valor por slide. Para gerar saves.'
+    platform: [instagram]
+    format: carousel
+    dimensions: '1080x1080'
+    aspect_ratio: '1:1'
+    slides:
+      min: 6
+      max: 10
+      recommended: 8
+    pipeline_leader: rafael-kiso
+    pipeline_validator: neil
+    pipeline_order:
+      1: rafael-kiso   # estrutura o conteúdo e a sequência de slides
+      2: paulo-cuenca  # briefing visual por slide
+      3: gary          # hook da capa e microcopias por slide
+      4: neil          # score, hashtags, otimização de saves
+    canva_template: 'carrossel-edu-template'
+    visual_style:
+      mood: educational
+      slide_1: billboard — bold headline + high contrast
+      slides_2_to_n: consistent layout — number + headline + body
+      last_slide: CTA + handle + summary
+      color_treatment: brand-secondary or alternating
+      logo_position: every slide, top-right, small
+      typography: clear hierarchy, readable at small size
+    copy_tone:
+      style: educativo-pragmatico
+      length: medium (150-300 chars caption)
+      hook_words: max_10 on cover slide
+      body_per_slide: max_30_words
+      cta: save + follow + comment
+    brandbook_section: [02-visual, 03-tom, 04-posts]
+    example_caption: |
+      7 erros que destroem qualquer campanha de marketing ↓
+
+      (Slide 2 de 7 vai te surpreender)
+
+      Salva pra não cometer nenhum 📌
+
+      #marketing #errosdemarketing #agencia
+    dos:
+      - Capa deve ser clicável como thumbnail
+      - Cada slide = 1 ideia apenas
+      - Último slide sempre com CTA forte
+    donts:
+      - Slides com muito texto
+      - Inconsistência visual entre slides
+      - Capa fraca (é o thumbnail do carrossel)
+
+  reels-trend:
+    trigger: '/reels-trend'
+    description: 'Reel com trending sound, corte rápido e texto na tela. Para alcance orgânico máximo.'
+    platform: [instagram, tiktok]
+    format: reels
+    dimensions: '1080x1920'
+    aspect_ratio: '9:16'
+    duration_recommended: '15-30s'
+    duration_max: '90s'
+    pipeline_leader: gary
+    pipeline_editor: paulo-cuenca
+    pipeline_order:
+      1: gary          # decide ângulo e hook de 3 segundos
+      2: paulo-cuenca  # briefing de edição e textos na tela
+      3: rafael-kiso   # valida alinhamento com funil
+      4: neil          # trending sound + hashtags + horário
+    canva_template: 'reels-trend-template'
+    visual_style:
+      mood: dynamic
+      hook_frame: text overlay first frame (max 8 words)
+      text_overlays: throughout — subtitle style
+      pacing: fast cuts (2-4s per clip)
+      safe_zones: center 80% for key content
+    audio:
+      strategy: trending-sound-first
+      sources: [instagram-trending, tiktok-trending, royalty-free-upbeat]
+      volume: music at 30-40% under voice
+    copy_tone:
+      style: direto-provocador
+      hook: audacioso (dito em voz alta)
+      caption_length: short (max 100 chars)
+      cta: comment + save + follow
+    brandbook_section: [03-tom, 04-posts, 05-foto]
+    example_caption: |
+      Isso é o que ninguém te conta sobre [tema] 👇
+
+      #reels #marketing #trend
+    dos:
+      - Hook nos primeiros 3 segundos é obrigatório
+      - Trending sound aumenta alcance em até 3x
+      - Loop no final (último frame leva ao primeiro)
+    donts:
+      - Intro longa antes do hook
+      - Sound próprio quando há trending disponível
+      - Texto fora das safe zones
+
+  resultado-cliente:
+    trigger: '/resultado-cliente'
+    description: 'Post de prova social com antes/depois, depoimento ou resultado. Para conversão e credibilidade.'
+    platform: [instagram]
+    format: feed-quadrado-ou-retrato
+    dimensions: '1080x1080'
+    aspect_ratio: '1:1'
+    pipeline_leader: neil
+    pipeline_validator: rafael-kiso
+    pipeline_order:
+      1: neil          # define métrica-chave e estrutura de prova
+      2: rafael-kiso   # valida alinhamento com funil de conversão
+      3: paulo-cuenca  # briefing visual (antes/depois ou testimonial)
+      4: gary          # copy de autoridade e CTA
+    canva_template: 'resultado-cliente-template'
+    visual_style:
+      mood: authority
+      layout_options: [before-after, metric-highlight, testimonial-quote]
+      color_treatment: trust-colors (brand primary)
+      data_visualization: metric in large number, prominent
+      logo_position: top-right
+    copy_tone:
+      style: autoridade-prova-social
+      length: medium (200-400 chars)
+      hook: resultado específico com número
+      body: contexto + processo + resultado
+      cta: DM ou link
+    brandbook_section: [02-visual, 03-tom, 04-posts]
+    example_caption: |
+      De 0 a 47 mil seguidores em 90 dias.
+
+      Não foi sorte. Foi sistema.
+
+      [2-3 linhas de contexto]
+
+      Quer o mesmo resultado? Chama no DM.
+
+      #resultado #casodeucesso #marketing
+    dos:
+      - Resultado sempre com número específico
+      - Contexto explica o como (agrega valor)
+      - CTA para DM ou link sempre presente
+    donts:
+      - Resultados vagos sem dados
+      - Antes/depois sem contexto
+      - Mais de 1 CTA
+
+  bastidores:
+    trigger: '/bastidores'
+    description: 'Conteúdo raw e autêntico de bastidores. Para humanizar a marca e gerar conexão.'
+    platform: [instagram, tiktok]
+    format: stories-ou-reels
+    dimensions: '1080x1920'
+    aspect_ratio: '9:16'
+    pipeline_leader: gary
+    pipeline_calibrator: paulo-cuenca
+    pipeline_order:
+      1: gary          # define ângulo autêntico e tom sem filtro
+      2: paulo-cuenca  # calibra branding mínimo (não pode parecer descuidado)
+      3: rafael-kiso   # valida se serve alguma etapa do funil
+      4: neil          # hashtags e horário
+    canva_template: 'bastidores-template'
+    visual_style:
+      mood: raw-authentic
+      filter: none or minimal
+      text_overlay: optional, casual style
+      branding: minimal (logo small if present)
+      production_quality: intentionally imperfect
+    copy_tone:
+      style: pessoal-sem-filtro
+      length: short-to-medium
+      hook: situação real e relatable
+      body: processo honesto, não vendas
+      cta: comment ou save
+    brandbook_section: [03-tom, 05-foto]
+    example_caption: |
+      A reunião que mudou tudo.
+
+      Bastidores do processo [X]:
+
+      [3-4 linhas de contexto honesto]
+
+      O que você teria feito diferente?
+
+      #bastidores #processo #agencia
+    dos:
+      - Autenticidade > perfeição visual
+      - Mostrar processo, não só resultado
+      - Humanizar as pessoas por trás da marca
+    donts:
+      - Forçar perfeição visual (mata autenticidade)
+      - Conteúdo sem conexão com a marca
+      - Bastidores de situações negativas sem resolução
+
+  tiktok-viral:
+    trigger: '/tiktok-viral'
+    description: 'Vídeo TikTok nativo com hook nos primeiros 3s, loop final e otimização para For You Page.'
+    platform: [tiktok]
+    format: tiktok-video
+    dimensions: '1080x1920'
+    aspect_ratio: '9:16'
+    duration_recommended: '15-30s'
+    duration_max: '60s'
+    pipeline_leader: gary
+    pipeline_optimizer: neil
+    pipeline_order:
+      1: gary          # hook agressivo de 3 segundos
+      2: paulo-cuenca  # direção de edição e textos na tela
+      3: rafael-kiso   # valida alinhamento com objetivo
+      4: neil          # otimização FYP: trending sound, hashtags, horário
+    canva_template: 'tiktok-viral-template'
+    visual_style:
+      mood: native-tiktok
+      hook_frame: text + visual hard cut
+      subtitles: auto-generated captions recommended
+      aspect_ratio: strictly 9:16 (no black bars)
+      pacing: 1-3s cuts
+    audio:
+      strategy: trending-first (check TikTok FYP trending tab)
+      hook_spoken: must be said aloud in first 3s
+    copy_tone:
+      style: tiktok-nativo-direto
+      hook: dito EM VOZ ALTA nos primeiros 3s
+      caption_length: ultra-short (max 80 chars)
+      hashtags: 3-6 (less is more on TikTok)
+      cta: comment or duet or stitch
+    loop_technique:
+      enabled: true
+      description: 'Último frame deve conectar visualmente com o primeiro para replay automático'
+    brandbook_section: [03-tom, 04-posts, 05-foto]
+    example_caption: |
+      Isso te faz perder clientes sem saber 👇
+      #marketing #tiktokbrasil #agencia
+    dos:
+      - Hook falado em voz alta — TikTok é audio-first
+      - Loop no final é vantagem competitiva
+      - Native TikTok look (não parece anúncio)
+    donts:
+      - Conteúdo que parece anúncio
+      - Vídeo sem CTA no final
+      - Usar Instagram Reels exportado diretamente (watermark)
+
+  autoridade:
+    trigger: '/autoridade'
+    description: 'Post de posicionamento forte com opinião, visão de mundo ou expertise do especialista.'
+    platform: [instagram]
+    format: feed-retrato
+    dimensions: '1080x1350'
+    aspect_ratio: '4:5'
+    pipeline_leaders: [rafael-kiso, neil]
+    pipeline_order:
+      1: rafael-kiso   # define posicionamento e visão de mundo
+      2: neil          # adiciona dado ou pesquisa de suporte
+      3: paulo-cuenca  # briefing visual de autoridade
+      4: gary          # refinamento do tom — direto, sem rodeios
+    canva_template: 'autoridade-template'
+    visual_style:
+      mood: authority-clean
+      text_on_image: bold statement (optional)
+      photo_treatment: professional, clean background
+      typography: strong serif or bold sans-serif
+      color_treatment: brand-primary, high contrast
+    copy_tone:
+      style: especialista-direto
+      length: medium-long (300-600 chars)
+      hook: opinião forte ou dado surpreendente
+      body: argumento + prova + conclusão
+      cta: salva + comentário de concordância/discordância
+    brandbook_section: [02-visual, 03-tom, 04-posts]
+    example_caption: |
+      Marketing sem dados é palpite.
+
+      [3-4 linhas de argumento]
+
+      [dado ou prova]
+
+      [conclusão pragmática]
+
+      Concorda ou discorda? Comenta 👇
+
+      #marketing #opiniao #especialista
+    dos:
+      - Opinião genuína, não consenso seguro
+      - Dado de suporte aumenta credibilidade
+      - Gerar polarização intencional (engaja)
+    donts:
+      - Opinião sem argumento
+      - Tom agressivo ou arrogante
+      - Post longo sem breaks de linha
+
+  edicao-basica:
+    trigger: '/edicao-basica'
+    description: 'Edição simples com branding aplicado. Para fotos que precisam apenas de identidade visual, sem complexidade criativa.'
+    platform: [instagram, tiktok]
+    format: qualquer
+    dimensions: 'conforme foto original ou 1080x1080'
+    aspect_ratio: '1:1 ou original'
+    pipeline_leader: paulo-cuenca
+    pipeline_order:
+      1: paulo-cuenca  # executa diretamente — briefing visual mínimo
+      2: neil          # hashtags e horário
+    canva_template: 'edicao-basica-template'
+    visual_style:
+      mood: clean-branded
+      treatment: branding only (logo + cor de fundo se necessário)
+      text_overlay: minimal or none
+      filter: light-brand-aligned only
+    copy_tone:
+      style: conforme contexto da foto
+      length: short-to-medium
+    brandbook_section: [02-visual]
+    dos:
+      - Execução rápida — sem overdesign
+      - Branding aplicado de forma discreta
+      - Ideal para fotos que já são boas por si mesmas
+    donts:
+      - Redesign completo quando não foi pedido
+      - Elementos visuais que competem com a foto

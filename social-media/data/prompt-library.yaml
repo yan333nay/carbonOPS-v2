@@ -1,0 +1,266 @@
+name: prompt-library
+version: 1.0.0
+description: 'Biblioteca de prompts OpenRouter para geração de imagens Carbon Films. Baseada no brandbook e nas 18 referências de posts analisados.'
+agent: canva-designer
+model_default: 'google/gemini-2.0-flash-exp:free'
+model_premium: 'black-forest-labs/flux-1.1-pro'
+
+# ---------------------------------------------------------------
+# INSTRUÇÕES BASE — Presentes em TODOS os prompts
+# ---------------------------------------------------------------
+base_rules: |
+  - Dark background, almost black (#050505 to #111111)
+  - Dramatic cinematic lighting — low key, high contrast
+  - Premium, professional, high-end aesthetic
+  - NO text, NO watermarks, NO logos
+  - Photorealistic or high-quality digital art
+  - 4K quality, sharp details
+  - Color accent: warm gold (#C9A84C) used sparingly for light sources or reflections
+  - Mood: authority, excellence, results-driven
+
+# ---------------------------------------------------------------
+# TIPO 1: FUNDOS EDUCACIONAIS (para slides com texto sobreposto)
+# Uso: Carrosséis, posts educativos, dicas
+# ---------------------------------------------------------------
+educational_backgrounds:
+
+  dark_workspace:
+    prompt: >
+      Dark premium marketing agency workspace, cinematic photography.
+      Black desk with laptop glowing, subtle gold light reflection,
+      moody dramatic shadows, bokeh background, professional atmosphere.
+      No text, no people, no watermarks. 4K, ultra-sharp.
+    mood: 'focado, produtivo, profissional'
+    use_for: ['carousel corpo', 'dica', 'tutorial']
+
+  dark_analytics:
+    prompt: >
+      Dark cinematic analytics dashboard environment, dramatic side lighting,
+      screens with data visualization glow in dark room,
+      deep shadows, ultra premium feel, no visible text on screens,
+      professional photography, 4K.
+    mood: 'dados, resultado, estratégia'
+    use_for: ['ROI', 'métricas', 'performance']
+
+  dark_strategy:
+    prompt: >
+      Dark premium boardroom at night, city lights bokeh through floor-to-ceiling windows,
+      dramatic single-source lighting, sleek black conference table reflection,
+      executive atmosphere, no people, no text. Cinematic 4K photography.
+    mood: 'estratégia, liderança, decisão'
+    use_for: ['planejamento', 'estratégia', 'negócios']
+
+  dark_production_set:
+    prompt: >
+      Professional video production set in darkness, cinematic camera on tripod with lens flare,
+      moody dramatic lighting, film production equipment visible as silhouettes,
+      warm gold practical lights, premium feel, no people, no text. 4K ultra-sharp.
+    mood: 'produção, expertise, técnico'
+    use_for: ['produção audiovisual', 'serviços', 'bastidores']
+
+  dark_growth:
+    prompt: >
+      Abstract dark background with subtle glowing upward arrow or growth visualization,
+      deep black base, thin gold lines suggesting upward movement,
+      minimal, clean, premium. No text, no watermarks. 4K digital art.
+    mood: 'crescimento, resultado, ROI'
+    use_for: ['resultados', 'crescimento', 'conversão']
+
+  dark_cta:
+    prompt: >
+      Aerial night photography of modern dark city, premium bokeh street lights,
+      dramatic angle from above, deep black sky, gold and white light trails,
+      cinematic, no visible text. 4K photography.
+    mood: 'grandiosidade, ambição, cidade'
+    use_for: ['CTA', 'último slide', 'institucional']
+
+  dark_film_reel:
+    prompt: >
+      Close-up of 35mm film reel on black reflective surface, dramatic side lighting,
+      gold metallic sheen on film strip, depth of field blur,
+      premium product photography, no text. 4K ultra-sharp.
+    mood: 'cinema, produção, qualidade'
+    use_for: ['portfólio', 'serviços de vídeo', 'Carbon Films identity']
+
+  dark_camera_close:
+    prompt: >
+      Extreme close-up of professional cinema camera lens, dramatic studio lighting,
+      black body with gold accents, shallow depth of field, dark background,
+      premium product photography, no text. 4K.
+    mood: 'técnico, premium, expertise'
+    use_for: ['serviços', 'equipamento', 'qualidade']
+
+# ---------------------------------------------------------------
+# TIPO 2: POSTS COMPLETOS COM OBJETO DRAMÁTICO
+# Uso: Posts estáticos que usam metáfora visual (sem foto de pessoa)
+# Baseado em: ref-02, ref-03, ref-08, ref-15
+# ---------------------------------------------------------------
+dramatic_objects:
+
+  money_burning:
+    prompt: >
+      Brazilian real banknote catching fire on dark premium surface,
+      dramatic flame illumination, deep black background, cinematic macro photography,
+      rich golden orange fire, loss aversion visual metaphor, no text. 4K.
+    hook_pairing: 'Vídeo sem estratégia é dinheiro no lixo'
+    mood: 'urgência, prejuízo, consequência'
+    use_for: ['posts de dor', 'consequência de não agir']
+
+  film_reel_burning:
+    prompt: >
+      35mm film reel with flames, dramatic low-key lighting on black background,
+      cinematic fire photography, gold and orange tones against pure darkness,
+      metaphor for wasted content, no text, no watermarks. 4K macro.
+    hook_pairing: 'Conteúdo sem estratégia'
+    mood: 'urgência, desperdício, transformação'
+    use_for: ['posts de dor', 'conteúdo sem retorno']
+
+  chess_camera:
+    prompt: >
+      Black king chess piece next to a professional cinema camera,
+      both on dark reflective surface, dramatic side lighting,
+      gold accent reflections, strategic composition, premium product photography,
+      no text. 4K sharp.
+    hook_pairing: 'Estratégia + produção = resultado'
+    mood: 'estratégia, poder, decisão'
+    use_for: ['posts estratégicos', 'O que é marketing de conteúdo']
+
+  cracked_screen_dark:
+    prompt: >
+      Cracked smartphone screen on dark surface, dramatic lighting,
+      fractures catching light, metaphor for broken digital presence,
+      premium product photography, dark moody atmosphere, no text. 4K.
+    hook_pairing: 'Sua marca está FRAGMENTADA no digital'
+    mood: 'problema, urgência, identificação'
+    use_for: ['posts de dor', 'diagnóstico de problema']
+
+  locked_camera:
+    prompt: >
+      Professional cinema camera wrapped in chains on dark surface,
+      dramatic low-key lighting, metaphor for untapped potential,
+      premium product photography, no text. 4K cinematic.
+    hook_pairing: 'Seu conteúdo está PRESO'
+    mood: 'limitação, potencial bloqueado'
+    use_for: ['posts de transformação', 'antes/depois']
+
+  dollar_chess_dark:
+    prompt: >
+      Gold chess queen piece surrounded by scattered dollar bills on black surface,
+      dramatic overhead lighting with shadows, strategy and money metaphor,
+      premium photography, no text. 4K.
+    hook_pairing: 'Tráfego pago com estratégia'
+    mood: 'poder, investimento, resultado'
+    use_for: ['tráfego pago', 'ROI', 'conversão']
+
+# ---------------------------------------------------------------
+# TIPO 3: POSTS COM PESSOA (Autoridade / Fundador)
+# Uso: Posts de autoridade, apresentação, provocação direta
+# Baseado em: ref-14, ref-16, ref-17, ref-07, ref-12
+# Nota: Requer foto real dos sócios — estes prompts geram placeholder
+# ---------------------------------------------------------------
+person_authority:
+
+  founder_dark_studio:
+    prompt: >
+      Young professional Brazilian entrepreneur, serious confident expression,
+      looking directly at camera, wearing dark premium casual clothing,
+      pure black studio background, dramatic Rembrandt lighting,
+      bokeh, cinematic portrait photography, no text. 4K.
+    use_for: ['autoridade', 'apresentação', 'provocação']
+    note: 'SUBSTITUIR por foto real dos sócios Carbon Films'
+
+  founder_with_camera:
+    prompt: >
+      Professional videographer holding cinema camera confidently,
+      dark dramatic studio lighting, serious expression of expertise,
+      wearing dark clothing, black background, cinematic portrait,
+      equipment visible, no text. 4K.
+    use_for: ['serviços', 'expertise', 'portfólio']
+    note: 'SUBSTITUIR por foto real dos sócios Carbon Films'
+
+  founder_on_set:
+    prompt: >
+      Video production director on dark cinematic set, monitoring screens visible in background,
+      dramatic side lighting, confident posture, professional atmosphere,
+      behind-the-scenes feeling, no text. 4K cinematic photography.
+    use_for: ['bastidores', 'expertise técnica', 'processo']
+    note: 'SUBSTITUIR por foto real dos sócios Carbon Films'
+
+# ---------------------------------------------------------------
+# TIPO 4: CAPA DE CARROSSEL (Slide 1)
+# Alta energia, para o scroll, thumbnail forte
+# ---------------------------------------------------------------
+carousel_covers:
+
+  impactful_dark_cover:
+    prompt: >
+      Ultra dramatic dark marketing background, professional cinematic feel,
+      strong contrast, subtle gold light gradient from bottom-right corner,
+      premium dark texture, space for bold typography overlay,
+      no text, no people. 4K clean.
+    note: 'Fundo que permite leitura clara de texto branco/vermelho'
+    text_contrast: 'WHITE + RED on this background — guaranteed readability'
+
+  neon_dark_minimal:
+    prompt: >
+      Minimal dark background with very subtle gold bokeh lights out of focus,
+      deep black base, warm gold specular highlights, luxury feel,
+      space for typography, no text, no watermarks. 4K.
+    note: 'Elegante, premium — para hooks de autoridade'
+
+  dark_with_grid:
+    prompt: >
+      Premium dark background with ultra-subtle geometric grid pattern,
+      barely visible gold lines forming grid, deep black base,
+      architectural premium feel, clean for text overlay. 4K.
+    note: 'Remete à identidade Carbon Films — fundo com grid sutil'
+
+# ---------------------------------------------------------------
+# TIPO 5: POSTS MOTIVACIONAIS / REELS THUMBNAIL
+# Para conteúdo de urgência e ação imediata
+# ---------------------------------------------------------------
+motivational:
+
+  dark_person_determined:
+    prompt: >
+      Silhouette of determined person walking forward in dark cinematic environment,
+      dramatic backlit lighting with gold rim light, motion blur on legs,
+      metaphor for action and progress, no text. 4K cinematic.
+    hook_pairing: 'COMECE AGORA'
+    mood: 'ação, determinação, urgência'
+
+  dark_clock_pressure:
+    prompt: >
+      Dramatic close-up of vintage clock on dark black surface,
+      shallow depth of field, ticking hands slightly motion blurred,
+      warm gold metallic clock body, dark moody atmosphere, urgency metaphor,
+      no text. 4K macro photography.
+    hook_pairing: 'Você está esperando o momento perfeito'
+    mood: 'tempo, urgência, procrastinação'
+
+  dark_road_forward:
+    prompt: >
+      Dark cinematic road disappearing into distance with dramatic perspective,
+      city lights bokeh in background, night photography, cinematic grade,
+      metaphor for journey and progress, no text, no people. 4K.
+    hook_pairing: 'O caminho para resultados'
+    mood: 'jornada, progresso, destino'
+
+# ---------------------------------------------------------------
+# MAPEAMENTO: HOOK → PROMPT RECOMENDADO
+# ---------------------------------------------------------------
+hook_to_prompt_mapping:
+  'seu conteudo nao converte':     editorial_backgrounds.dark_analytics
+  'erros que matam':               dramatic_objects.money_burning
+  'trafego pago':                  dramatic_objects.dollar_chess_dark
+  'producao audiovisual':          educational_backgrounds.dark_production_set
+  'estrategia':                    educational_backgrounds.dark_strategy
+  'roi negativo':                  educational_backgrounds.dark_analytics
+  'criativo sem hook':             educational_backgrounds.dark_workspace
+  'comece agora':                  motivational.dark_person_determined
+  'esperar momento perfeito':      motivational.dark_clock_pressure
+  'invisivel digital':             dramatic_objects.cracked_screen_dark
+  'dinheiro no lixo':              dramatic_objects.money_burning
+  'reel thumbnail':                carousel_covers.impactful_dark_cover
+  'cta':                           educational_backgrounds.dark_cta
+  'capa carrossel':                carousel_covers.impactful_dark_cover

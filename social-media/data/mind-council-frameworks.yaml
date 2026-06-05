@@ -1,0 +1,259 @@
+version: '1.0.0'
+last_updated: '2026-03-26'
+description: |
+  Mind Council — frameworks combinados dos 4 especialistas em social media.
+  Cada agente do squad consulta este arquivo antes de executar tarefas criticas.
+
+specialists:
+  rafael_kiso:
+    role: 'Dados, funil, metricas reais, frequencia estrategica'
+    best_for: [metrics, funnel, posting_frequency, kpis]
+    key_frameworks:
+      - name: 'Jornada do Cliente (5 etapas)'
+        stages: [descoberta, consideracao, conversao, experiencia, compartilhamento]
+        content_map:
+          descoberta: 'Reels e conteudo de topo — atrair desconhecidos'
+          consideracao: 'Carrossel educativo — aprofundar e convencer'
+          conversao: 'Prova social, oferta clara, CTA especifico'
+          experiencia: 'Pos-compra, onboarding, satisfacao'
+          compartilhamento: 'UGC, depoimentos, indicacoes'
+      - name: 'Metricas Reais vs Vaidade'
+        real_metrics: [saves, shares, retention_rate, dm_intent, link_clicks, conversion]
+        vanity_metrics: [likes, follower_count, impressions_only]
+        principle: 'Saves indicam valor utilitario. Shares indicam identidade. Retencao indica qualidade.'
+      - name: 'Frequencia > Volume'
+        principle: 'Impacto multiplo no ciclo de decisao e mais eficaz do que volume de posts'
+        optimal: '1 Reel/semana + 2 carrosseis/semana + Stories diarios'
+      - name: 'Formato por Etapa do Funil'
+        reels: 'Descoberta (topo)'
+        carousel: 'Consideracao (meio)'
+        stories: 'Relacionamento e conversao (fundo)'
+      - name: 'Anti-Panfletagem'
+        principle: 'Fale sobre o que voce sabe, nao sobre o que vende. Infotenimento: informacao + entretenimento.'
+      - name: 'UGC > Influencer'
+        principle: 'Conteudo de cliente real tem 8.7x mais impacto na decisao de compra.'
+
+  paulo_cuenca:
+    role: 'Estrategia de conteudo, posicionamento, Instagram, cordilheira'
+    best_for: [content_strategy, positioning, instagram, editorial_calendar]
+    key_frameworks:
+      - name: 'Metodo da Cordilheira'
+        principle: 'Conteudo nao sao posts isolados. Sao picos conectados por posicionamento consistente. Cada post faz sentido sozinho E dentro do conjunto.'
+        application: 'Todo calendario deve ter uma linha de posicionamento clara que conecta todos os posts.'
+      - name: 'Triade do Marketing Digital'
+        pillars: [conteudo, relacionamento, conversao]
+        principle: 'Sem os tres, o sistema quebra. Conteudo atrai. Relacionamento constroi confianca. Conversao gera receita.'
+      - name: '5 Tipos de Conteudo para Crescimento'
+        types:
+          hot_topics: 'Surfa tendencias com posicionamento proprio'
+          positioning: 'Visao de mundo — o que voce acredita'
+          educational: 'Ensina algo do nicho com profundidade'
+          collaborative: 'Cresce junto com outros perfis'
+          social_proof: 'Resultados e depoimentos reais'
+      - name: 'Quantidade Leva a Qualidade'
+        principle: 'Consistencia gera aprendizado. O erro de parar cedo e maior que o erro de comecar imperfeito.'
+      - name: 'Posicionamento de Visao de Mundo'
+        principle: 'Conteudo neutro nao posiciona. Exponha o que voce acredita. Quem concorda te segue com intensidade.'
+      - name: 'Velocidade como Vantagem'
+        principle: 'Hot topics tem janela de 24-48h. Quem e rapido ganha alcance extra sem pagar.'
+
+  gary_vaynerchuk:
+    role: 'Atencao, autenticidade, distribuicao, jab/right hook'
+    best_for: [attention, hooks, content_distribution, monetization_timing]
+    key_frameworks:
+      - name: 'Jab Jab Jab Right Hook'
+        ratio: '80% valor (jabs) / 20% oferta (right hooks)'
+        jabs: 'Educar, entreter, inspirar — sem pedir nada'
+        right_hook: 'CTA, oferta, venda — so apos credito suficiente'
+        warning: 'Mais right hooks do que jabs queima audiencia irreversivelmente'
+      - name: 'Document Dont Create'
+        principle: 'Autenticidade nao e estrategia. E o unico conteudo que escala. Mostre o processo, nao o resultado polido.'
+        application: 'Bastidores, erros, jornada real > conteudo roteirizado perfeito'
+      - name: 'Day Trading Attention'
+        principle: 'Atencao e commodity negociavel em tempo real. Plataformas emergentes tem atencao barata. Chegar cedo = pagar menos por mais.'
+        monitoring: 'Sempre monitorar onde a atencao esta subprecificada'
+      - name: '$1.80 Strategy'
+        formula: '9 comentarios genuinos x 10 hashtags relevantes = $1.80/dia'
+        principle: 'Relacionamento antes de monetizacao. Sempre.'
+      - name: 'Content Distribution Model'
+        process:
+          - '1 conteudo long-form original'
+          - 'Desdobrar em 10-20 micro-content pieces'
+          - 'Adaptar formato por plataforma (nao copiar e colar)'
+          - 'Distribuir simultaneamente'
+      - name: 'Platform Native'
+        principle: 'Cada plataforma tem linguagem e formato proprios. Conteudo nao adaptado perde alcance e credibilidade.'
+
+  neil_patel:
+    role: 'Dados, SEO, growth hacking, A/B testing, ROI'
+    best_for: [data_analysis, seo, ab_testing, growth, roi_measurement]
+    key_frameworks:
+      - name: 'Use Gut to Guide, Data to Decide'
+        principle: 'Intuicao aponta a direcao. Dados confirmam ou corrigem. Nenhuma conclusao sem evidencia.'
+      - name: 'Search Everywhere Optimization'
+        platforms: [Google, YouTube, Instagram, TikTok, LinkedIn, AI_tools]
+        principle: 'SEO nao e so Google. Busca acontece em todo lugar. Otimize keywords em bio, caption e alt text.'
+      - name: 'Content Strategy 2025'
+        process:
+          - 'Teste ideia no formato mais curto (Twitter/Thread/Story)'
+          - 'Identifique winners por engajamento'
+          - 'Expanda winners em long-form'
+          - 'Repurpose long-form em distribuicao multicanal'
+      - name: 'Growth Hacking Framework'
+        loop: 'Hypothesize -> Test -> Measure -> Iterate'
+        principle: 'Toda hipotese vira experimento. Toda conclusao precisa de dados.'
+        ice_score: 'Priorize por Impact, Confidence, Ease'
+      - name: 'AB Testing Methodology'
+        rule: 'Isole variaveis — um elemento por teste. Significancia estatistica minima de 95%.'
+        principle: 'Always Be Testing. Nunca one-and-done.'
+      - name: 'Revenue Not Popularity'
+        principle: 'Metricas de vaidade nao pagam boleto. O unico numero que importa e conversao em receita.'
+      - name: 'Repurposing Multiplier'
+        principle: '1 producao original -> 10 formatos. Trabalhe uma vez, distribua para sempre.'
+
+  # ---------------------------------------------------------------
+  # VIDEO EDITING COUNCIL — especialistas em edição e narrativa visual
+  # Consultados pelo agente Remi (remotion-editor) em todas as edições
+  # ---------------------------------------------------------------
+
+  casey_neistat:
+    role: 'Narrativa visual, pacing, hook, B-roll, autenticidade em vídeo'
+    best_for: [video_narrative, hook_frame, broll_strategy, pacing, authentic_storytelling]
+    key_frameworks:
+      - name: 'Hook ou Morte'
+        principle: 'Os primeiros 3 segundos nao sao introducao — sao o filtro. Se nao prendeu em 3s, nao vai prender. Nunca.'
+        application: 'Frame 1 deve ter tensao visual ou declaracao que cria uma pergunta na mente do espectador.'
+        hook_types:
+          visual: 'Movimento brusco, corte hard, objeto inesperado no frame'
+          textual: 'Frase que cria lacuna cognitiva (ex: Isso quase destruiu meu negocio)'
+          auditivo: 'Som impactante, musica que ja estava tocando, voz direta ao assunto'
+
+      - name: 'B-roll com Proposito'
+        principle: 'B-roll nao e decoracao. E evidencia visual da narração. Cada imagem deve provar o que o audio diz.'
+        rules:
+          - 'Nao existem imagens genericas em video bom'
+          - 'Se o B-roll nao acrescenta informacao, corta'
+          - 'Mostra hands-on, bastidores reais, nao stock footage'
+        carbon_films_application: 'Mostrar equipamento real, locacoes reais de clientes, processo de producao'
+
+      - name: 'Pacing como Emocao'
+        principle: 'Velocidade de corte = intensidade emocional. Nao e estetica — e controle de estado do espectador.'
+        rules:
+          - 'Corte rapido (1-2s): urgencia, excitacao, listas'
+          - 'Corte medio (3-4s): explicacao, demonstracao'
+          - 'Corte lento (5s+): peso emocional, pausa intencional'
+          - 'Reels/TikTok: corte medio padrao, acelera no hook'
+
+      - name: 'Narrativa em Arco Comprimido'
+        structure: 'Problema → Tensao → Solucao (em 15-30 segundos)'
+        principle: 'Vídeo sem arco narrativo e slide show. Toda historia precisa de conflito, mesmo que mini.'
+        application_social:
+          hook: 'Problema ou promessa (3s)'
+          build: 'Tensao ou processo (10-20s)'
+          payoff: 'Solucao + CTA (5s)'
+
+      - name: 'Loop Technique'
+        principle: 'O ultimo frame deve fazer o algoritmo replay. Conectar visualmente ao primeiro cria loop involuntario.'
+        implementation: 'Som continuo que corta no meio, frase incompleta que recomeça, movimento que reinicia'
+        metric: 'Loop rate e o maior sinal de qualidade que voce pode dar ao algoritmo'
+
+      - name: 'Document Dont Script'
+        principle: 'Roteiro perfeito mata autenticidade em video. Melhor: pontos-chave + captura real. Editar e onde a narrativa vive.'
+        application: 'Grava mais do que precisa. Edita com intenção. A historia emerge no corte.'
+
+  peter_mckinnon:
+    role: 'Estetica cinematografica, tipografia bold, branded content, color grade'
+    best_for: [visual_aesthetics, typography_overlay, color_grading, branded_video, cinematic_feel]
+    key_frameworks:
+      - name: 'Tipografia como Design'
+        principle: 'Texto na tela nao e legenda — e elemento de design. Deve ter hierarquia, peso e ritmo proprios.'
+        rules:
+          - 'Hook text: bold, maiusculas, 72-96px minimo, no primeiro terco da tela'
+          - 'Body text: medium weight, sentence case, 48px, fora das safe zones'
+          - 'CTA text: bold, cor de acento, centralizado ou bottom-center'
+          - 'Nunca mais de 2 fontes por video'
+          - 'Fundo semi-transparente para legibilidade em qualquer background'
+        carbon_films_application: 'Usar tipografia bold maiuscula consistente com identidade CF'
+
+      - name: 'Color Grade como Identidade'
+        principle: 'Grade consistente = reconhecimento imediato. Espectador deve identificar sua marca em 1 segundo sem ver o logo.'
+        carbon_films_palette:
+          primary: 'Alto contraste — pretos profundos, brancos limpos'
+          accent: '#CC0000 para elementos de destaque'
+          skin_tone: 'Natural, sem filtro excessivo em pessoas reais'
+          mood: 'Cinematic dark — transmite seriedade e autoridade'
+        tools: 'LUTs personalizados, curvas de cor, saturação seletiva'
+
+      - name: 'Branded Content Framework'
+        principle: 'Todo frame deve ser reconhecivelmente seu. Logo nao basta — composicao, cor e ritmo sao a marca.'
+        elements:
+          - 'Logo: canto superior direito, discreto mas presente'
+          - 'Color palette: consistente em todo video'
+          - 'Tipografia: mesma familia em todos os conteudos'
+          - 'Composicao: regra dos tercos, olho do sujeito no terco superior'
+          - 'Intro pattern: corte hard ou fade breve — sem intro longa'
+
+      - name: 'Cinematic para Social'
+        principle: 'Qualidade cinematografica adaptada ao contexto vertical. Nao e producao menor — e intencao diferente.'
+        adaptations:
+          - 'Plano aberto: 9:16, sujeito centralizado com espaco superior'
+          - 'Close-up: rosto do sujeito ocupando 60-70% do frame'
+          - 'Movimento de camera: suave, gimbal ou dolly — nunca shaky sem intencao'
+          - 'Profundidade de campo: background desfocado = autoridade visual'
+
+      - name: 'Rule of Thirds em Vertical'
+        principle: 'A grade de tercos existe em 9:16. A maioria dos criadores ignora — use isso como vantagem competitiva.'
+        zones:
+          safe_for_ui: 'Top 15% (TikTok) e Bottom 20% (Instagram) sao zonas de morte'
+          subject: 'Olhos no terco superior — sempre'
+          text: 'Terco medio para texto principal'
+          cta: 'Terco inferior para CTA (mas acima da safe zone)'
+
+      - name: 'Transicoes com Proposito'
+        principle: 'Transicao chamativa uma vez = criativa. Duas vezes = truque. Tres vezes = falta de substancia.'
+        recommended:
+          - 'Hard cut: padrao — transmite urgencia e professionalismo'
+          - 'Match cut: cria continuidade narrativa'
+          - 'Whip pan: transicao entre locacoes ou ideias'
+          - 'J-cut/L-cut: audio continua — sofisticado e fluido'
+        avoid: 'Wipes, dissolves lentos, star wipes — nunca'
+
+# Mapeamento: qual especialista consultar por tipo de tarefa
+task_routing:
+  # Social media strategy (original council)
+  definir_estrategia: [paulo_cuenca, rafael_kiso]
+  criar_calendar: [paulo_cuenca, rafael_kiso]
+  criar_hook: [gary_vaynerchuk, paulo_cuenca]
+  escrever_caption: [gary_vaynerchuk, paulo_cuenca]
+  analisar_metricas: [neil_patel, rafael_kiso]
+  detectar_tendencias: [gary_vaynerchuk, neil_patel]
+  definir_posicionamento: [paulo_cuenca, gary_vaynerchuk]
+  planejar_crescimento: [neil_patel, rafael_kiso]
+  criar_oferta_cta: [gary_vaynerchuk, rafael_kiso]
+  distribuicao_conteudo: [gary_vaynerchuk, neil_patel]
+  abtest_conteudo: [neil_patel]
+  calendario_editorial: [paulo_cuenca, rafael_kiso]
+  # Video editing council (Remi)
+  criar_hook_video: [casey_neistat, gary_vaynerchuk]
+  editar_video: [casey_neistat, peter_mckinnon]
+  definir_pacing: [casey_neistat]
+  aplicar_tipografia: [peter_mckinnon]
+  color_grade: [peter_mckinnon]
+  branded_content: [peter_mckinnon, paulo_cuenca]
+  narrativa_video: [casey_neistat]
+  loop_technique: [casey_neistat]
+  transicoes: [peter_mckinnon, casey_neistat]
+  broll_strategy: [casey_neistat]
+
+# Principios unificados — consenso dos 4 especialistas
+consensus_principles:
+  - 'Metricas de vaidade (likes, seguidores) nao sao objetivos — saves, shares e conversao sao.'
+  - 'Consistencia supera volume. Frequencia correta supera frequencia alta.'
+  - 'Posicionamento e inegociavel. Conteudo neutro nao cresce.'
+  - 'Dados antes de escalar. Teste antes de concluir.'
+  - 'Autenticidade bate producao polida no longo prazo.'
+  - 'Cada plataforma exige formato e linguagem proprios.'
+  - 'Hot topics tem janela de 24-48h. Velocidade e vantagem competitiva.'
+  - 'Relacionamento precede monetizacao. Jab antes de right hook.'
+  - 'Repurposing e o maior multiplicador de producao existente.'
+  - 'UGC e depoimentos reais convertem mais do que qualquer copy.'

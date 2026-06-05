@@ -1,0 +1,104 @@
+name: stories-template
+version: 2.0.0
+description: 'Template de Stories Instagram Carbon Films — 9:16 vertical, 15s, alta interatividade'
+format: stories
+agent: canva-designer
+
+technical_specs:
+  dimensions: '1080x1920px'
+  aspect_ratio: '9:16'
+  file_format: 'JPG (imagem) / MP4 (vídeo)'
+  max_file_size: '30MB (vídeo) / 8MB (imagem)'
+  color_profile: 'sRGB'
+  safe_zone_top: '250px (UI Instagram: câmera, relógio, perfil)'
+  safe_zone_bottom: '320px (CTA, swipe up, DM, resposta)'
+  safe_zone_sides: '60px'
+  content_area: '1080x1350px (centro entre safe zones)'
+  duration: '15s por story (imagem: 5s automático)'
+  note: 'Stories somem em 24h — usar para urgência, bastidores, CTA direto'
+
+instagram_specs:
+  link_sticker: 'Disponível para todos os perfis'
+  poll_sticker: 'Aumenta engajamento 3-5x'
+  question_sticker: 'Ideal para coleta de feedback'
+  countdown_sticker: 'Urgência para lançamentos'
+
+brandbook:
+  background: '#050505'
+  gold: '#C9A84C'
+  white: '#FFFFFF'
+  red_accent: '#FF0000'
+  font_display: 'Anton'
+  font_body: 'Montserrat'
+  handle: '@carbonfilms.sc'
+
+layouts:
+  story_01_cta_direto:
+    use_for: 'Venda direta, oferta, urgência'
+    structure:
+      top_safe: 'CARBON FILMS (gold, Anton 24px, centralizado)'
+      content_area:
+        - 'Headline (Anton 80px, UPPERCASE, branco)'
+        - 'Linha gold 80px × 3px'
+        - 'Subtítulo (Montserrat 700, 28px, gold)'
+      bottom_area:
+        - 'Botão CTA (Montserrat 700, bg branco, padding 20px 60px)'
+        - '@carbonfilms.sc (mono, gray)'
+    sticker_suggestion: 'Link sticker → WhatsApp / portfólio'
+
+  story_02_bastidores:
+    use_for: 'Humanizar a marca, mostrar processo de produção'
+    structure:
+      background: 'Foto real do set — raw, autêntico'
+      overlay: 'rgba(5,5,5,0.50) gradiente leve'
+      top_safe: 'CARBON FILMS | BASTIDORES'
+      content_area:
+        - 'Headline curto (Anton 64px, branco)'
+        - 'Detalhe do processo (Montserrat 24px, gray-300)'
+      bottom_area: '@carbonfilms.sc'
+    sticker_suggestion: 'Votação sobre o processo'
+    tone: 'Cru, humano, sem filtro excessivo'
+
+  story_03_educativo:
+    use_for: 'Dica rápida, estatística, fato de mercado'
+    structure:
+      background: '#050505'
+      top_safe: 'CARBON FILMS | CF_001 / DICA'
+      content_area:
+        - 'Número grande (Anton 96px, gold)'
+        - 'Linha gold'
+        - 'Fato (Anton 60px, branco, 2 linhas max)'
+        - 'Complemento (Montserrat 26px, gray)'
+      bottom_area: 'Salva isso ↓ + @carbonfilms.sc'
+    sticker_suggestion: 'Votação: "Já sabia? ✅ / ❌"'
+
+  story_04_serie:
+    use_for: 'Série educacional de 3-7 stories seguidos'
+    structure:
+      top_safe: 'CARBON FILMS | PARTE N/TOTAL'
+      progress_bar: 'Barra gold (N/Total × 100%)'
+      content_area:
+        - 'Tema da parte (Anton 64px)'
+        - 'Conteúdo (Montserrat 28px)'
+      bottom_area: '→ Próximo | @carbonfilms.sc'
+    note: 'Publicar todos de uma vez — séries aumentam retenção 40%'
+
+copy_framework:
+  max_text: '3-5 segundos de leitura por story'
+  cta_options:
+    - 'Arrasta pra cima →'
+    - 'Responde aqui ↓'
+    - 'Salva esse story'
+    - 'Chama no DM'
+
+pipeline:
+  command: 'node scripts/run-workflow.js carousel --topic "TEMA" --format stories'
+  output_dir: 'output/slides/'
+  dimensions: '1080x1920'
+  safe_zone_applied: true
+
+benchmarks:
+  view_rate_target: '>70% do primeiro para o segundo story'
+  reply_rate_target: '>1% das visualizações'
+  best_posting_times: ['08h-10h', '12h-14h', '20h-22h BRT']
+  frequency: '3-7 stories por dia'
