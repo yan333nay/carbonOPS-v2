@@ -1,7 +1,0 @@
-node_modules/
-.env
-google-credentials.json
-data/leads-db.json
-data/leads-backup.csv
-data/search-state.json
-logs/
