@@ -9,7 +9,13 @@
     "Phil Knight",
     "Mary Kay Ash",
     "Jack Ma",
-    "Sam Walton"
+    "Sam Walton",
+    "Nizan Guanaes",
+    "Reed Hastings",
+    "Andrew Carnegie",
+    "Estée Lauder",
+    "Richard Branson",
+    "Coco Chanel"
   ],
   "used_ids": [
     "cris-arcangeli-transformacao",
@@ -21,12 +27,18 @@
     "phil-knight-nike-story",
     "mary-kay-ash-empire",
     "jack-ma-alibaba-ascensao",
-    "sam-walton-walmart-empire"
+    "sam-walton-walmart-empire",
+    "nizan-guanaes-criativo-rebelde",
+    "reed-hastings-netflix-revolution",
+    "andrew-carnegie-empire",
+    "estee-lauder-imperio-beleza",
+    "richard-branson-virgin-empire",
+    "coco-chanel-revolution"
   ],
-  "last_used": "sam-walton-walmart-empire",
+  "last_used": "coco-chanel-revolution",
   "last_post": {
-    "sent_at": "2026-06-05T17:00:59.850Z",
-    "story": "sam-walton-walmart-empire",
-    "person": "Sam Walton"
+    "sent_at": "2026-06-11T17:01:03.440Z",
+    "story": "coco-chanel-revolution",
+    "person": "Coco Chanel"
   }
 }

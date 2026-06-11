@@ -1,31 +1,47 @@
 {
   "name": "Carbon Films",
-  "segment": "Produção audiovisual",
-  "founded": "",
-  "website": "",
-  "location": "",
+  "segment": "Agência de marketing digital e soluções com IA",
+  "location": "Santa Catarina, Brasil",
+  "owner": "Yan Zeitz",
   "contacts": {
-    "email": "",
-    "phone": "",
-    "instagram": "",
-    "linkedin": ""
+    "email": "syfilms2.0@gmail.com",
+    "whatsapp": "+55 47 8922-7584",
+    "instagram": "@carbonfilms.sc"
   },
   "target_market": [
-    "Imobiliárias",
-    "Construtoras",
-    "Incorporadoras"
+    "Imobiliárias", "Restaurantes", "Academias",
+    "Clínicas odontológicas e estéticas",
+    "Salões de beleza",
+    "Escritórios de advocacia e contabilidade"
   ],
-  "value_proposition": "Produção de vídeos e conteúdo visual que geram resultados comerciais para o mercado imobiliário",
-  "team": [],
+  "value_proposition": "Transformamos presença digital em clientes reais — landing pages, sites, automação com IA e tráfego pago para negócios locais no Sul do Brasil",
+  "services": [
+    "Landing Page de alta conversão",
+    "Site institucional",
+    "Loja virtual (e-commerce)",
+    "Automação com IA (CRM, follow-up, qualificação)",
+    "Agentes de IA (bots WhatsApp/site)",
+    "Tráfego pago com IA (Meta + Google)"
+  ],
   "tools": {
-    "crm": "CRM próprio (PC local)",
-    "database": "PostgreSQL (PC local)",
-    "automation": "n8n (VPS)",
-    "agents": "Claude via API (VPS)"
+    "whatsapp_api": "Evolution API v2.3.7 (porta 8081)",
+    "sdr_ai": "Claude Haiku 4.5",
+    "strategy_ai": "Claude Sonnet 4.6",
+    "calendar": "Google Calendar (syfilms2.0@gmail.com)",
+    "crm": "Google Sheets + campaign-db.json (VPS)",
+    "vps": "Linux 6.8 | 76.13.172.41"
   },
   "departments": {
-    "comercial": ["leads", "campaign", "sdr", "analyst"],
-    "marketing": ["social"],
-    "produto": ["crm_dev"]
+    "diretoria":   ["architect"],
+    "operacional": ["manager"],
+    "comercial":   ["leads", "campaign", "sdr", "analyst"],
+    "marketing":   ["social"]
+  },
+  "campaign_stats": {
+    "total_contacts": 1684,
+    "nichos": ["imobiliarias", "restaurantes", "academias", "clinicas", "saloes", "escritorios"],
+    "daily_limit_new": 30,
+    "daily_limit_total": 60,
+    "send_windows_brt": "09h-12h e 15h-19h seg-sab"
   }
 }

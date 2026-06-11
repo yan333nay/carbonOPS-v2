@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
 /run <agente>
-
 Executa todas as tarefas pendentes de um agente.
 """
 import sys
-import importlib
-sys.path.insert(0, str(__file__).replace("/commands/run.py", ""))
+import os
+import importlib.util
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.db import get_pending_tasks, update_task, log_action
 from core.config import AGENTS
+
 
 def run(agent: str):
     if agent not in AGENTS:
@@ -24,23 +25,27 @@ def run(agent: str):
     print(f"\n🤖 Executando worker: {agent.upper()}")
     print(f"📌 {len(tasks)} tarefa(s) pendente(s)\n")
 
-    # Importa o worker dinamicamente
-    try:
-        worker = importlib.import_module(f"workers.{agent}.worker")
-    except ModuleNotFoundError:
+    # Importa worker dinamicamente
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    worker_path = os.path.join(root, "workers", agent, "worker.py")
+    if not os.path.exists(worker_path):
         print(f"❌ Worker não encontrado: workers/{agent}/worker.py")
         sys.exit(1)
+
+    spec   = importlib.util.spec_from_file_location(f"workers.{agent}.worker", worker_path)
+    worker = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(worker)
 
     for task in tasks:
         print(f"  ▶️  [{task['id']}] {task['task'][:70]}")
         update_task(task["id"], "running")
         log_action(agent, "task_started", task_id=task["id"])
-
         try:
             result = worker.execute(task)
             update_task(task["id"], "done", result=str(result))
-            log_action(agent, "task_done", task_id=task["id"], details={"result": str(result)[:500]})
-            print(f"  ✅  {str(result)[:100]}\n")
+            log_action(agent, "task_done", task_id=task["id"],
+                       details={"result": str(result)[:500]})
+            print(f"  ✅  {str(result)[:120]}\n")
         except Exception as e:
             update_task(task["id"], "failed", error=str(e))
             log_action(agent, "task_failed", task_id=task["id"], details={"error": str(e)})
@@ -51,7 +56,6 @@ def run(agent: str):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Uso: python commands/run.py <agente>")
-        print(f"Agentes: {', '.join(AGENTS)}")
+        print(f"Uso: python commands/run.py <agente>\nAgentes: {', '.join(AGENTS)}")
         sys.exit(1)
     run(sys.argv[1])

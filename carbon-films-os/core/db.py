@@ -1,13 +1,22 @@
-import psycopg2
-import psycopg2.extras
-from contextlib import contextmanager
+"""
+Database layer — SQLite (sem dependências externas).
+Caminho: /root/carbon-films-os/data/carbonfilms.db
+"""
+import sqlite3
+import json
+from pathlib import Path
 from datetime import datetime
-from core.config import DB_CONFIG
+from contextlib import contextmanager
+
+DB_PATH = Path(__file__).parent.parent / "data" / "carbonfilms.db"
+DB_PATH.parent.mkdir(exist_ok=True)
 
 
 @contextmanager
 def get_conn():
-    conn = psycopg2.connect(**DB_CONFIG)
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
     try:
         yield conn
         conn.commit()
@@ -18,130 +27,190 @@ def get_conn():
         conn.close()
 
 
-# ── Objectives ─────────────────────────────────────────
-
-def create_objective(title: str, objective: str, department: str = None,
-                     priority: str = "medium", deadline: str = None) -> int:
+def setup():
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO objectives (title, objective, department, priority, deadline)
-            VALUES (%s, %s, %s, %s, %s) RETURNING id
-        """, (title, objective, department, priority, deadline))
-        return cur.fetchone()[0]
+        conn.executescript("""
+        CREATE TABLE IF NOT EXISTS agents (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT UNIQUE NOT NULL,
+            department TEXT,
+            role TEXT,
+            status TEXT DEFAULT 'active',
+            created_at TEXT DEFAULT (datetime('now'))
+        );
+        INSERT OR IGNORE INTO agents (name, department, role) VALUES
+            ('architect', 'diretoria',  'Visão estratégica, design do sistema, decisões de arquitetura'),
+            ('manager',   'operacional','Coordenação de agentes, criação de tarefas, acompanhamento'),
+            ('social',    'marketing',  'Conteúdo e redes sociais'),
+            ('leads',     'comercial',  'Prospecção e qualificação de leads'),
+            ('campaign',  'comercial',  'Cadência de mensagens e follow-up'),
+            ('sdr',       'comercial',  'Negociação e agendamento de reuniões'),
+            ('analyst',   'comercial',  'Análise de resultados e aprendizado');
+
+        CREATE TABLE IF NOT EXISTS objectives (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            objective TEXT NOT NULL,
+            department TEXT,
+            priority TEXT DEFAULT 'medium',
+            status TEXT DEFAULT 'open',
+            deadline TEXT,
+            result TEXT,
+            created_by TEXT DEFAULT 'human',
+            created_at TEXT DEFAULT (datetime('now')),
+            updated_at TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            objective_id INTEGER REFERENCES objectives(id),
+            agent TEXT REFERENCES agents(name),
+            task TEXT NOT NULL,
+            priority TEXT DEFAULT 'medium',
+            status TEXT DEFAULT 'pending',
+            result TEXT,
+            error TEXT,
+            created_at TEXT DEFAULT (datetime('now')),
+            started_at TEXT,
+            completed_at TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS agent_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            agent TEXT,
+            task_id INTEGER REFERENCES tasks(id),
+            action TEXT NOT NULL,
+            details TEXT,
+            created_at TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            company TEXT,
+            segment TEXT,
+            contact_phone TEXT,
+            contact_email TEXT,
+            contact_instagram TEXT,
+            source TEXT,
+            status TEXT DEFAULT 'new',
+            notes TEXT,
+            assigned_agent TEXT,
+            created_at TEXT DEFAULT (datetime('now')),
+            updated_at TEXT DEFAULT (datetime('now'))
+        );
+        """)
 
 
-def get_active_objectives() -> list:
+def create_objective(title, objective, department=None, priority="medium",
+                     deadline=None, created_by="human"):
     with get_conn() as conn:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        cur.execute("""
-            SELECT o.*, 
+        cur = conn.execute("""
+            INSERT INTO objectives (title, objective, department, priority, deadline, created_by)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (title, objective, department, priority, deadline, created_by))
+        return cur.lastrowid
+
+
+def get_active_objectives():
+    with get_conn() as conn:
+        rows = conn.execute("""
+            SELECT o.*,
                    COUNT(t.id) as total_tasks,
-                   COUNT(t.id) FILTER (WHERE t.status = 'done') as done_tasks,
-                   COUNT(t.id) FILTER (WHERE t.status = 'pending') as pending_tasks
+                   COUNT(CASE WHEN t.status='done' THEN 1 END) as done_tasks,
+                   COUNT(CASE WHEN t.status='pending' THEN 1 END) as pending_tasks
             FROM objectives o
             LEFT JOIN tasks t ON t.objective_id = o.id
             WHERE o.status IN ('open', 'in_progress')
             GROUP BY o.id
-            ORDER BY o.priority DESC, o.created_at ASC
-        """)
-        return cur.fetchall()
+            ORDER BY CASE o.priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END,
+                     o.created_at ASC
+        """).fetchall()
+        return [dict(r) for r in rows]
 
 
-def update_objective_status(objective_id: int, status: str):
+def update_objective_status(objective_id, status):
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
-            UPDATE objectives SET status = %s, updated_at = NOW()
-            WHERE id = %s
-        """, (status, objective_id))
+        conn.execute("UPDATE objectives SET status=?, updated_at=datetime('now') WHERE id=?",
+                     (status, objective_id))
 
 
-# ── Tasks ──────────────────────────────────────────────
-
-def create_task(agent: str, task: str, priority: str = "medium",
-                objective_id: int = None) -> int:
+def create_task(agent, task, priority="medium", objective_id=None):
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
+        cur = conn.execute("""
             INSERT INTO tasks (objective_id, agent, task, priority, status)
-            VALUES (%s, %s, %s, %s, 'pending') RETURNING id
+            VALUES (?, ?, ?, ?, 'pending')
         """, (objective_id, agent, task, priority))
-        return cur.fetchone()[0]
+        return cur.lastrowid
 
 
-def get_pending_tasks(agent: str = None) -> list:
+def get_pending_tasks(agent=None):
     with get_conn() as conn:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         if agent:
-            cur.execute("""
-                SELECT * FROM tasks WHERE status = 'pending' AND agent = %s
-                ORDER BY priority DESC, created_at ASC
-            """, (agent,))
+            rows = conn.execute("""
+                SELECT * FROM tasks WHERE status='pending' AND agent=?
+                ORDER BY CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END,
+                         created_at ASC
+            """, (agent,)).fetchall()
         else:
-            cur.execute("""
-                SELECT * FROM tasks WHERE status = 'pending'
-                ORDER BY agent, priority DESC, created_at ASC
-            """)
-        return cur.fetchall()
+            rows = conn.execute("""
+                SELECT * FROM tasks WHERE status='pending'
+                ORDER BY agent,
+                         CASE priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END,
+                         created_at ASC
+            """).fetchall()
+        return [dict(r) for r in rows]
 
 
-def update_task(task_id: int, status: str, result: str = None, error: str = None):
+def update_task(task_id, status, result=None, error=None):
+    now = datetime.now().isoformat()
     with get_conn() as conn:
-        cur = conn.cursor()
-        now = datetime.now()
         if status == "running":
-            cur.execute("""
-                UPDATE tasks SET status = %s, started_at = %s WHERE id = %s
-            """, (status, now, task_id))
+            conn.execute("UPDATE tasks SET status=?, started_at=? WHERE id=?",
+                         (status, now, task_id))
         else:
-            cur.execute("""
-                UPDATE tasks SET status = %s, result = %s, error = %s,
-                completed_at = %s WHERE id = %s
+            conn.execute("""
+                UPDATE tasks SET status=?, result=?, error=?, completed_at=? WHERE id=?
             """, (status, result, error, now, task_id))
 
 
-# ── Logs ───────────────────────────────────────────────
-
-def log_action(agent: str, action: str, task_id: int = None, details: dict = None):
-    import json
+def log_action(agent, action, task_id=None, details=None):
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
+        conn.execute("""
             INSERT INTO agent_logs (agent, task_id, action, details)
-            VALUES (%s, %s, %s, %s)
+            VALUES (?, ?, ?, ?)
         """, (agent, task_id, action, json.dumps(details or {})))
 
 
-# ── Leads ──────────────────────────────────────────────
-
-def create_lead(name: str, company: str, segment: str = None,
-                contact_phone: str = None, contact_instagram: str = None,
-                source: str = None) -> int:
+def create_lead(name, company, segment=None, contact_phone=None,
+                contact_instagram=None, source=None):
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
+        cur = conn.execute("""
             INSERT INTO leads (name, company, segment, contact_phone,
                                contact_instagram, source, status)
-            VALUES (%s, %s, %s, %s, %s, %s, 'new') RETURNING id
+            VALUES (?, ?, ?, ?, ?, ?, 'new')
         """, (name, company, segment, contact_phone, contact_instagram, source))
-        return cur.fetchone()[0]
+        return cur.lastrowid
 
 
-def get_leads(status: str = None) -> list:
+def get_leads(status=None):
     with get_conn() as conn:
-        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         if status:
-            cur.execute("SELECT * FROM leads WHERE status = %s ORDER BY created_at DESC", (status,))
+            rows = conn.execute(
+                "SELECT * FROM leads WHERE status=? ORDER BY created_at DESC", (status,)
+            ).fetchall()
         else:
-            cur.execute("SELECT * FROM leads ORDER BY created_at DESC")
-        return cur.fetchall()
+            rows = conn.execute(
+                "SELECT * FROM leads ORDER BY created_at DESC"
+            ).fetchall()
+        return [dict(r) for r in rows]
 
 
-def update_lead_status(lead_id: int, status: str, notes: str = None):
+def update_lead_status(lead_id, status, notes=None):
     with get_conn() as conn:
-        cur = conn.cursor()
-        cur.execute("""
-            UPDATE leads SET status = %s, notes = %s, updated_at = NOW()
-            WHERE id = %s
+        conn.execute("""
+            UPDATE leads SET status=?, notes=?, updated_at=datetime('now') WHERE id=?
         """, (status, notes, lead_id))
+
+
+setup()

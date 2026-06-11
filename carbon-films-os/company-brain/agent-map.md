@@ -1,106 +1,90 @@
 # Mapa de Agentes — Carbon Films
 
-> Documento central de governança. Define quem faz o quê, como se comunicam e quais são os limites de cada agente.
-
 ---
 
 ## Hierarquia
 
 ```
-Manager
-│
-├── Comercial
-│   ├── Leads Agent      — prospecção e qualificação
-│   ├── Campaign Agent   — cadência e follow-up
-│   ├── SDR Agent        — negociação e reuniões
-│   └── Analyst Agent    — aprendizado e melhoria
-│
-├── Marketing
-│   └── Social Agent     — conteúdo e redes sociais
-│
-└── Produto
-    └── CRM Dev          — sistema e automações
+Yan Zeitz (humano)
+        │
+   /architech ──────── decisões de sistema, visão, novos agentes
+        │
+   ARCHITECT
+        │
+   /manager ─────────── objetivos operacionais, criação de tarefas
+        │
+   MANAGER
+        │
+   ┌────┬────┬────┬────┬────┐
+   │    │    │    │    │    │
+ leads camp sdr analy social
 ```
 
 ---
 
 ## Agentes
 
-### 🧠 Manager
-**Localização:** `/manager/manager.md`  
-**Papel:** Coordenação estratégica. Recebe objetivos, cria tarefas, acompanha resultados.  
-**NÃO executa tarefas diretamente.**  
-**Inputs:** Objetivos humanos (tabela `objectives`)  
-**Outputs:** Tarefas (tabela `tasks`)
+### 🏛️ Architect
+**Localização:** `/architect/architect.md`
+**Comando:** `/architech "pergunta ou problema"`
+**Papel:** Visão estratégica, design do sistema, decisões arquiteturais, spec de novos agentes.
+**NÃO executa tarefas operacionais.**
+**Escalada para Yan quando:** decisão financeira, mudança de processo de vendas, nova integração.
 
----
+### 🧠 Manager
+**Localização:** `/manager/manager.md`
+**Comando:** `/manager "objetivo"`
+**Papel:** Recebe objetivos, analisa, cria tarefas para workers, acompanha progresso.
+**NÃO executa tarefas diretamente.**
 
 ### 🔍 Leads Agent
-**Status:** Ativo  
-**Papel:** Encontrar e qualificar leads dentro do perfil ideal de cliente.  
-**Fontes:** Instagram, Google Maps, LinkedIn, indicações  
-**Output:** Leads qualificados no CRM com status `new`  
-**Critérios de qualificação:** Ver `sales-process.md`
-
----
+**Script real:** `/root/leads-agent/index.js`
+**Cron:** seg-sex 08:00 BRT
+**Papel:** Prospecta empresas locais via Google + Playwright. Salva em Google Sheets + campaign-db.
+**Output:** Contatos com WhatsApp validado no CRM.
 
 ### 📩 Campaign Agent
-**Status:** Ativo  
-**Papel:** Gerenciar cadência de mensagens para leads.  
-**Canais:** WhatsApp, Instagram DM  
-**Cadência:** Ver `sales-process.md` → Estágio 3  
-**Output:** Atualizações de status no CRM + logs de mensagens
-
----
+**Script real:** `/root/whatsapp-sales/index.js` + `webhook-server.js`
+**Processo:** Contínuo 24/7 (watchdog a cada 5min)
+**Papel:** Cadência de prospecção (5 passos, 5 dias). Anti-bloqueio ativo.
+**Output:** Mensagens enviadas, leads respondidos → SDR.
 
 ### 💬 SDR Agent
-**Status:** Ativo  
-**Papel:** Qualificação profunda, gestão de conversas ativas, preparação de propostas.  
-**Escalada para humano quando:** Cliente quer reunião, tem objeção complexa, pede proposta personalizada.  
-**Output:** Reuniões agendadas, rascunhos de proposta
-
----
+**Script real:** `/root/whatsapp-sales/src/negotiation.js`
+**Trigger:** Webhook ao receber mensagem de lead
+**Papel:** Qualificação, negociação, agendamento de reuniões (Claude Haiku 4.5).
+**Output:** Reuniões no Google Calendar, notificação ao Yan.
 
 ### 📊 Analyst Agent
-**Status:** Ativo  
-**Papel:** Analisar resultados das operações. Identificar padrões. Sugerir melhorias.  
-**Frequência:** Relatório semanal  
-**Output:** Insights para o Manager, atualizações nos documentos do `company-brain`
-
----
+**Script real:** `/root/whatsapp-sales/scripts/conversation-analyst.js`
+**Cron:** Segunda 07:30 BRT
+**Papel:** Analisa conversas, extrai 5 regras → `learned-rules.json` → SDR aplica automaticamente.
 
 ### 📱 Social Agent
-**Status:** Ativo  
-**Papel:** Criar e agendar conteúdo para redes sociais.  
-**Guia:** Ver `social-strategy.md`  
-**Output:** Posts agendados, relatório de performance semanal
+**Script real:** `/root/social-media/scripts/auto-carousel.js` + `story-pipeline.js`
+**Cron:** 5 posts/semana (auto-carousel) + seg-sex 14h (story)
+**Papel:** Carrosséis Instagram + stories via Buffer API.
 
 ---
 
-### 🛠️ CRM Dev
-**Status:** Em desenvolvimento  
-**Papel:** Manutenção e evolução do CRM local.  
-**Não é um agente autônomo ainda — é trabalho humano/Claude Dev.**
+## Regras de comunicação
+
+1. Yan → Architect (via /architech) ou Manager (via /manager)
+2. Architect → Manager (via [CRIAR_OBJETIVO] ou /manager)
+3. Manager → Workers (via tabela `tasks` no SQLite)
+4. Workers → Scripts reais na VPS (Node.js)
+5. Nenhum agente altera dados de outro sem passar por tarefa
 
 ---
 
-## Regras de Comunicação entre Agentes
+## Status
 
-1. Agentes **não se chamam diretamente** — toda coordenação passa pelo Manager ou pela tabela `tasks`.
-2. Nenhum agente deve **alterar dados de outro agente** sem passar por tarefa.
-3. Toda ação relevante deve ser **registrada** (tabela `tasks` ou logs).
-4. Em caso de dúvida sobre o que fazer, o agente deve **escalar para o Manager**, não tomar decisão sozinho.
-
----
-
-## Status dos Agentes
-
-| Agente | Status | Última atualização |
-|--------|--------|--------------------|
-| Manager | Planejado | — |
-| Leads | Ativo | — |
-| Campaign | Ativo | — |
-| SDR | Ativo | — |
-| Analyst | Ativo | — |
-| Social | Ativo | — |
-| CRM Dev | Em desenvolvimento | — |
+| Agente    | Status   | Script VPS                          |
+|-----------|----------|-------------------------------------|
+| Architect | Ativo    | commands/architect.py               |
+| Manager   | Ativo    | commands/manager.py                 |
+| Leads     | Ativo    | /root/leads-agent/index.js          |
+| Campaign  | Ativo    | /root/whatsapp-sales/index.js       |
+| SDR       | Ativo    | /root/whatsapp-sales/src/negotiation.js |
+| Analyst   | Ativo    | /root/whatsapp-sales/scripts/conversation-analyst.js |
+| Social    | Ativo    | /root/social-media/scripts/auto-carousel.js |

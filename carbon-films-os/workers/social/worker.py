@@ -1,53 +1,69 @@
 """
 Social Worker
-Responsável: Criação de conteúdo para redes sociais
+Responsável: Conteúdo Instagram — executa auto-carousel.js e story-pipeline.js
 """
+import subprocess
+import os
 from core.claude_client import ask_json
+from core.db import log_action
 from core.config import brain_context
+
+SOCIAL_MEDIA_DIR = "/root/social-media"
 
 SYSTEM = """
 Você é o Social Agent da Carbon Films.
-Sua função é criar conteúdo de alta qualidade para redes sociais,
-especialmente voltado ao mercado imobiliário.
-Siga sempre a estratégia de conteúdo e o tom de voz da empresa.
-Seja criativo, direto e orientado a gerar engajamento.
+Gerencia o conteúdo do Instagram @carbonfilms.sc.
+Executa pipelines de carrossel e story. Analisa performance de conteúdo.
 """
 
-def execute(task: dict) -> str:
-    brain = brain_context()
 
+def _run_script(script: str, args: list = None, cwd: str = SOCIAL_MEDIA_DIR) -> dict:
+    cmd = ["node", script] + (args or [])
+    result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=300)
+    return {
+        "returncode": result.returncode,
+        "stdout": result.stdout[-1000:],
+        "stderr": result.stderr[-500:],
+        "ok": result.returncode == 0,
+    }
+
+
+def execute(task: dict) -> str:
+    task_text = task["task"].lower()
+
+    # Carrossel
+    if any(w in task_text for w in ["carrossel", "carousel", "post", "publicar"]):
+        dry_run = "dry" in task_text or "teste" in task_text
+        args = ["--dry-run"] if dry_run else []
+        r = _run_script("scripts/auto-carousel.js", args)
+        log_action("social", "carousel_executado", task_id=task["id"],
+                   details={"ok": r["ok"], "stdout": r["stdout"]})
+        if r["ok"]:
+            return f"Carrossel {'(dry-run)' if dry_run else ''} executado com sucesso. {r['stdout'][:200]}"
+        return f"Erro no carrossel: {r['stderr'][:300]}"
+
+    # Story
+    if any(w in task_text for w in ["story", "slide", "whatsapp"]):
+        r = _run_script("scripts/story-pipeline.js")
+        log_action("social", "story_executado", task_id=task["id"],
+                   details={"ok": r["ok"]})
+        return f"Story pipeline {'OK' if r['ok'] else 'ERRO: ' + r['stderr'][:200]}"
+
+    # Análise / estratégia — usa Claude
+    brain = brain_context()
     prompt = f"""
-## Contexto da empresa
+## Contexto
 {brain}
 
-## Tarefa a executar
+## Tarefa
 {task['task']}
 
-## O que fazer
-Crie o conteúdo solicitado. Retorne um JSON:
+Retorne JSON:
 {{
-  "summary": "o que foi criado",
-  "posts": [
-    {{
-      "platform": "instagram | linkedin | whatsapp_status",
-      "format": "reels | carrossel | post_simples | stories",
-      "pillar": "portfolio | educacao | bts | prospeccao",
-      "caption": "legenda completa com emojis e hashtags",
-      "visual_direction": "descrição do visual/imagem ideal para esse post",
-      "best_time": "melhor horário para postar (ex: 18h terça)"
-    }}
-  ],
+  "summary": "o que foi feito/decidido",
+  "content_suggestions": ["sugestão 1", "sugestão 2"],
   "next_action": "próximo passo"
 }}
 """
-
     result = ask_json(SYSTEM, prompt)
-
-    posts = result.get("posts", [])
-    output = result.get("summary", "")
-    if posts:
-        output += f" | {len(posts)} post(s) criado(s)."
-        for i, p in enumerate(posts, 1):
-            output += f"\n  Post {i}: {p.get('format','')} {p.get('platform','')} — {p.get('caption','')[:60]}..."
-
-    return output
+    return result.get("summary", "") + " | " + result.get("next_action", "")

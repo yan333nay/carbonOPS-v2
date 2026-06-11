@@ -196,9 +196,9 @@ REGRAS OBRIGATÓRIAS:
 - Narrativa cinematográfica: tensão, conflito, virada, lição
 - Máx 80 chars por texto1 (para caber no slide — menos texto, mais impacto)
 
-REGRAS DE IMAGEM (CRÍTICO):
+REGRAS DE IMAGEM (CRÍTICO — LEIA COM ATENÇÃO):
 - hfPrompt: descreva uma CENA REAL e RECONHECÍVEL ligada à empresa/marca/produto da pessoa. Mencione explicitamente o nome da empresa/produto quando visual (ex: "McDonald's golden arches exterior 1955", "Apple store product launch stage spotlight", "Amazon warehouse conveyor belt"). Estilo cinemático, 35mm, sem pessoas. Em inglês.
-- unsplash: query de busca que mencione a empresa ou produto pelo nome. Ex: "mcdonalds exterior vintage 1950s" em vez de "diner exterior". Sempre em inglês, 3-5 palavras.
+- unsplash: a query DEVE descrever literalmente o que está sendo falado no slide. Se o slide fala de siderurgia, escreva "steel mill furnace industrial 1900s". Se fala de ferrovia, escreva "railroad construction workers 1870s". Se fala de um produto, cite o produto. NUNCA use termos genéricos como "office", "wall", "abstract", "dark minimal" para slides narrativos — isso gera fotos sem nexo com o conteúdo. Sempre em inglês, 3-6 palavras descritivas da CENA ESPECÍFICA.
 
 REGRAS DE ALGORITMO (Instagram Explorar):
 - hook: abra com paradoxo ou dado chocante que cria lacuna de curiosidade (ex: "ELE PERDEU TUDO\nTRES VEZES.\nATÉ QUE..."). Provoque o usuário a querer saber o final.
@@ -220,40 +220,40 @@ ESTRUTURA JSON (retorne SOMENTE o JSON, sem markdown, sem explicações):
       "titulo": "TÍTULO\\nEM MAIÚSCULAS",
       "texto1": "Uma frase curta e impactante. Fato real e específico. Máx 80 chars.",
       "hfPrompt": "Cena REAL da empresa/produto: ex 'McDonald's golden arches 1955 Des Plaines Illinois exterior, cinematic 35mm, no people'. Mencione o nome da marca explicitamente. Em inglês.",
-      "unsplash": "nome da empresa ou produto + contexto: ex 'mcdonalds exterior vintage 1955' — em inglês, 3-5 palavras"
+      "unsplash": "descreva a cena exata do slide: setor, produto, ambiente histórico. Ex: 'carnegie steel mill pittsburgh 1890s' — em inglês, 3-6 palavras"
     },
     {
       "capitulo": "A crise",
       "titulo": "TÍTULO\\nEM MAIÚSCULAS",
       "texto1": "Uma frase curta e impactante. Máx 80 chars.",
       "hfPrompt": "Cena relacionada à crise da história. Mencione a empresa/produto se visual. 35mm cinemático, sem pessoas. Em inglês.",
-      "unsplash": "empresa ou produto + cena de crise. Em inglês, 3-5 palavras."
+      "unsplash": "cena específica da crise: o setor, o evento, o ambiente real. Ex: 'stock market crash 1929 wall street' — em inglês, 3-6 palavras"
     },
     {
       "capitulo": "A decisão",
       "titulo": "TÍTULO\\nEM MAIÚSCULAS",
       "texto1": "Uma frase curta e impactante. Máx 80 chars.",
       "hfPrompt": "Cena da virada ou decisão. Mencione empresa/produto se visual. 35mm cinemático, sem pessoas. Em inglês.",
-      "unsplash": "empresa ou produto + virada/decisão. Em inglês, 3-5 palavras."
+      "unsplash": "cena da virada: o produto, o local, o setor específico. Ex: 'ford assembly line detroit 1913' — em inglês, 3-6 palavras"
     },
     {
       "capitulo": "O resultado",
       "titulo": "TÍTULO\\nEM MAIÚSCULAS",
       "texto1": "Uma frase curta e impactante. Máx 80 chars.",
       "hfPrompt": "Cena do sucesso/escala da empresa. Mencione o nome da marca (ex: 'McDonald's restaurants across America aerial'). 35mm cinemático, sem pessoas. Em inglês.",
-      "unsplash": "empresa no pico do sucesso. Em inglês, 3-5 palavras."
+      "unsplash": "empresa ou setor no auge: produto, planta industrial, escala. Ex: 'carnegie steel corporation expansion railroad' — em inglês, 3-6 palavras"
     },
     {
       "capitulo": "A lição",
       "citacao": "Citação real e verificável da pessoa. Impactante. Máx 200 chars.",
       "autor": "Nome Completo, contexto/ano",
       "hfPrompt": "Dark minimal cinematic background, philosophical mood, subtle light",
-      "unsplash": "dark minimal abstract cinematic"
+      "unsplash": "dark minimal cinematic portrait philosophical light"
     }
   ],
   "cta_titulo": "PERGUNTA\\nPROVOCATIVA\\nEM MAIÚSCULAS",
   "cta_texto": "Conexão direta entre a história e o poder do marketing visual. Como a Carbon Films ajuda marcas a construir autoridade. Máx 160 chars.",
-  "caption": "Texto completo da legenda para Instagram. 3-4 parágrafos curtos. Fatos + reflexão. SEM emojis. Fechar com 'Salve esse post para reler quando precisar.' e então hashtags relevantes incluindo #carbonfilms #marketingdigital #storytelling.",
+  "caption": "Texto completo da legenda para Instagram. 3-4 parágrafos curtos. Fatos + reflexão. SEM emojis. Fechar com 'Salve esse post para reler quando precisar.' e então EXATAMENTE 5 hashtags — nem mais, nem menos. Inclua obrigatoriamente #carbonfilms e #storytelling entre elas.",
   "pillar": "inspiracional"
 }`;
 

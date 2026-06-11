@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
 """
 /manager "<objetivo>"
-
-O Manager lê o company-brain, analisa o objetivo e cria tarefas no banco.
+O Manager consulta o company-brain, analisa o objetivo e cria tarefas no banco.
 """
 import sys
-import json
-sys.path.insert(0, str(__file__.replace("/commands/manager.py", "")))
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.config import brain_context
 from core.claude_client import ask_json
 from core.db import create_objective, create_task, log_action
 
-MANAGER_SYSTEM = open("manager/manager.md").read()
+MANAGER_SYSTEM = open(
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                 "manager", "manager.md")
+).read()
+
 
 def run(objective_text: str):
     print(f"\n🧠 Manager recebeu: {objective_text}\n")
-
     context = brain_context()
 
     prompt = f"""
@@ -27,17 +29,17 @@ def run(objective_text: str):
 {objective_text}
 
 ## Sua tarefa
-Analise o objetivo acima e retorne um JSON com:
+Analise o objetivo e retorne JSON:
 {{
-  "title": "título curto do objetivo (max 80 chars)",
+  "title": "título curto (max 80 chars)",
   "department": "comercial | marketing | produto | todos",
   "priority": "high | medium | low",
   "deadline": "YYYY-MM-DD ou null",
-  "analysis": "sua análise em 2-3 frases",
+  "analysis": "análise em 2-3 frases",
   "tasks": [
     {{
       "agent": "leads | campaign | sdr | analyst | social",
-      "task": "descrição clara e acionável da tarefa",
+      "task": "descrição clara e acionável",
       "priority": "high | medium | low"
     }}
   ]
@@ -47,7 +49,6 @@ Analise o objetivo acima e retorne um JSON com:
     print("⏳ Analisando objetivo...")
     result = ask_json(MANAGER_SYSTEM, prompt)
 
-    # Salva objetivo no banco
     obj_id = create_objective(
         title=result["title"],
         objective=objective_text,
@@ -58,7 +59,6 @@ Analise o objetivo acima e retorne um JSON com:
     print(f"✅ Objetivo criado (id={obj_id}): {result['title']}")
     print(f"📋 Análise: {result['analysis']}\n")
 
-    # Cria tarefas
     print(f"📌 Criando {len(result['tasks'])} tarefa(s):\n")
     for t in result["tasks"]:
         task_id = create_task(
@@ -71,7 +71,7 @@ Analise o objetivo acima e retorne um JSON com:
         log_action("manager", f"Tarefa criada para {t['agent']}", task_id=task_id,
                    details={"objective_id": obj_id, "task": t["task"]})
 
-    print(f"\n✅ Pronto. Rode `/run <agente>` para executar as tarefas.")
+    print(f"\n✅ Pronto. Use `/run <agente>` para executar as tarefas.")
 
 
 if __name__ == "__main__":
