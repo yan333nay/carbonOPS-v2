@@ -1,0 +1,31 @@
+{
+  "name": "Carbon Films",
+  "segment": "Produção audiovisual",
+  "founded": "",
+  "website": "",
+  "location": "",
+  "contacts": {
+    "email": "",
+    "phone": "",
+    "instagram": "",
+    "linkedin": ""
+  },
+  "target_market": [
+    "Imobiliárias",
+    "Construtoras",
+    "Incorporadoras"
+  ],
+  "value_proposition": "Produção de vídeos e conteúdo visual que geram resultados comerciais para o mercado imobiliário",
+  "team": [],
+  "tools": {
+    "crm": "CRM próprio (PC local)",
+    "database": "PostgreSQL (PC local)",
+    "automation": "n8n (VPS)",
+    "agents": "Claude via API (VPS)"
+  },
+  "departments": {
+    "comercial": ["leads", "campaign", "sdr", "analyst"],
+    "marketing": ["social"],
+    "produto": ["crm_dev"]
+  }
+}
