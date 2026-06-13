@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 540" role="img" aria-label="Carbon Films">
+  <title>Carbon Films</title>
+  <!-- Sem fundo (transparente) — uso em fundos claros -->
+  <!-- Braço superior do C -->
+  <polygon points="
+    70,202  70,102  90,84
+    336,76  310,178  264,234
+    188,240  70,222
+  " fill="#050505"/>
+  <!-- Spike superior direito (raio) -->
+  <polygon points="336,76  470,26  434,158  310,178" fill="#050505"/>
+  <!-- Braço inferior do C -->
+  <polygon points="
+    148,308  226,290  280,336
+    450,354  456,454  450,466
+    196,468  186,458  146,330
+  " fill="#050505"/>
+  <!-- Spike inferior esquerdo (raio) -->
+  <polygon points="148,308  78,488  150,450  186,458" fill="#050505"/>
+  <!-- Gráfico de barras — 3 barras ascendentes -->
+  <rect x="248" y="342" width="26" height="70"  fill="#050505"/>
+  <rect x="284" y="300" width="26" height="112" fill="#050505"/>
+  <rect x="320" y="252" width="26" height="160" fill="#050505"/>
+</svg>

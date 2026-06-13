@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Carbon Films — Design System v1.0</title>
+<link rel="icon" type="image/png" href="assets/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;700;800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="animations.css">
+<link rel="stylesheet" href="utilities.css">
+<style>
+
+/* ===== DEMO LAYOUT ===== */
+
+.demo-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--cf-container);
+  margin: 0 auto;
+}
+
+/* Seções da demo */
+.demo-block {
+  padding: var(--cf-section-pad-y) var(--cf-section-pad-x);
+  max-width: var(--cf-container);
+  margin: 0 auto;
+}
+
+.demo-eyebrow {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: var(--cf-tracking-wider);
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+  margin-bottom: var(--cf-space-2);
+}
+
+.demo-heading {
+  font-family: var(--cf-font-body);
+  font-size: var(--cf-text-3xl);
+  font-weight: var(--cf-weight-extrabold);
+  text-transform: uppercase;
+  letter-spacing: var(--cf-tracking-normal);
+  color: var(--cf-white);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-sub {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+  margin-bottom: var(--cf-space-3);
+  display: block;
+}
+
+.demo-sep { width: 100%; height: var(--cf-border-width); background: var(--cf-border); }
+
+/* Swatches */
+.demo-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--cf-space-4);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-swatch__color {
+  height: 72px;
+  border: var(--cf-border-width) solid var(--cf-border);
+}
+
+.demo-swatch__name {
+  display: block;
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cf-white);
+  margin-top: var(--cf-space-3);
+  margin-bottom: 2px;
+}
+
+.demo-swatch__hex {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.08em;
+  color: var(--cf-gray-600);
+}
+
+/* Tipo specimens */
+.demo-type {
+  margin-bottom: var(--cf-space-8);
+  padding-bottom: var(--cf-space-8);
+  border-bottom: var(--cf-border-width) solid var(--cf-border);
+}
+
+.demo-type:last-child { border-bottom: none; }
+
+.demo-type__meta {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+  margin-bottom: var(--cf-space-3);
+}
+
+/* Card grid */
+.demo-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cf-space-6);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-card-inner h3 {
+  font-family: var(--cf-font-body);
+  font-size: var(--cf-text-xl);
+  font-weight: var(--cf-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--cf-tracking-normal);
+  color: var(--cf-white);
+  margin-bottom: var(--cf-space-3);
+}
+
+.demo-card-inner p {
+  font-size: var(--cf-text-base);
+  font-weight: var(--cf-weight-light);
+  line-height: 1.7;
+  color: var(--cf-gray-400);
+}
+
+/* Logo showcase */
+.demo-logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: var(--cf-space-6);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--cf-space-8);
+  border: var(--cf-border-width) solid var(--cf-border);
+  gap: var(--cf-space-4);
+}
+
+.demo-logo-box--dark  { background: var(--cf-black); }
+.demo-logo-box--surface { background: var(--cf-surface); }
+.demo-logo-box--white { background: #ffffff; }
+
+.demo-logo-box img {
+  max-width: 80px;
+  height: auto;
+  display: block;
+}
+
+.demo-logo-label {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+  text-align: center;
+}
+
+/* Spacing scale */
+.demo-space-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cf-space-4);
+  margin-bottom: var(--cf-space-3);
+}
+
+.demo-space-bar {
+  background: var(--cf-white);
+  height: 4px;
+  flex-shrink: 0;
+}
+
+.demo-space-info {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+}
+
+/* Animações showcase */
+.demo-anim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cf-space-4);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-anim-box {
+  background: var(--cf-surface);
+  border: var(--cf-border-width) solid var(--cf-border);
+  padding: var(--cf-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cf-space-3);
+  cursor: pointer;
+  transition: border-color var(--cf-duration-base) var(--cf-ease-out);
+}
+
+.demo-anim-box:hover {
+  border-color: var(--cf-border2);
+}
+
+.demo-anim-label {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+}
+
+.demo-anim-preview {
+  background: var(--cf-elevated);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form */
+.demo-form {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cf-space-4);
+}
+
+.demo-form label {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+  margin-bottom: var(--cf-space-2);
+  display: block;
+}
+
+/* Stats section */
+.demo-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cf-space-6);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-stat {
+  background: var(--cf-surface);
+  border: var(--cf-border-width) solid var(--cf-border);
+  padding: var(--cf-space-8);
+}
+
+.demo-stat__number {
+  font-family: var(--cf-font-display);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.9;
+  color: var(--cf-white);
+  margin-bottom: var(--cf-space-3);
+}
+
+.demo-stat__label {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+}
+
+/* Hero */
+.demo-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px var(--cf-section-pad-x);
+  position: relative;
+}
+
+.demo-hero__icon {
+  width: 72px;
+  height: 72px;
+  margin-bottom: var(--cf-space-8);
+}
+
+.demo-hero__title {
+  font-family: var(--cf-font-display);
+  font-size: var(--cf-text-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  color: var(--cf-white);
+  margin-bottom: var(--cf-space-4);
+}
+
+.demo-hero__sub {
+  font-family: var(--cf-font-italic);
+  font-style: italic;
+  font-size: var(--cf-text-xl);
+  color: var(--cf-gray-400);
+  margin-bottom: var(--cf-space-8);
+}
+
+.demo-hero__ctas {
+  display: flex;
+  gap: var(--cf-space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* WCAG table */
+.demo-wcag {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cf-space-3);
+  margin-bottom: var(--cf-space-12);
+}
+
+.demo-wcag-cell {
+  padding: var(--cf-space-4);
+  border: var(--cf-border-width) solid var(--cf-border);
+}
+
+.demo-wcag-ratio {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  letter-spacing: 0.15em;
+  color: var(--cf-gray-600);
+  margin-top: var(--cf-space-2);
+}
+
+/* Footer */
+.demo-footer {
+  padding: var(--cf-space-12) var(--cf-section-pad-x);
+  border-top: var(--cf-border-width) solid var(--cf-border);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .demo-card-grid,
+  .demo-logo-grid,
+  .demo-anim-grid,
+  .demo-stats { grid-template-columns: 1fr; }
+  .demo-logo-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- GRAIN -->
+<div class="cf-grain" aria-hidden="true"></div>
+
+<!-- CURSOR -->
+<div class="cf-cursor">
+  <div class="c-dot"></div>
+  <div class="c-ring"></div>
+</div>
+
+<!-- SKIP LINK -->
+<a href="#main" class="cf-skip-link">Ir para o conteúdo</a>
+
+<!-- NAV -->
+<header class="cf-nav">
+  <div class="demo-nav-inner">
+    <a href="#" aria-label="Carbon Films">
+      <img src="assets/logo-white-sm.png" alt="Carbon Films" style="height:var(--cf-nav-logo-h);opacity:0.92;">
+    </a>
+    <nav aria-label="Design System">
+      <ul class="cf-nav__links">
+        <li><a href="#logos"      class="cf-nav__link">Logos</a></li>
+        <li><a href="#colors"     class="cf-nav__link">Cores</a></li>
+        <li><a href="#typography" class="cf-nav__link">Tipografia</a></li>
+        <li><a href="#components" class="cf-nav__link">Componentes</a></li>
+        <li><a href="#animations" class="cf-nav__link">Animações</a></li>
+        <li><a href="#contato"    class="cf-btn-primary">Iniciar Projeto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="demo-hero">
+    <img src="assets/logo-white-sm.png" alt="Carbon Films" class="demo-hero__icon cf-reveal cf-reveal--scale">
+    <div class="cf-sec-label cf-reveal cf-stagger-2" style="justify-content:center;">Design System v1.0</div>
+    <h1 class="demo-hero__title cf-reveal cf-stagger-3">Carbon Films</h1>
+    <p class="demo-hero__sub cf-reveal cf-stagger-4">"Marketing visual com estratégia."</p>
+    <div class="demo-hero__ctas cf-reveal cf-stagger-5">
+      <a href="#logos"      class="cf-btn-primary">Ver Sistema</a>
+      <a href="#animations" class="cf-btn-ghost">Animações</a>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- LOGOS -->
+  <section id="logos">
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">01 / Identidade Visual</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Logos</h2>
+
+      <div class="demo-logo-grid">
+        <div class="demo-logo-box demo-logo-box--dark cf-reveal cf-stagger-1">
+          <img src="assets/logo-white-sm.png" alt="Logo branca — fundo preto">
+          <span class="demo-logo-label">Branca<br>Fundo #050505</span>
+        </div>
+        <div class="demo-logo-box demo-logo-box--surface cf-reveal cf-stagger-2">
+          <img src="assets/logo-white-sm.png" alt="Logo branca — fundo surface">
+          <span class="demo-logo-label">Branca<br>Fundo #111111</span>
+        </div>
+        <div class="demo-logo-box demo-logo-box--white cf-reveal cf-stagger-3">
+          <img src="assets/logo-black.png" alt="Logo preta — fundo branco">
+          <span class="demo-logo-label" style="color:#6B6B6B;">Preta<br>Fundo branco</span>
+        </div>
+        <div class="demo-logo-box demo-logo-box--dark cf-reveal cf-stagger-4">
+          <img src="assets/logo-gray.png" alt="Logo cinza — marca-dagua" style="opacity:0.5;">
+          <span class="demo-logo-label">Cinza<br>Rodapé / sutil</span>
+        </div>
+      </div>
+
+      <!-- Escala de tamanhos -->
+      <p class="demo-sub cf-reveal" style="margin-top:var(--cf-space-8);">Escalas</p>
+      <div class="demo-logo-box demo-logo-box--dark cf-reveal" style="flex-direction:row;gap:var(--cf-space-8);justify-content:flex-start;margin-bottom:var(--cf-space-8);">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--cf-space-2);">
+          <img src="assets/logo-white-sm.png" style="width:80px;height:80px;" alt="80px">
+          <span class="demo-logo-label">80px</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--cf-space-2);">
+          <img src="assets/logo-white-sm.png" style="width:48px;height:48px;" alt="48px">
+          <span class="demo-logo-label">48px</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--cf-space-2);">
+          <img src="assets/logo-white-sm.png" style="width:32px;height:32px;" alt="32px">
+          <span class="demo-logo-label">32px</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--cf-space-2);">
+          <img src="assets/favicon-64.png" style="width:16px;height:16px;" alt="16px favicon">
+          <span class="demo-logo-label">16px</span>
+        </div>
+      </div>
+
+      <!-- Regras de uso -->
+      <div class="cf-card cf-reveal" style="margin-bottom:var(--cf-space-8);">
+        <p class="cf-sec-label">Regras de uso</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--cf-space-6);margin-top:var(--cf-space-4);">
+          <div>
+            <p style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.15em;text-transform:uppercase;color:var(--cf-white);margin-bottom:var(--cf-space-3);">Pode</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:var(--cf-space-2);">
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Usar branca em fundos #050505 a #1F1F1F</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Usar preta em fundos claros e documentos</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Escalar proporcionalmente (mínimo 32×32px)</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Usar SVG para web, PDF para impressão</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.15em;text-transform:uppercase;color:var(--cf-gray-600);margin-bottom:var(--cf-space-3);">Proibido</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:var(--cf-space-2);">
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Distorcer ou rotacionar o ícone</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Aplicar em fundos com baixo contraste</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Recolorir (apenas versões oficiais)</li>
+              <li class="cf-text-body" style="font-size:var(--cf-text-sm);">Adicionar sombras ou efeitos externos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arquivos disponíveis -->
+      <p class="demo-sub">Arquivos disponíveis</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--cf-space-3);margin-bottom:var(--cf-space-12);">
+        <span class="cf-tag">logo-white.png · 1024×1024</span>
+        <span class="cf-tag">logo-black.png · 1024×1024</span>
+        <span class="cf-tag">logo-gray.png · 1024×1024</span>
+        <span class="cf-tag">logo-white-on-black.png</span>
+        <span class="cf-tag">logo-black-on-white.png</span>
+        <span class="cf-tag">logo-white-sm.png · 512×512</span>
+        <span class="cf-tag">favicon-64.png · 64×64</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- COLORS -->
+  <section id="colors">
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">02 / Sistema Visual</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Paleta de Cores</h2>
+
+      <div class="demo-swatches">
+        <div class="cf-reveal cf-stagger-1">
+          <div class="demo-swatch__color" style="background:#050505;"></div>
+          <span class="demo-swatch__name">Carbon Black</span>
+          <span class="demo-swatch__hex">--cf-black · #050505</span>
+        </div>
+        <div class="cf-reveal cf-stagger-2">
+          <div class="demo-swatch__color" style="background:#111111;"></div>
+          <span class="demo-swatch__name">Surface</span>
+          <span class="demo-swatch__hex">--cf-surface · #111111</span>
+        </div>
+        <div class="cf-reveal cf-stagger-3">
+          <div class="demo-swatch__color" style="background:#161616;"></div>
+          <span class="demo-swatch__name">Elevated</span>
+          <span class="demo-swatch__hex">--cf-elevated · #161616</span>
+        </div>
+        <div class="cf-reveal cf-stagger-4">
+          <div class="demo-swatch__color" style="background:#1A1A1A;"></div>
+          <span class="demo-swatch__name">Glass</span>
+          <span class="demo-swatch__hex">--cf-glass · #1A1A1A</span>
+        </div>
+        <div class="cf-reveal cf-stagger-5">
+          <div class="demo-swatch__color" style="background:#1F1F1F;"></div>
+          <span class="demo-swatch__name">Border</span>
+          <span class="demo-swatch__hex">--cf-border · #1F1F1F</span>
+        </div>
+        <div class="cf-reveal cf-stagger-6">
+          <div class="demo-swatch__color" style="background:#2A2A2A;"></div>
+          <span class="demo-swatch__name">Border Active</span>
+          <span class="demo-swatch__hex">--cf-border2 · #2A2A2A</span>
+        </div>
+        <div class="cf-reveal cf-stagger-7">
+          <div class="demo-swatch__color" style="background:#3A3A3A;"></div>
+          <span class="demo-swatch__name">Dim</span>
+          <span class="demo-swatch__hex">--cf-dim · #3A3A3A</span>
+        </div>
+        <div class="cf-reveal cf-stagger-8">
+          <div class="demo-swatch__color" style="background:#6B6B6B;"></div>
+          <span class="demo-swatch__name">Gray 600</span>
+          <span class="demo-swatch__hex">--cf-gray-600 · #6B6B6B</span>
+        </div>
+        <div class="cf-reveal">
+          <div class="demo-swatch__color" style="background:#A0A0A0;"></div>
+          <span class="demo-swatch__name">Gray 400</span>
+          <span class="demo-swatch__hex">--cf-gray-400 · #A0A0A0</span>
+        </div>
+        <div class="cf-reveal">
+          <div class="demo-swatch__color" style="background:#FFFFFF;border-color:#2A2A2A;"></div>
+          <span class="demo-swatch__name">White / Accent</span>
+          <span class="demo-swatch__hex">--cf-white · #FFFFFF</span>
+        </div>
+      </div>
+
+      <!-- WCAG -->
+      <p class="demo-sub cf-reveal">Contraste WCAG 2.1</p>
+      <div class="demo-wcag">
+        <div class="demo-wcag-cell" style="background:#050505;" aria-label="Branco em Carbon Black">
+          <span style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.2em;text-transform:uppercase;color:#FFFFFF;">Branco em Black</span>
+          <p class="demo-wcag-ratio">19.8:1 · AAA</p>
+        </div>
+        <div class="demo-wcag-cell" style="background:#111111;" aria-label="Branco em Surface">
+          <span style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.2em;text-transform:uppercase;color:#FFFFFF;">Branco em Surface</span>
+          <p class="demo-wcag-ratio">17.1:1 · AAA</p>
+        </div>
+        <div class="demo-wcag-cell" style="background:#050505;" aria-label="Gray 400 em Carbon Black">
+          <span style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.2em;text-transform:uppercase;color:#A0A0A0;">Gray 400 em Black</span>
+          <p class="demo-wcag-ratio">4.6:1 · AA</p>
+        </div>
+        <div class="demo-wcag-cell" style="background:#111111;" aria-label="Gray 400 em Surface">
+          <span style="font-family:var(--cf-font-mono);font-size:var(--cf-text-xs);letter-spacing:0.2em;text-transform:uppercase;color:#A0A0A0;">Gray 400 em Surface</span>
+          <p class="demo-wcag-ratio">4.0:1 · AA large</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- TYPOGRAPHY -->
+  <section id="typography">
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">03 / Sistema Visual</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Tipografia</h2>
+
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Display · Anton 400 · Uppercase · line-height 0.92</p>
+        <div class="cf-heading-display" style="font-size:clamp(2rem,5vw,4.5rem);">Vídeos que Fecham Vendas</div>
+      </div>
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Headline Section · Montserrat 800 · Uppercase</p>
+        <div class="cf-heading-section">Marketing Visual com Estratégia</div>
+      </div>
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Body · Montserrat 300 · 16px · line-height 1.7</p>
+        <p class="cf-text-body" style="max-width:560px;">Na Carbon, excelência não é um objetivo — é o ponto de partida. Cada pixel, cada campanha tem propósito claro. Elevamos o nível visual e estratégico de marcas que querem ser reconhecidas como referência.</p>
+      </div>
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Italic Decorativo · Playfair Display italic · 24px</p>
+        <p class="cf-text-italic">"Descubra o potencial visual da sua marca."</p>
+      </div>
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Mono Label · JetBrains Mono 400 · Uppercase · tracking 0.35em</p>
+        <p class="cf-text-mono">CF_047 / Social Media / Santa Catarina / 2019—Presente</p>
+      </div>
+      <div class="demo-type cf-reveal">
+        <p class="demo-type__meta">Section Label · com linha decorativa</p>
+        <span class="cf-sec-label">Nossos Serviços</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- STATS -->
+  <section>
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">04 / Identidade</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Números da Marca</h2>
+
+      <div class="demo-stats">
+        <div class="demo-stat cf-reveal cf-stagger-1">
+          <div class="demo-stat__number cf-counter" data-target="300" data-prefix="+" data-suffix="%">+300%</div>
+          <div class="demo-stat__label">ROI médio</div>
+        </div>
+        <div class="demo-stat cf-reveal cf-stagger-2">
+          <div class="demo-stat__number cf-counter" data-target="5" data-prefix="+">+5</div>
+          <div class="demo-stat__label">Anos no mercado</div>
+        </div>
+        <div class="demo-stat cf-reveal cf-stagger-3">
+          <div class="demo-stat__number cf-counter" data-target="9">9</div>
+          <div class="demo-stat__label">Serviços especializados</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- COMPONENTS -->
+  <section id="components">
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">05 / Componentes</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Biblioteca</h2>
+
+      <!-- Botões -->
+      <p class="demo-sub cf-reveal">Primary — Branco sólido, inverte no hover</p>
+      <div class="cf-flex cf-flex-wrap cf-gap-4 cf-mb-8 cf-reveal">
+        <a href="#" class="cf-btn-primary">Iniciar Projeto</a>
+        <a href="#" class="cf-btn-primary">Agendar Reunião</a>
+        <a href="#" class="cf-btn-primary is-loading">Enviando</a>
+      </div>
+
+      <p class="demo-sub cf-reveal">Ghost — Borda branca, inverte no hover</p>
+      <div class="cf-flex cf-flex-wrap cf-gap-4 cf-mb-8 cf-reveal">
+        <a href="#" class="cf-btn-ghost">Ver Portfolio</a>
+        <a href="#" class="cf-btn-ghost">Nossos Cases</a>
+        <a href="#" class="cf-btn-ghost is-disabled">Indisponível</a>
+      </div>
+
+      <p class="demo-sub cf-reveal">Mono — Texto + underline animado</p>
+      <div class="cf-flex cf-flex-wrap cf-gap-8 cf-mb-12 cf-reveal">
+        <button class="cf-btn-mono">Ver todos os serviços</button>
+        <button class="cf-btn-mono">Explorar portfolio</button>
+      </div>
+
+      <!-- Tags & Badges -->
+      <p class="demo-sub cf-reveal">Tags & Badges</p>
+      <div class="cf-flex cf-flex-wrap cf-gap-3 cf-mb-4 cf-reveal">
+        <span class="cf-tag">Marketing Visual</span>
+        <span class="cf-tag">Produção Audiovisual</span>
+        <span class="cf-tag">Tráfego Pago</span>
+        <span class="cf-tag">Branding</span>
+        <span class="cf-tag">Drone</span>
+      </div>
+      <div class="cf-flex cf-flex-wrap cf-gap-3 cf-mb-12 cf-reveal">
+        <span class="cf-badge">CF_001</span>
+        <span class="cf-badge">CF_047 / Social Media</span>
+        <span class="cf-badge">CF_012 / Portfolio</span>
+      </div>
+
+      <!-- Cards -->
+      <p class="demo-sub cf-reveal">Card Standard — hover com lift</p>
+      <div class="demo-card-grid" style="margin-bottom:var(--cf-space-8);">
+        <div class="cf-card cf-reveal cf-stagger-1">
+          <span class="cf-badge cf-mb-4" style="display:inline-flex;">CF_001 / Serviço</span>
+          <div class="demo-card-inner">
+            <h3>Produção Audiovisual</h3>
+            <p>Vídeos institucionais, campanhas e conteúdo de alto impacto para marcas que querem se posicionar como referência.</p>
+          </div>
+          <div class="cf-mt-6"><a href="#" class="cf-btn-mono">Explorar serviço</a></div>
+        </div>
+        <div class="cf-card cf-reveal cf-stagger-2">
+          <span class="cf-badge cf-mb-4" style="display:inline-flex;">CF_002 / Serviço</span>
+          <div class="demo-card-inner">
+            <h3>Tráfego Pago</h3>
+            <p>Campanhas de performance no Meta Ads e Google Ads com foco em resultado mensurável. +300% ROI médio.</p>
+          </div>
+          <div class="cf-mt-6"><a href="#" class="cf-btn-mono">Explorar serviço</a></div>
+        </div>
+      </div>
+
+      <p class="demo-sub cf-reveal">Card Glass — backdrop blur</p>
+      <div style="background:linear-gradient(135deg,#0a0a0a 0%,#181818 100%);padding:var(--cf-space-12);margin-bottom:var(--cf-space-12);">
+        <div class="demo-card-grid">
+          <div class="cf-card-glass cf-reveal cf-stagger-1">
+            <span class="cf-sec-label">Portfolio</span>
+            <div class="demo-card-inner">
+              <h3>Case Real</h3>
+              <p>+300% engajamento em 90 dias. Não foi sorte. Foi sistema, estratégia e execução impecável.</p>
+            </div>
+          </div>
+          <div class="cf-card-glass cf-reveal cf-stagger-2">
+            <span class="cf-sec-label">Resultado</span>
+            <div class="demo-card-inner">
+              <h3>5 Anos no Mercado</h3>
+              <p>Transformando marcas em referências desde 2019. O mínimo aqui é o máximo em outros lugares.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skeleton -->
+      <p class="demo-sub cf-reveal">Skeleton — Loading state</p>
+      <div class="cf-flex cf-flex-col cf-gap-3 cf-mb-12 cf-reveal" style="max-width:400px;">
+        <div class="cf-skeleton" style="height:20px;width:60%;"></div>
+        <div class="cf-skeleton" style="height:16px;"></div>
+        <div class="cf-skeleton" style="height:16px;width:80%;"></div>
+        <div class="cf-skeleton" style="height:16px;width:50%;"></div>
+      </div>
+
+      <!-- Divider -->
+      <p class="demo-sub cf-reveal">Divider</p>
+      <hr class="cf-divider" style="margin-bottom:var(--cf-space-12);">
+
+      <!-- Form -->
+      <p class="demo-sub cf-reveal">Formulário</p>
+      <div class="demo-form cf-reveal">
+        <div>
+          <label for="d-nome">Nome</label>
+          <input id="d-nome" type="text" class="cf-input" placeholder="Seu nome">
+        </div>
+        <div>
+          <label for="d-email">E-mail</label>
+          <input id="d-email" type="email" class="cf-input" placeholder="seu@email.com">
+        </div>
+        <div>
+          <label for="d-select">Serviço</label>
+          <select id="d-select" class="cf-input">
+            <option value="">Selecione</option>
+            <option>Produção Audiovisual</option>
+            <option>Tráfego Pago</option>
+            <option>Branding</option>
+            <option>Social Media</option>
+          </select>
+        </div>
+        <div>
+          <label for="d-msg">Mensagem</label>
+          <textarea id="d-msg" class="cf-input" placeholder="Fale sobre seu projeto"></textarea>
+        </div>
+        <button class="cf-btn-primary" type="submit">Enviar Mensagem</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- ANIMATIONS -->
+  <section id="animations">
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">06 / Motion</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Animações</h2>
+
+      <!-- Keyframes -->
+      <p class="demo-sub cf-reveal">Keyframes disponíveis</p>
+      <div class="demo-anim-grid cf-mb-12">
+        <div class="demo-anim-box cf-reveal cf-stagger-1" onclick="this.querySelector('.demo-anim-preview div').classList.remove('cf-animate-fade-up');void this.querySelector('.demo-anim-preview div').offsetWidth;this.querySelector('.demo-anim-preview div').classList.add('cf-animate-fade-up')">
+          <span class="demo-anim-label">cf-fade-up</span>
+          <div class="demo-anim-preview">
+            <div class="cf-animate-fade-up" style="width:32px;height:32px;background:var(--cf-white);"></div>
+          </div>
+        </div>
+        <div class="demo-anim-box cf-reveal cf-stagger-2" onclick="this.querySelector('.demo-anim-preview div').classList.remove('cf-animate-slide-right');void this.querySelector('.demo-anim-preview div').offsetWidth;this.querySelector('.demo-anim-preview div').classList.add('cf-animate-slide-right')">
+          <span class="demo-anim-label">cf-slide-right</span>
+          <div class="demo-anim-preview">
+            <div class="cf-animate-slide-right" style="width:32px;height:32px;background:var(--cf-white);"></div>
+          </div>
+        </div>
+        <div class="demo-anim-box cf-reveal cf-stagger-3" onclick="this.querySelector('.demo-anim-preview div').classList.remove('cf-animate-scale-in');void this.querySelector('.demo-anim-preview div').offsetWidth;this.querySelector('.demo-anim-preview div').classList.add('cf-animate-scale-in')">
+          <span class="demo-anim-label">cf-scale-in</span>
+          <div class="demo-anim-preview">
+            <div class="cf-animate-scale-in" style="width:32px;height:32px;background:var(--cf-white);"></div>
+          </div>
+        </div>
+        <div class="demo-anim-box cf-reveal cf-stagger-4" onclick="this.querySelector('.demo-anim-preview div').classList.remove('cf-animate-fade-in');void this.querySelector('.demo-anim-preview div').offsetWidth;this.querySelector('.demo-anim-preview div').classList.add('cf-animate-fade-in')">
+          <span class="demo-anim-label">cf-fade-in</span>
+          <div class="demo-anim-preview">
+            <div class="cf-animate-fade-in" style="width:32px;height:32px;background:var(--cf-white);"></div>
+          </div>
+        </div>
+        <div class="demo-anim-box cf-reveal cf-stagger-5">
+          <span class="demo-anim-label">cf-skeleton (shimmer)</span>
+          <div class="demo-anim-preview">
+            <div class="cf-skeleton" style="width:100%;height:20px;"></div>
+          </div>
+        </div>
+        <div class="demo-anim-box cf-reveal cf-stagger-6">
+          <span class="demo-anim-label">cf-spinner</span>
+          <div class="demo-anim-preview">
+            <div class="cf-spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll reveal -->
+      <p class="demo-sub cf-reveal">Scroll Reveal — .cf-reveal (rolar para revelar)</p>
+      <div class="cf-flex cf-flex-col cf-gap-4 cf-mb-12">
+        <div class="cf-card cf-reveal">
+          <span class="cf-sec-label">cf-reveal (padrão)</span>
+          <p class="cf-text-body" style="font-size:var(--cf-text-sm);">Fade + translateY(28px). Usar data-stagger="80" para delay.</p>
+        </div>
+        <div class="cf-card cf-reveal cf-reveal--fade">
+          <span class="cf-sec-label">cf-reveal--fade</span>
+          <p class="cf-text-body" style="font-size:var(--cf-text-sm);">Apenas fade, sem movimento vertical.</p>
+        </div>
+        <div class="cf-card cf-reveal cf-reveal--scale">
+          <span class="cf-sec-label">cf-reveal--scale</span>
+          <p class="cf-text-body" style="font-size:var(--cf-text-sm);">Scale de 0.96 → 1.0 com fade.</p>
+        </div>
+      </div>
+
+      <!-- Hover interactions -->
+      <p class="demo-sub cf-reveal">Hover interactions</p>
+      <div class="cf-flex cf-gap-8 cf-mb-12 cf-reveal">
+        <a href="#" class="cf-underline cf-text-body" style="color:var(--cf-white);">cf-underline — hover aqui</a>
+        <div class="cf-card cf-hover-lift" style="padding:var(--cf-space-4) var(--cf-space-6);">
+          <span class="cf-text-mono">cf-hover-lift</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="demo-sep"></div>
+
+  <!-- SPACING -->
+  <section>
+    <div class="demo-block">
+      <p class="demo-eyebrow cf-reveal">07 / Tokens</p>
+      <h2 class="demo-heading cf-reveal cf-stagger-2">Espaçamento</h2>
+
+      <div class="cf-reveal">
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:4px;"></div><span class="demo-space-info">--cf-space-1 · 4px · micro</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:8px;"></div><span class="demo-space-info">--cf-space-2 · 8px · xs</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:12px;"></div><span class="demo-space-info">--cf-space-3 · 12px · sm</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:16px;"></div><span class="demo-space-info">--cf-space-4 · 16px · md</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:24px;"></div><span class="demo-space-info">--cf-space-6 · 24px · gutter</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:32px;"></div><span class="demo-space-info">--cf-space-8 · 32px · card-padding</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:48px;"></div><span class="demo-space-info">--cf-space-12 · 48px · lg</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:64px;"></div><span class="demo-space-info">--cf-space-16 · 64px · xl</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:80px;"></div><span class="demo-space-info">--cf-space-20 · 80px · section-tablet</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:96px;"></div><span class="demo-space-info">--cf-space-24 · 96px · 2xl</span></div>
+        <div class="demo-space-row"><div class="demo-space-bar" style="width:120px;"></div><span class="demo-space-info">--cf-space-30 · 120px · section-desktop</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="demo-footer" id="contato">
+  <img src="assets/logo-white-sm.png" alt="Carbon Films" style="width:48px;height:48px;margin:0 auto var(--cf-space-6);display:block;opacity:0.6;">
+  <p class="cf-text-mono" style="font-size:var(--cf-text-xs);letter-spacing:0.2em;margin-bottom:var(--cf-space-2);">Carbon Films Design System v1.0</p>
+  <p class="cf-text-body" style="font-size:var(--cf-text-sm);color:var(--cf-gray-600);">Monocromático total · Zero border-radius · 84 tokens · 20 componentes · 14 keyframes</p>
+</footer>
+
+<script src="assets/cf-core.js"></script>
+</body>
+</html>

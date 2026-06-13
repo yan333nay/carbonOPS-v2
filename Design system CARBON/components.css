@@ -1,0 +1,611 @@
+/* ===================================================
+   Carbon Films Component Library v1.0
+   Requer: design-tokens.css importado antes
+   Prefixo: cf-  |  CSS vanilla  |  Zero border-radius
+   =================================================== */
+
+/* ===== RESET & BASE ===== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cf-black);
+  color: var(--cf-white);
+  font-family: var(--cf-font-body);
+  font-weight: var(--cf-weight-light);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* ===================================================
+   GRAIN OVERLAY
+   =================================================== */
+
+/* Aplicar no body::after de cada página via design-system.md */
+.cf-grain {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: var(--cf-z-grain);
+  opacity: var(--cf-grain-opacity);
+}
+
+
+/* ===================================================
+   CURSOR CUSTOMIZADO
+   =================================================== */
+
+.cf-cursor .c-dot {
+  position: fixed;
+  width: var(--cf-cursor-dot);
+  height: var(--cf-cursor-dot);
+  background: var(--cf-white);
+  border-radius: var(--cf-radius-circle);
+  pointer-events: none;
+  z-index: var(--cf-z-cursor);
+  transform: translate(-50%, -50%);
+  transition: transform var(--cf-duration-fast) var(--cf-ease-out);
+}
+
+.cf-cursor .c-ring {
+  position: fixed;
+  width: var(--cf-cursor-ring);
+  height: var(--cf-cursor-ring);
+  border: var(--cf-border-width) solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--cf-radius-circle);
+  pointer-events: none;
+  z-index: var(--cf-z-cursor2);
+  transform: translate(-50%, -50%);
+  transition: width var(--cf-duration-base) var(--cf-ease-out),
+              height var(--cf-duration-base) var(--cf-ease-out),
+              border-color var(--cf-duration-base) var(--cf-ease-out);
+}
+
+/* Estado: hover sobre elemento clicável */
+a:hover ~ .cf-cursor .c-dot,
+button:hover ~ .cf-cursor .c-dot {
+  transform: translate(-50%, -50%) scale(2);
+}
+
+
+/* ===================================================
+   NAVEGACAO
+   =================================================== */
+
+.cf-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--cf-z-nav);
+  padding: var(--cf-space-6) var(--cf-section-pad-x);
+  background: linear-gradient(
+    to bottom,
+    var(--cf-overlay-nav) 70%,
+    transparent
+  );
+  backdrop-filter: blur(var(--cf-blur-nav));
+  -webkit-backdrop-filter: blur(var(--cf-blur-nav));
+  border-bottom: var(--cf-border-width) solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cf-nav__logo {
+  height: var(--cf-nav-logo-h);
+  opacity: 0.92;
+  transition: opacity var(--cf-duration-fast) var(--cf-ease-out);
+}
+
+.cf-nav__logo:hover {
+  opacity: 1;
+}
+
+.cf-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--cf-space-8);
+  list-style: none;
+}
+
+.cf-nav__link {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+  position: relative;
+  transition: color var(--cf-duration-fast) var(--cf-ease-out);
+}
+
+.cf-nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: var(--cf-border-width);
+  background: var(--cf-white);
+  transition: width var(--cf-duration-base) var(--cf-ease-snap);
+}
+
+.cf-nav__link:hover,
+.cf-nav__link[aria-current="page"] {
+  color: var(--cf-white);
+}
+
+.cf-nav__link:hover::after,
+.cf-nav__link[aria-current="page"]::after {
+  width: 100%;
+}
+
+
+/* ===================================================
+   BOTOES
+   =================================================== */
+
+/* Shared button base */
+[class^="cf-btn"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cf-space-2);
+  border: var(--cf-border-width) solid transparent;
+  cursor: none;
+  text-decoration: none;
+  transition:
+    background var(--cf-duration-fast) var(--cf-ease-out),
+    color var(--cf-duration-fast) var(--cf-ease-out),
+    border-color var(--cf-duration-fast) var(--cf-ease-out);
+}
+
+/* Primary — branco bg, preto text */
+.cf-btn-primary {
+  padding: var(--cf-btn-pad-y) var(--cf-btn-pad-x);
+  background: var(--cf-white);
+  color: var(--cf-black);
+  border-color: var(--cf-white);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  font-weight: var(--cf-weight-regular);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+}
+
+.cf-btn-primary:hover {
+  background: transparent;
+  color: var(--cf-white);
+}
+
+/* Ghost — border branco, texto branco */
+.cf-btn-ghost {
+  padding: var(--cf-btn-pad-y) var(--cf-btn-pad-x);
+  background: transparent;
+  color: var(--cf-white);
+  border-color: var(--cf-white);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  font-weight: var(--cf-weight-regular);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+}
+
+.cf-btn-ghost:hover {
+  background: var(--cf-white);
+  color: var(--cf-black);
+}
+
+/* Mono — apenas texto mono uppercase, sem fundo */
+.cf-btn-mono {
+  padding: var(--cf-btn-mono-pad-y) 0;
+  background: transparent;
+  color: var(--cf-gray-400);
+  border: none;
+  border-bottom: var(--cf-border-width) solid var(--cf-border2);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  font-weight: var(--cf-weight-light);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+  transition: color var(--cf-duration-fast) var(--cf-ease-out),
+              border-color var(--cf-duration-fast) var(--cf-ease-out);
+}
+
+.cf-btn-mono:hover {
+  color: var(--cf-white);
+  border-color: var(--cf-white);
+}
+
+/* Focus state — todos os botões */
+[class^="cf-btn"]:focus-visible {
+  outline: var(--cf-border-width-2) solid var(--cf-white);
+  outline-offset: var(--cf-focus-offset);
+}
+
+
+/* ===================================================
+   TIPOGRAFIA
+   =================================================== */
+
+/* Display — Anton uppercase, para hero */
+.cf-heading-display {
+  font-family: var(--cf-font-display);
+  font-size: var(--cf-text-display);
+  font-weight: var(--cf-weight-regular); /* Anton só tem 400 */
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--cf-white);
+}
+
+/* Section heading — Montserrat 800 uppercase */
+.cf-heading-section {
+  font-family: var(--cf-font-body);
+  font-size: var(--cf-text-3xl);
+  font-weight: var(--cf-weight-extrabold);
+  text-transform: uppercase;
+  letter-spacing: var(--cf-tracking-normal);
+  line-height: 1.1;
+  color: var(--cf-white);
+}
+
+/* Body — Montserrat 300 */
+.cf-text-body {
+  font-family: var(--cf-font-body);
+  font-size: var(--cf-text-base);
+  font-weight: var(--cf-weight-light);
+  line-height: 1.7;
+  color: var(--cf-gray-400);
+}
+
+/* Mono — JetBrains Mono uppercase */
+.cf-text-mono {
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  font-weight: var(--cf-weight-regular);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+  color: var(--cf-gray-600);
+}
+
+/* Italic — Playfair Display decorativo */
+.cf-text-italic {
+  font-family: var(--cf-font-italic);
+  font-style: italic;
+  font-size: var(--cf-text-xl);
+  font-weight: var(--cf-weight-regular);
+  color: var(--cf-gray-400);
+  line-height: 1.5;
+}
+
+
+/* ===================================================
+   TAGS & LABELS
+   =================================================== */
+
+/* Tag — monospace, uppercase, fundo surface */
+.cf-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--cf-space-1) var(--cf-space-3);
+  background: var(--cf-surface);
+  border: var(--cf-border-width) solid var(--cf-border);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  font-weight: var(--cf-weight-light);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+}
+
+/* Section label — linha decorativa à esquerda */
+.cf-sec-label {
+  display: flex;
+  align-items: center;
+  gap: var(--cf-sec-label-gap);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-xs);
+  font-weight: var(--cf-weight-light);
+  letter-spacing: var(--cf-tracking-wider);
+  text-transform: uppercase;
+  color: var(--cf-gray-400);
+  margin-bottom: var(--cf-space-4);
+}
+
+.cf-sec-label::before {
+  content: '';
+  display: block;
+  width: var(--cf-sec-label-line);
+  height: var(--cf-border-width);
+  background: var(--cf-border2);
+  flex-shrink: 0;
+}
+
+/* Badge — código de referência estilo CF_001 */
+.cf-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--cf-space-2);
+  border: var(--cf-border-width) solid var(--cf-border2);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-2xs);
+  font-weight: var(--cf-weight-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cf-dim);
+}
+
+
+/* ===================================================
+   CARDS
+   =================================================== */
+
+/* Card padrão — dark com hover lift */
+.cf-card {
+  background: var(--cf-surface);
+  border: var(--cf-border-width) solid var(--cf-border);
+  padding: var(--cf-space-8);
+  transition:
+    border-color var(--cf-duration-base) var(--cf-ease-out),
+    transform var(--cf-duration-base) var(--cf-ease-snap),
+    background var(--cf-duration-base) var(--cf-ease-out);
+}
+
+.cf-card:hover {
+  border-color: var(--cf-border2);
+  background: var(--cf-elevated);
+  transform: translateY(var(--cf-card-lift));
+}
+
+/* Card glass — frosted/vidro */
+.cf-card-glass {
+  background: rgba(26, 26, 26, 0.7);
+  border: var(--cf-border-width) solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(var(--cf-blur-glass));
+  -webkit-backdrop-filter: blur(var(--cf-blur-glass));
+  padding: var(--cf-space-8);
+  transition:
+    border-color var(--cf-duration-base) var(--cf-ease-out),
+    background var(--cf-duration-base) var(--cf-ease-out);
+}
+
+.cf-card-glass:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(26, 26, 26, 0.85);
+}
+
+
+/* ===================================================
+   LAYOUT
+   =================================================== */
+
+/* Section — padding padrão */
+.cf-section {
+  padding: var(--cf-section-pad-y) var(--cf-section-pad-x);
+}
+
+.cf-section--sm {
+  padding: var(--cf-section-pad-y-md) var(--cf-section-pad-x);
+}
+
+/* Container — max-width centrado */
+.cf-container {
+  max-width: var(--cf-container);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Grid — 12 colunas, gap 24px */
+.cf-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--cf-space-6);
+}
+
+/* Divider — linha 1px */
+.cf-divider {
+  width: 100%;
+  height: var(--cf-border-width);
+  background: var(--cf-border2);
+  border: none;
+  margin: 0;
+}
+
+
+/* ===================================================
+   OVERLAY DE IMAGEM
+   =================================================== */
+
+.cf-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.cf-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cf-overlay-dark);
+  transition: background var(--cf-duration-base) var(--cf-ease-out);
+}
+
+.cf-overlay:hover::after {
+  background: rgba(5, 5, 5, 0.5);
+}
+
+.cf-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ===================================================
+   FORMULARIO / INPUT
+   =================================================== */
+
+.cf-input {
+  display: block;
+  width: 100%;
+  padding: var(--cf-space-4) var(--cf-space-4);
+  background: var(--cf-surface);
+  color: var(--cf-white);
+  border: var(--cf-border-width) solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  font-family: var(--cf-font-body);
+  font-size: var(--cf-text-base);
+  font-weight: var(--cf-weight-light);
+  outline: none;
+  transition:
+    border-color var(--cf-duration-fast) var(--cf-ease-out),
+    background var(--cf-duration-fast) var(--cf-ease-out);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.cf-input::placeholder {
+  color: var(--cf-dim);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  letter-spacing: var(--cf-tracking-wide);
+  text-transform: uppercase;
+}
+
+.cf-input:hover {
+  border-color: var(--cf-border2);
+  background: var(--cf-elevated);
+}
+
+.cf-input:focus {
+  border-color: var(--cf-white);
+  background: var(--cf-glass);
+  outline: none;
+}
+
+.cf-input:focus-visible {
+  outline: var(--cf-border-width-2) solid var(--cf-white);
+  outline-offset: var(--cf-focus-offset);
+}
+
+textarea.cf-input {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select.cf-input {
+  cursor: none;
+}
+
+
+/* ===================================================
+   ACESSIBILIDADE
+   =================================================== */
+
+/* Focus visível para navegação por teclado */
+:focus-visible {
+  outline: var(--cf-border-width-2) solid var(--cf-white);
+  outline-offset: var(--cf-focus-offset);
+}
+
+/* Skip link */
+.cf-skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--cf-space-4);
+  padding: var(--cf-space-2) var(--cf-space-4);
+  background: var(--cf-white);
+  color: var(--cf-black);
+  font-family: var(--cf-font-mono);
+  font-size: var(--cf-text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--cf-tracking-wide);
+  z-index: 10000;
+}
+
+.cf-skip-link:focus {
+  top: var(--cf-space-4);
+}
+
+/* Motion reduced — respeitar preferência de sistema */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* ===================================================
+   RESPONSIVO
+   =================================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --cf-section-pad-x: var(--cf-section-pad-x-md);
+    --cf-section-pad-y: var(--cf-section-pad-y-md);
+  }
+
+  .cf-nav {
+    padding: var(--cf-space-4) var(--cf-section-pad-x-md);
+  }
+
+  .cf-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root {
+    --cf-section-pad-x: var(--cf-section-pad-x-sm);
+    --cf-section-pad-y: var(--cf-section-pad-y-sm);
+  }
+
+  .cf-nav {
+    padding: var(--cf-space-4) var(--cf-section-pad-x-sm);
+  }
+
+  .cf-nav__links {
+    display: none; /* Mobile nav requer implementação própria */
+  }
+
+  .cf-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-heading-display {
+    line-height: 0.95;
+  }
+}

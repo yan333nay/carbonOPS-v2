@@ -1,0 +1,126 @@
+/* ===================================================
+   Carbon Films Design Tokens v1.0
+   Fonte única de verdade — importar em toda página
+   =================================================== */
+
+:root {
+
+  /* ===== COLORS — SURFACE ===== */
+  --cf-black:    #050505;   /* Carbon Black — background body */
+  --cf-surface:  #111111;   /* Cards, painéis, superfícies */
+  --cf-elevated: #161616;   /* Elementos elevados acima do surface */
+  --cf-glass:    #1A1A1A;   /* Overlays, hover states, vidro */
+  --cf-border:   #1F1F1F;   /* Bordas sutis padrão */
+  --cf-border2:  #2A2A2A;   /* Bordas hover, separadores visíveis */
+  --cf-dim:      #3A3A3A;   /* Desabilitados, placeholders */
+
+  /* ===== COLORS — TEXT & ICON ===== */
+  --cf-white:    #FFFFFF;   /* Texto principal, ícones, accent */
+  --cf-gray-400: #A0A0A0;   /* Texto secundário, subtítulos */
+  --cf-gray-600: #6B6B6B;   /* Metadados, timestamps, captions */
+
+  /* ===== COLORS — SEMANTIC ===== */
+  --cf-accent:   #FFFFFF;   /* Accent = branco (monocromático total) */
+
+  /* ===== TYPOGRAPHY — FAMILIES ===== */
+  --cf-font-display:  'Anton', sans-serif;
+  --cf-font-body:     'Montserrat', sans-serif;
+  --cf-font-mono:     'JetBrains Mono', monospace;
+  --cf-font-italic:   'Playfair Display', serif;
+
+  /* ===== TYPOGRAPHY — SCALE ===== */
+  --cf-text-2xs:     0.5rem;    /*  8.0px — badges, micro-labels extremos */
+  --cf-text-xs:      0.58rem;   /*  9.3px — tags de seção, metadados extremos */
+  --cf-text-sm:      0.62rem;   /*  9.9px — labels, nav links, botões mono */
+  --cf-text-base:    1rem;      /* 16px   — corpo de texto padrão */
+  --cf-text-lg:      1.125rem;  /* 18px   — texto maior, intros */
+  --cf-text-xl:      1.5rem;    /* 24px   — subheadings */
+  --cf-text-2xl:     2rem;      /* 32px   — headings de seção pequenos */
+  --cf-text-3xl:     clamp(1.5rem, 2.5vw, 2.4rem);   /* Section heading responsivo */
+  --cf-text-display: clamp(3rem, 8vw, 7rem);           /* Hero display — Anton */
+
+  /* ===== TYPOGRAPHY — WEIGHTS ===== */
+  --cf-weight-light:     300;
+  --cf-weight-regular:   400;
+  --cf-weight-bold:      700;
+  --cf-weight-extrabold: 800;
+
+  /* ===== TYPOGRAPHY — TRACKING ===== */
+  --cf-tracking-tight:  0.02em;
+  --cf-tracking-normal: 0.04em;
+  --cf-tracking-wide:   0.35em;
+  --cf-tracking-wider:  0.5em;
+
+  /* ===== SPACING — 4px base ===== */
+  --cf-space-1:   4px;
+  --cf-space-2:   8px;
+  --cf-space-3:   12px;
+  --cf-space-4:   16px;
+  --cf-space-6:   24px;
+  --cf-space-8:   32px;
+  --cf-space-12:  48px;
+  --cf-space-16:  64px;
+  --cf-space-20:  80px;
+  --cf-space-24:  96px;
+  --cf-space-30:  120px;
+
+  /* ===== LAYOUT ===== */
+  --cf-container:        1280px;
+  --cf-section-pad-x:    72px;
+  --cf-section-pad-y:    120px;
+  --cf-section-pad-x-md: 48px;
+  --cf-section-pad-y-md: 80px;
+  --cf-section-pad-x-sm: 24px;
+  --cf-section-pad-y-sm: 60px;
+
+  /* ===== BORDERS ===== */
+  --cf-border-width:   1px;
+  --cf-border-width-2: 2px;
+  --cf-radius:         0;       /* Zero radius — identidade angulosa */
+  --cf-radius-circle:  50%;     /* Apenas para elementos circulares (cursor) */
+
+  /* ===== ANIMATION — DURATIONS ===== */
+  --cf-duration-fast:   150ms;
+  --cf-duration-base:   250ms;
+  --cf-duration-slow:   400ms;
+  --cf-duration-slower: 600ms;
+
+  /* ===== ANIMATION — EASINGS ===== */
+  --cf-ease-out:   cubic-bezier(0.0, 0.0, 0.2, 1);
+  --cf-ease-in:    cubic-bezier(0.4, 0.0, 1, 1);
+  --cf-ease-inout: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --cf-ease-snap:  cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ===== Z-INDEX SCALE ===== */
+  --cf-z-grain:   9000;   /* Film grain overlay — acima de tudo */
+  --cf-z-cursor:  9999;   /* Cursor dot — camada máxima */
+  --cf-z-cursor2: 9998;   /* Cursor ring */
+  --cf-z-overlay: 100;    /* Overlays de imagem, modais background */
+  --cf-z-modal:   300;    /* Modais */
+  --cf-z-nav:     200;    /* Navegação fixa */
+  --cf-z-tooltip: 400;    /* Tooltips — acima de nav e modal */
+
+  /* ===== EFFECTS ===== */
+  --cf-blur-nav:    14px;
+  --cf-blur-glass:  20px;
+  --cf-grain-opacity: 0.5;
+  --cf-overlay-dark: rgba(5, 5, 5, 0.7);
+  --cf-overlay-nav:  rgba(5, 5, 5, 0.97);
+
+  /* ===== COMPONENT SPECIFICS ===== */
+  --cf-btn-pad-y:        11px;   /* Padding vertical botões primary/ghost */
+  --cf-btn-pad-x:        28px;   /* Padding horizontal botões primary/ghost */
+  --cf-btn-mono-pad-y:   8px;    /* Padding vertical botão mono */
+  --cf-cursor-dot:       6px;    /* Diâmetro do dot do cursor */
+  --cf-cursor-ring:      32px;   /* Diâmetro do ring do cursor */
+  --cf-nav-logo-h:       38px;   /* Altura do logo na navegação */
+  --cf-sec-label-gap:    14px;   /* Gap entre linha e texto do section label */
+  --cf-sec-label-line:   24px;   /* Largura da linha decorativa do section label */
+  --cf-card-lift:        -4px;   /* translateY no hover de cards */
+  --cf-focus-offset:     2px;    /* outline-offset em estados de foco */
+
+  /* ===== BREAKPOINTS (referência — não usáveis em media queries CSS) ===== */
+  /* --cf-bp-lg: 1024px  — tablet */
+  /* --cf-bp-sm: 640px   — mobile */
+
+}

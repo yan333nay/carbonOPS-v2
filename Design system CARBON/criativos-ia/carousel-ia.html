@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carbon IA — Carrossel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: #000;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.rail {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+
+.slide {
+  position: relative;
+  flex: 0 0 1080px;
+  width: 1080px;
+  height: 1350px;
+  background: #050505;
+  overflow: hidden;
+  color: #FFFFFF;
+  scroll-snap-align: center;
+  border-right: 1px solid #000;
+}
+
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(to right, #0E0E0E 1px, transparent 1px),
+    linear-gradient(to bottom, #0E0E0E 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.45;
+}
+
+.glow {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(40,40,40,0.5) 0%, transparent 65%);
+  z-index: 0;
+}
+.glow.tr { right: -300px; top: -300px; }
+.glow.bl { left: -350px; bottom: -350px; }
+
+.frame {
+  position: absolute;
+  inset: 56px;
+  border: 1px solid #1F1F1F;
+  z-index: 1;
+}
+
+.content {
+  position: absolute;
+  inset: 56px;
+  z-index: 2;
+  padding: 80px 80px 84px;
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.logo { height: 32px; width: auto; display: block; }
+
+.index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #6B6B6B;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #A0A0A0;
+}
+.tag::before { content: ""; width: 40px; height: 1px; background: #2A2A2A; }
+
+.spacer { flex: 1; }
+
+.sep { width: 100%; height: 1px; background: #1F1F1F; }
+
+.swipe {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6B6B6B;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.swipe .arrow { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #FFFFFF; }
+
+/* ---- Display headlines ---- */
+.h-cover {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: 150px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.h-cover .dim { color: #A0A0A0; }
+
+.h-sec {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: 92px;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-top: 36px;
+}
+
+.lead {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 27px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: #A0A0A0;
+  margin-top: 44px;
+  max-width: 760px;
+}
+.lead strong { color: #FFFFFF; font-weight: 700; }
+
+/* ---- Bullet list (slide 2) ---- */
+.caps {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+}
+.caps .row {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 26px 0;
+  border-top: 1px solid #1F1F1F;
+}
+.caps .row:last-child { border-bottom: 1px solid #1F1F1F; }
+.caps .n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  color: #6B6B6B;
+  width: 48px;
+  flex: 0 0 48px;
+}
+.caps .t {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+}
+
+/* ---- Use case (slides 3,4) ---- */
+.case {
+  margin-top: 52px;
+  border-top: 1px solid #1F1F1F;
+  padding-top: 44px;
+}
+.case .stat {
+  font-family: 'Anton', sans-serif;
+  font-size: 168px;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+.case .stat .unit {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  color: #A0A0A0;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+.case .desc {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 25px;
+  line-height: 1.5;
+  color: #A0A0A0;
+  margin-top: 36px;
+  max-width: 720px;
+}
+.case .desc strong { color: #FFFFFF; font-weight: 700; }
+
+/* ---- Metrics grid (slide 5) ---- */
+.metrics {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+}
+.metrics .m {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 38px 0;
+  border-top: 1px solid #1F1F1F;
+}
+.metrics .m:last-child { border-bottom: 1px solid #1F1F1F; }
+.metrics .big {
+  font-family: 'Anton', sans-serif;
+  font-size: 122px;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+}
+.metrics .lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #A0A0A0;
+  text-align: right;
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+/* ---- CTA (slide 6) ---- */
+.cta-block { margin-top: 48px; }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid #FFFFFF;
+  padding: 26px 44px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+.cta-btn .arrow { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+.contact {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  letter-spacing: 0.18em;
+  color: #A0A0A0;
+}
+.contact span { color: #6B6B6B; margin-right: 18px; }
+.logo-lg { height: 56px; width: auto; margin-top: 64px; }
+
+/* ---- Nav dots (screen only) ---- */
+.nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+  z-index: 10000;
+  background: rgba(5,5,5,0.85);
+  border: 1px solid #1F1F1F;
+  padding: 14px 22px;
+}
+.nav a {
+  width: 10px; height: 10px;
+  border: 1px solid #6B6B6B;
+  display: block;
+  transition: background 0.2s, border-color 0.2s;
+}
+.nav a:hover { background: #FFFFFF; border-color: #FFFFFF; }
+@media print { .nav { display: none; } }
+</style>
+</head>
+<body>
+<div class="rail">
+
+  <!-- SLIDE 1 — COVER -->
+  <section class="slide" id="s1">
+    <div class="grid-lines"></div>
+    <div class="glow tr"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">CARBON IA</span>
+      </div>
+      <div class="spacer"></div>
+      <h1 class="h-cover">O FUTURO DA<br>SUA EMPRESA<br><span class="dim">JÁ ESTÁ</span><br>DISPONÍVEL.</h1>
+      <div class="spacer"></div>
+      <div class="sep" style="margin-bottom:32px;"></div>
+      <div class="swipe">ARRASTE PARA VER <span class="arrow">&rarr;</span></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — O QUE É -->
+  <section class="slide" id="s2">
+    <div class="grid-lines"></div>
+    <div class="glow bl"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">01 / 06</span>
+      </div>
+      <div style="margin-top:120px;" class="tag">DEFINIÇÃO</div>
+      <h2 class="h-sec">O QUE É A<br>CARBON IA?</h2>
+      <p class="lead">Uma camada de <strong>inteligência artificial</strong> integrada à sua operação. Trabalha enquanto você dorme, escala sem limite e aprende com cada interação.</p>
+      <div class="caps">
+        <div class="row"><span class="n">A</span><span class="t">Automação de processos</span></div>
+        <div class="row"><span class="n">B</span><span class="t">Criação de conteúdo</span></div>
+        <div class="row"><span class="n">C</span><span class="t">Análise de dados</span></div>
+        <div class="row"><span class="n">D</span><span class="t">Atendimento 24 horas</span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — AUTOMAÇÃO -->
+  <section class="slide" id="s3">
+    <div class="grid-lines"></div>
+    <div class="glow tr"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">02 / 06</span>
+      </div>
+      <div style="margin-top:120px;" class="tag">CASO DE USO</div>
+      <h2 class="h-sec">AUTOMAÇÃO<br>DE PROCESSOS</h2>
+      <div class="case">
+        <div class="stat">-18<span class="unit">h / semana</span></div>
+        <p class="desc">Uma agência eliminou <strong>18 horas semanais</strong> de tarefas manuais — agendamento, relatórios e follow-ups — redirecionadas para estratégia e criação.</p>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — CONTEÚDO -->
+  <section class="slide" id="s4">
+    <div class="grid-lines"></div>
+    <div class="glow bl"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">03 / 06</span>
+      </div>
+      <div style="margin-top:120px;" class="tag">CASO DE USO</div>
+      <h2 class="h-sec">CRIAÇÃO DE<br>CONTEÚDO</h2>
+      <div class="case">
+        <div class="stat">30<span class="unit">posts / mês</span></div>
+        <p class="desc">De um único briefing a <strong>30 peças prontas</strong> por mês — legendas, criativos e variações — todas dentro da identidade da marca.</p>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — RESULTADOS -->
+  <section class="slide" id="s5">
+    <div class="grid-lines"></div>
+    <div class="glow tr"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">04 / 06</span>
+      </div>
+      <div style="margin-top:110px;" class="tag">MENSURÁVEL</div>
+      <h2 class="h-sec">RESULTADOS<br>QUE VOCÊ<br>PODE MEDIR</h2>
+      <div class="metrics">
+        <div class="m"><span class="big">-70%</span><span class="lbl">tempo em<br>tarefas operacionais</span></div>
+        <div class="m"><span class="big">3x</span><span class="lbl">volume de<br>conteúdo produzido</span></div>
+        <div class="m"><span class="big">24/7</span><span class="lbl">operação<br>sem interrupção</span></div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6 — CTA -->
+  <section class="slide" id="s6">
+    <div class="grid-lines"></div>
+    <div class="glow bl"></div>
+    <div class="frame"></div>
+    <div class="content">
+      <div class="top">
+        <img class="logo" src="../assets/logo-black.svg" alt="Carbon Films">
+        <span class="index">05 / 06</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="tag">VAMOS COMEÇAR</div>
+      <h2 class="h-sec" style="font-size:104px;">PRONTO PARA<br>COMEÇAR?</h2>
+      <div class="cta-block">
+        <span class="cta-btn">FALE COM A CARBON <span class="arrow">&rarr;</span></span>
+      </div>
+      <div class="contact">
+        <div><span>WEB</span>carbonfilms.com.br</div>
+        <div><span>IG&nbsp;</span>@carbonfilms.sc</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="sep" style="margin-bottom:36px;"></div>
+      <img class="logo-lg" src="../assets/logo-black.svg" alt="Carbon Films">
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav">
+  <a href="#s1" title="Capa"></a>
+  <a href="#s2" title="O que é"></a>
+  <a href="#s3" title="Automação"></a>
+  <a href="#s4" title="Conteúdo"></a>
+  <a href="#s5" title="Resultados"></a>
+  <a href="#s6" title="CTA"></a>
+</nav>
+</body>
+</html>

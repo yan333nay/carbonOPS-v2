@@ -1,0 +1,359 @@
+/* ===================================================
+   Carbon Films Animations v1.0
+   Motion design cinematográfico
+   Requer: design-tokens.css
+   =================================================== */
+
+
+/* ===================================================
+   KEYFRAMES
+   =================================================== */
+
+@keyframes cf-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes cf-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cf-fade-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cf-slide-right {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes cf-slide-left {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes cf-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cf-scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.96); }
+}
+
+/* Linha que revela da esquerda para direita */
+@keyframes cf-reveal-x {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Texto que aparece linha por linha */
+@keyframes cf-clip-up {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
+}
+
+/* Shimmer de loading */
+@keyframes cf-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Pulso sutil de borda */
+@keyframes cf-pulse-border {
+  0%, 100% { border-color: var(--cf-border); }
+  50%       { border-color: var(--cf-border2); }
+}
+
+/* Breathing do grain overlay */
+@keyframes cf-grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-1%, 1%); }
+  50%  { transform: translate(1%, -1%); }
+  75%  { transform: translate(-0.5%, -0.5%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Cursor ring expand no click */
+@keyframes cf-ring-click {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+}
+
+/* Número contando para cima */
+@keyframes cf-count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Rotação contínua suave */
+@keyframes cf-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+/* ===================================================
+   ANIMATION UTILITY CLASSES
+   Adicionar diretamente ao elemento
+   =================================================== */
+
+/* Base compartilhada */
+[class*="cf-animate-"] {
+  animation-fill-mode: both;
+  animation-timing-function: var(--cf-ease-out);
+  animation-duration: var(--cf-duration-slow);
+}
+
+.cf-animate-fade-in    { animation-name: cf-fade-in; }
+.cf-animate-fade-up    { animation-name: cf-fade-up; }
+.cf-animate-fade-down  { animation-name: cf-fade-down; }
+.cf-animate-slide-right { animation-name: cf-slide-right; }
+.cf-animate-slide-left  { animation-name: cf-slide-left; }
+
+.cf-animate-scale-in {
+  animation-name: cf-scale-in;
+  animation-timing-function: var(--cf-ease-snap);
+}
+
+.cf-animate-clip-up {
+  animation-name: cf-clip-up;
+  animation-timing-function: var(--cf-ease-snap);
+}
+
+/* Durações alternativas */
+.cf-animate-fast   { animation-duration: var(--cf-duration-fast); }
+.cf-animate-base   { animation-duration: var(--cf-duration-base); }
+.cf-animate-slow   { animation-duration: var(--cf-duration-slow); }
+.cf-animate-slower { animation-duration: var(--cf-duration-slower); }
+
+
+/* ===================================================
+   STAGGER DELAYS — Para listas e grids
+   Usar: <div class="cf-animate-fade-up cf-stagger-2">
+   =================================================== */
+
+.cf-stagger-1 { animation-delay: 0ms; }
+.cf-stagger-2 { animation-delay: 80ms; }
+.cf-stagger-3 { animation-delay: 160ms; }
+.cf-stagger-4 { animation-delay: 240ms; }
+.cf-stagger-5 { animation-delay: 320ms; }
+.cf-stagger-6 { animation-delay: 400ms; }
+.cf-stagger-7 { animation-delay: 480ms; }
+.cf-stagger-8 { animation-delay: 560ms; }
+
+
+/* ===================================================
+   SCROLL REVEAL — Intersection Observer
+   JS adiciona .is-visible ao entrar na viewport
+   =================================================== */
+
+.cf-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity    var(--cf-duration-slow) var(--cf-ease-out),
+    transform  var(--cf-duration-slow) var(--cf-ease-snap);
+}
+
+.cf-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variante: só fade, sem movimento */
+.cf-reveal--fade {
+  transform: none;
+}
+
+/* Variante: escala */
+.cf-reveal--scale {
+  transform: scale(0.96) translateY(0);
+}
+
+.cf-reveal--scale.is-visible {
+  transform: scale(1);
+}
+
+/* Variante: slide da esquerda */
+.cf-reveal--left {
+  transform: translateX(-32px);
+}
+
+.cf-reveal--left.is-visible {
+  transform: translateX(0);
+}
+
+/* Variante: slide da direita */
+.cf-reveal--right {
+  transform: translateX(32px);
+}
+
+.cf-reveal--right.is-visible {
+  transform: translateX(0);
+}
+
+
+/* ===================================================
+   HOVER INTERACTIONS
+   =================================================== */
+
+/* Linha de underline animada */
+.cf-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.cf-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: var(--cf-border-width);
+  background: var(--cf-white);
+  transition: width var(--cf-duration-base) var(--cf-ease-snap);
+}
+
+.cf-underline:hover::after,
+.cf-underline.is-active::after {
+  width: 100%;
+}
+
+/* Hover lift — elemento sobe levemente */
+.cf-hover-lift {
+  transition: transform var(--cf-duration-base) var(--cf-ease-snap);
+}
+
+.cf-hover-lift:hover {
+  transform: translateY(var(--cf-card-lift));
+}
+
+/* Hover brighten — borda ativa */
+.cf-hover-brighten {
+  transition: border-color var(--cf-duration-base) var(--cf-ease-out);
+  border: var(--cf-border-width) solid var(--cf-border);
+}
+
+.cf-hover-brighten:hover {
+  border-color: var(--cf-border2);
+}
+
+
+/* ===================================================
+   LOADING STATES
+   =================================================== */
+
+/* Skeleton — placeholder de loading */
+.cf-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--cf-surface)  0%,
+    var(--cf-elevated) 40%,
+    var(--cf-glass)    60%,
+    var(--cf-elevated) 80%,
+    var(--cf-surface)  100%
+  );
+  background-size: 200% 100%;
+  animation: cf-shimmer 1.6s infinite var(--cf-ease-inout);
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Spinner inline */
+.cf-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: var(--cf-border-width) solid var(--cf-border2);
+  border-top-color: var(--cf-white);
+  border-radius: var(--cf-radius-circle);
+  animation: cf-spin 0.7s linear infinite;
+}
+
+/* Botão em estado de loading */
+.cf-btn-primary.is-loading,
+.cf-btn-ghost.is-loading {
+  pointer-events: none;
+  position: relative;
+  color: transparent;
+}
+
+.cf-btn-primary.is-loading::after,
+.cf-btn-ghost.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 14px;
+  height: 14px;
+  border: var(--cf-border-width) solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--cf-radius-circle);
+  animation: cf-spin 0.7s linear infinite;
+}
+
+.cf-btn-primary.is-loading::after { border-color: var(--cf-black); border-top-color: transparent; }
+.cf-btn-ghost.is-loading::after   { border-color: var(--cf-white); border-top-color: transparent; }
+
+
+/* ===================================================
+   GRAIN ANIMATION — Ativa no body
+   =================================================== */
+
+.cf-grain--animated {
+  animation: cf-grain-shift 8s steps(4) infinite;
+}
+
+
+/* ===================================================
+   TRANSITIONS — Para componentes específicos
+   =================================================== */
+
+/* Transição de página (usar com JS ao navegar) */
+.cf-page-enter {
+  animation: cf-fade-up var(--cf-duration-slow) var(--cf-ease-snap);
+}
+
+.cf-page-exit {
+  animation: cf-scale-out var(--cf-duration-base) var(--cf-ease-in) forwards;
+}
+
+/* Modal overlay */
+.cf-modal-backdrop {
+  animation: cf-fade-in var(--cf-duration-base) var(--cf-ease-out);
+}
+
+.cf-modal-content {
+  animation: cf-fade-up var(--cf-duration-base) var(--cf-ease-snap);
+}
+
+
+/* ===================================================
+   MOTION REDUCED — Respeitar preferência de sistema
+   =================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="cf-animate-"],
+  .cf-reveal,
+  .cf-skeleton,
+  .cf-spinner,
+  .cf-grain--animated,
+  .cf-page-enter,
+  .cf-page-exit,
+  .cf-modal-backdrop,
+  .cf-modal-content {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cf-underline::after {
+    transition: none;
+  }
+}

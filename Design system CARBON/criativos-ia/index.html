@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carbon IA — Criativos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #050505;
+  color: #FFFFFF;
+  font-family: 'Montserrat', sans-serif;
+  padding: 72px;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+header {
+  border-bottom: 1px solid #1F1F1F;
+  padding-bottom: 40px;
+  margin-bottom: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.logo { height: 38px; width: auto; display: block; margin-bottom: 28px; }
+
+h1 {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+h1 .dim { color: #A0A0A0; }
+
+.meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #6B6B6B;
+  text-align: right;
+  line-height: 2;
+}
+
+.group-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #A0A0A0;
+  margin: 8px 0 36px;
+}
+.group-label::before { content: ""; width: 48px; height: 1px; background: #2A2A2A; }
+.group-label.spaced { margin-top: 80px; }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.card {
+  border: 1px solid #1F1F1F;
+  background: #0A0A0A;
+  display: block;
+  text-decoration: none;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.card:hover { border-color: #2A2A2A; transform: translateY(-4px); }
+
+/* square posts 1080x1080 -> 340 thumb */
+.thumb-sq {
+  width: 340px;
+  height: 340px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #1F1F1F;
+}
+.thumb-sq iframe {
+  width: 1080px;
+  height: 1080px;
+  border: 0;
+  transform: scale(0.3148);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* portrait carousel slide 1080x1350 -> 340 wide thumb */
+.thumb-pt {
+  width: 340px;
+  height: 425px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #1F1F1F;
+}
+.thumb-pt iframe {
+  width: 1080px;
+  height: 1350px;
+  border: 0;
+  transform: scale(0.3148);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.card .caption {
+  padding: 20px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.card .name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+}
+.card .dim-name { color: #6B6B6B; font-weight: 300; }
+.card .fmt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #6B6B6B;
+}
+
+.note {
+  margin-top: 88px;
+  padding-top: 32px;
+  border-top: 1px solid #1F1F1F;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6B6B6B;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <img class="logo" src="../assets/logo-black.png" alt="Carbon Films">
+    <h1>CRIATIVOS<br><span class="dim">CARBON IA</span></h1>
+  </div>
+  <div class="meta">
+    GALERIA / 4 PEÇAS<br>
+    POSTS 1080&times;1080<br>
+    CARROSSEL 1080&times;1350
+  </div>
+</header>
+
+<div class="group-label">POSTS — FEED 1:1</div>
+<div class="gallery">
+  <a class="card" href="post-automacao.html" target="_blank">
+    <div class="thumb-sq"><iframe src="post-automacao.html" scrolling="no"></iframe></div>
+    <div class="caption"><span class="name">Automação <span class="dim-name">— A</span></span><span class="fmt">1080&times;1080</span></div>
+  </a>
+  <a class="card" href="post-conteudo.html" target="_blank">
+    <div class="thumb-sq"><iframe src="post-conteudo.html" scrolling="no"></iframe></div>
+    <div class="caption"><span class="name">Conteúdo <span class="dim-name">— B</span></span><span class="fmt">1080&times;1080</span></div>
+  </a>
+  <a class="card" href="post-dados.html" target="_blank">
+    <div class="thumb-sq"><iframe src="post-dados.html" scrolling="no"></iframe></div>
+    <div class="caption"><span class="name">Dados <span class="dim-name">— C</span></span><span class="fmt">1080&times;1080</span></div>
+  </a>
+</div>
+
+<div class="group-label spaced">CARROSSEL — INSTAGRAM 4:5 / 6 SLIDES</div>
+<div class="gallery">
+  <a class="card" href="carousel-ia.html" target="_blank">
+    <div class="thumb-pt"><iframe src="carousel-ia.html" scrolling="no"></iframe></div>
+    <div class="caption"><span class="name">Carrossel IA <span class="dim-name">— 6 slides</span></span><span class="fmt">1080&times;1350</span></div>
+  </a>
+</div>
+
+<div class="note">CARBON FILMS — DESIGN SYSTEM v1.0 / MONOCROMÁTICO / ZERO RADIUS / ANTON · MONTSERRAT · JETBRAINS MONO</div>
+
+</body>
+</html>
