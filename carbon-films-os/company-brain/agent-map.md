@@ -40,8 +40,8 @@ Yan Zeitz (humano)
 ### 🔍 Leads Agent
 **Script real:** `/root/leads-agent/index.js`
 **Cron:** seg-sex 08:00 BRT
-**Papel:** Prospecta empresas locais via Google + Playwright. Salva em Google Sheets + campaign-db.
-**Output:** Contatos com WhatsApp validado no CRM.
+**Papel:** Prospecta empresas locais via DuckDuckGo + Playwright. Busca os 3 segmentos ICP: `clinicas`, `imobiliarias`, `restaurantes`. Salva no Carbon Hub (PostgreSQL) com campo `setor` preenchido por segmento.
+**Output:** Contatos segmentados no Carbon Hub com email + setor definido.
 
 ### 📩 Campaign Agent
 **Script real:** `/root/whatsapp-sales/index.js` + `webhook-server.js`
@@ -83,7 +83,7 @@ Yan Zeitz (humano)
 |-----------|----------|-------------------------------------|
 | Architect | Ativo    | commands/architect.py               |
 | Manager   | Ativo    | commands/manager.py                 |
-| Leads     | Ativo    | /root/leads-agent/index.js          |
+| Leads     | Ativo    | /root/leads-agent/index.js (3 segmentos ICP) |
 | Campaign  | Ativo    | /root/whatsapp-sales/index.js       |
 | SDR       | Ativo    | /root/whatsapp-sales/src/negotiation.js |
 | Analyst   | Ativo    | /root/whatsapp-sales/scripts/conversation-analyst.js |
