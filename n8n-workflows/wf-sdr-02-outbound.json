@@ -1,0 +1,320 @@
+{
+  "name": "WF-SDR-02 — Outbound NOVA (Primeiro Contato)",
+  "nodes": [
+    {
+      "id": "sdr02-01",
+      "name": "Schedule — Diário 9h e 14h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [180, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "0 9,14 * * 1-5" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sdr02-02",
+      "name": "HubSpot — Buscar Leads NOVO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [400, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ filterGroups: [{ filters: [{ propertyName: 'sdr_estado', operator: 'EQ', value: 'NOVO' }, { propertyName: 'contato_whatsapp', operator: 'HAS_PROPERTY' }] }], properties: ['dealname', 'contato_nome', 'contato_whatsapp', 'segmento', 'sdr_ponto_dor', 'sdr_gancho', 'canal_outbound', 'website', 'instagram_url'], sorts: [{ propertyName: 'createdate', direction: 'ASCENDING' }], limit: 10 }) }}"
+      }
+    },
+    {
+      "id": "sdr02-03",
+      "name": "Há Leads Novos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [620, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "has-leads",
+              "leftValue": "={{ $json.total }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr02-04",
+      "name": "Extrair Lista de Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [840, 300],
+      "parameters": {
+        "jsCode": "const result = $json;\nif (!result.results || result.results.length === 0) return [];\n\nreturn result.results.map(deal => ({\n  json: {\n    dealId: deal.id,\n    dealName: deal.properties.dealname || 'Sem nome',\n    contatoNome: deal.properties.contato_nome || '',\n    contatoWhatsapp: deal.properties.contato_whatsapp || '',\n    segmento: deal.properties.segmento || '',\n    pontoDeDor: deal.properties.sdr_ponto_dor || '',\n    gancho: deal.properties.sdr_gancho || '',\n    canal: deal.properties.canal_outbound || 'WhatsApp',\n    website: deal.properties.website || '',\n    instagram: deal.properties.instagram_url || ''\n  }\n}));"
+      }
+    },
+    {
+      "id": "sdr02-05",
+      "name": "Processar 1 Lead por Vez",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1060, 300],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "sdr02-06",
+      "name": "Verificar Horário Comercial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1280, 300],
+      "parameters": {
+        "jsCode": "const agora = new Date();\nconst hora = agora.getHours();\nconst diaSemana = agora.getDay(); // 0=Dom, 6=Sab\n\nconst horarioOk = diaSemana >= 1 && diaSemana <= 5 && hora >= 8 && hora < 19;\n\nreturn [{ json: { ...$json, horarioOk } }];"
+      }
+    },
+    {
+      "id": "sdr02-07",
+      "name": "Horário Comercial?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1500, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "horario-ok",
+              "leftValue": "={{ $json.horarioOk }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr02-08",
+      "name": "Tem Gancho MIRA?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1720, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "has-gancho",
+              "leftValue": "={{ $json.gancho }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr02-09",
+      "name": "Gerar Primeiro Contato — Com Gancho",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1940, 200],
+      "parameters": {
+        "jsCode": "const d = $json;\n\nconst system = `Você é NOVA, representante comercial da Carbon Films — agência de marketing visual cinematográfico em Santa Catarina, Brasil.\n\nSua tarefa: escrever a mensagem de PRIMEIRO CONTATO via WhatsApp para um prospect. É o primeiro toque — precisa despertar curiosidade genuína, não soar como spam.\n\nREGRAS ABSOLUTAS:\n- Inicie obrigatoriamente com [NOVA]:\n- Máximo 3 parágrafos curtos (WhatsApp não é e-mail)\n- Use o gancho da MIRA como base — não invente outro\n- Tom consultivo: você identificou um problema, não está 'vendendo'\n- Termine com UMA pergunta aberta\n- Nunca mencione preço ou pacotes\n- Sem: 'transforme', 'resultados incríveis', 'marketing poderoso'\n- Cada palavra deve fazer sentido para ESTA empresa específica\n- NÃO use markdown (sem ** ou #)\n\nResponda SOMENTE com o texto da mensagem, pronto para enviar.`;\n\nconst user = `Escreva o primeiro contato para:\n- Prospect: ${d.contatoNome || d.dealName}\n- Empresa: ${d.dealName}\n- Segmento: ${d.segmento}\n- Gancho MIRA (observação específica desta empresa): ${d.gancho}\n- Ponto de dor identificado: ${d.pontoDeDor}\n- Canal: WhatsApp`;\n\nreturn [{\n  json: {\n    ...d,\n    tipoPrompt: 'com_gancho',\n    claudeBody: JSON.stringify({\n      model: 'claude-sonnet-4-6',\n      max_tokens: 350,\n      system,\n      messages: [{ role: 'user', content: user }]\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr02-10",
+      "name": "Gerar Primeiro Contato — Sem Gancho",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1940, 400],
+      "parameters": {
+        "jsCode": "const d = $json;\n\nconst system = `Você é NOVA, representante comercial da Carbon Films — agência de marketing visual cinematográfico em Santa Catarina, Brasil.\n\nSua tarefa: escrever a mensagem de PRIMEIRO CONTATO via WhatsApp para um prospect. Não há pesquisa específica disponível — use o segmento para criar um gancho relevante.\n\nREGRAS ABSOLUTAS:\n- Inicie obrigatoriamente com [NOVA]:\n- Máximo 3 parágrafos curtos\n- Crie um gancho baseado no segmento (problema comum que empresas desse segmento têm com comunicação visual)\n- Tom consultivo: você identificou um padrão, não está 'vendendo'\n- Termine com UMA pergunta aberta\n- Nunca mencione preço ou pacotes\n- Sem: 'transforme', 'resultados incríveis'\n- NÃO use markdown\n\nResponda SOMENTE com o texto da mensagem, pronto para enviar.`;\n\nconst user = `Escreva o primeiro contato para:\n- Prospect: ${d.contatoNome || d.dealName}\n- Empresa: ${d.dealName}\n- Segmento: ${d.segmento || 'negócio local em SC'}\n- Canal: WhatsApp`;\n\nreturn [{\n  json: {\n    ...d,\n    tipoPrompt: 'sem_gancho',\n    claudeBody: JSON.stringify({\n      model: 'claude-sonnet-4-6',\n      max_tokens: 350,\n      system,\n      messages: [{ role: 'user', content: user }]\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr02-11",
+      "name": "Claude API — Gerar Mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2160, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $vars.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.claudeBody }}"
+      }
+    },
+    {
+      "id": "sdr02-12",
+      "name": "Extrair e Preparar Envio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2380, 300],
+      "parameters": {
+        "jsCode": "const response = $json;\nconst prev = $('Gerar Primeiro Contato — Com Gancho').first()?.json || $('Gerar Primeiro Contato — Sem Gancho').first()?.json;\n\nlet mensagem = '';\ntry {\n  mensagem = response.content[0].text.trim().replace(/\\*\\*/g, '').replace(/^#+\\s/gm, '');\n} catch(e) {\n  mensagem = `[NOVA]: Olá, ${prev.contatoNome || prev.dealName}! Estamos trabalhando com marketing visual cinematográfico em SC e vi que a ${prev.dealName} pode se beneficiar do que fazemos. Vale uma conversa rápida?`;\n}\n\n// Histórico inicial\nconst historicoInicial = JSON.stringify([{\n  role: 'nova',\n  content: mensagem,\n  action: 'outbound_inicial',\n  estado: 'CONTATO_ENVIADO',\n  note: 'Primeiro contato outbound enviado',\n  ts: new Date().toISOString()\n}]);\n\nreturn [{\n  json: {\n    ...prev,\n    mensagemGerada: mensagem,\n    whatsappBody: JSON.stringify({\n      to: prev.contatoWhatsapp,\n      type: 'text',\n      text: { body: mensagem }\n    }),\n    hubspotUpdateBody: JSON.stringify({\n      properties: {\n        sdr_estado: 'CONTATO_ENVIADO',\n        sdr_historico: historicoInicial,\n        sdr_tentativas: '1',\n        sdr_ultimo_contato: String(Date.now()),\n        dealstage: $vars.HUBSPOT_STAGE_CONTATO\n      }\n    }),\n    noteBody: JSON.stringify({\n      properties: {\n        hs_note_body: `[NOVA SDR - D+0] Primeiro contato enviado via WhatsApp.\\n\\nMensagem:\\n${mensagem}`,\n        hs_timestamp: String(Date.now())\n      },\n      associations: [{\n        to: { id: prev.dealId },\n        types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 214 }]\n      }]\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr02-13",
+      "name": "WhatsApp — Enviar Primeiro Contato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2600, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.WHATSAPP_API_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "D360-API-KEY", "value": "={{ $vars.WHATSAPP_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.whatsappBody }}"
+      }
+    },
+    {
+      "id": "sdr02-14",
+      "name": "HubSpot — Atualizar para CONTATO_ENVIADO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2820, 300],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://api.hubapi.com/crm/v3/objects/deals/' + $json.dealId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.hubspotUpdateBody }}"
+      }
+    },
+    {
+      "id": "sdr02-15",
+      "name": "HubSpot — Registrar Nota de Envio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3040, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/notes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.noteBody }}"
+      }
+    },
+    {
+      "id": "sdr02-16",
+      "name": "Voltar para Próximo Lead",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [3260, 300],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Schedule — Diário 9h e 14h": {
+      "main": [[{ "node": "HubSpot — Buscar Leads NOVO", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Buscar Leads NOVO": {
+      "main": [[{ "node": "Há Leads Novos?", "type": "main", "index": 0 }]]
+    },
+    "Há Leads Novos?": {
+      "main": [
+        [{ "node": "Extrair Lista de Leads", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Extrair Lista de Leads": {
+      "main": [[{ "node": "Processar 1 Lead por Vez", "type": "main", "index": 0 }]]
+    },
+    "Processar 1 Lead por Vez": {
+      "main": [
+        [{ "node": "Verificar Horário Comercial", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Verificar Horário Comercial": {
+      "main": [[{ "node": "Horário Comercial?", "type": "main", "index": 0 }]]
+    },
+    "Horário Comercial?": {
+      "main": [
+        [{ "node": "Tem Gancho MIRA?", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Tem Gancho MIRA?": {
+      "main": [
+        [{ "node": "Gerar Primeiro Contato — Com Gancho", "type": "main", "index": 0 }],
+        [{ "node": "Gerar Primeiro Contato — Sem Gancho", "type": "main", "index": 0 }]
+      ]
+    },
+    "Gerar Primeiro Contato — Com Gancho": {
+      "main": [[{ "node": "Claude API — Gerar Mensagem", "type": "main", "index": 0 }]]
+    },
+    "Gerar Primeiro Contato — Sem Gancho": {
+      "main": [[{ "node": "Claude API — Gerar Mensagem", "type": "main", "index": 0 }]]
+    },
+    "Claude API — Gerar Mensagem": {
+      "main": [[{ "node": "Extrair e Preparar Envio", "type": "main", "index": 0 }]]
+    },
+    "Extrair e Preparar Envio": {
+      "main": [[{ "node": "WhatsApp — Enviar Primeiro Contato", "type": "main", "index": 0 }]]
+    },
+    "WhatsApp — Enviar Primeiro Contato": {
+      "main": [[{ "node": "HubSpot — Atualizar para CONTATO_ENVIADO", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Atualizar para CONTATO_ENVIADO": {
+      "main": [[{ "node": "HubSpot — Registrar Nota de Envio", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Registrar Nota de Envio": {
+      "main": [[{ "node": "Voltar para Próximo Lead", "type": "main", "index": 0 }]]
+    },
+    "Voltar para Próximo Lead": {
+      "main": [[{ "node": "Processar 1 Lead por Vez", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "id": "wf-sdr-02",
+  "tags": [{ "name": "SDR" }, { "name": "NOVA" }, { "name": "Outbound" }, { "name": "HubSpot" }]
+}

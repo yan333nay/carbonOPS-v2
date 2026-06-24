@@ -1,0 +1,521 @@
+{
+  "name": "WF-SDR-01 — Inbound NOVA (Conversação + Reunião)",
+  "nodes": [
+    {
+      "id": "sdr01-00",
+      "name": "Webhook Verificação Meta GET",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [180, 100],
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "sdr/verify",
+        "responseMode": "lastNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "sdr01-00b",
+      "name": "Responder Challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [400, 100],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] || 'ok' }}",
+        "options": { "responseCode": 200 }
+      }
+    },
+    {
+      "id": "sdr01-01",
+      "name": "Webhook Inbound WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [180, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sdr/inbound",
+        "responseMode": "lastNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "sdr01-02",
+      "name": "Extrair Dados da Mensagem",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 300],
+      "parameters": {
+        "jsCode": "// Suporta: Meta Business API, 360dialog e Evolution API\nconst body = $json.body || $json;\n\nlet from = '';\nlet messageText = '';\nlet messageType = 'text';\nlet contactName = '';\n\ntry {\n  // Meta Business API format\n  if (body.entry) {\n    const value = body.entry[0].changes[0].value;\n    const msg = value.messages[0];\n    from = msg.from;\n    messageType = msg.type;\n    messageText = msg.type === 'text' ? msg.text.body : '';\n    contactName = value.contacts?.[0]?.profile?.name || '';\n  }\n  // 360dialog format\n  else if (body.messages) {\n    const msg = body.messages[0];\n    from = msg.from;\n    messageType = msg.type;\n    messageText = msg.type === 'text' ? msg.text.body : '';\n    contactName = body.contacts?.[0]?.profile?.name || '';\n  }\n  // Evolution API format\n  else if (body.data) {\n    const msg = body.data;\n    from = msg.key.remoteJid.replace('@s.whatsapp.net', '');\n    messageType = msg.message?.conversation ? 'text' : 'other';\n    messageText = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';\n    contactName = msg.pushName || '';\n  }\n} catch(e) {\n  messageText = '';\n  messageType = 'error';\n}\n\n// Limpar número de telefone\nfrom = from.replace(/[^0-9]/g, '');\n\nreturn [{\n  json: {\n    from,\n    messageText: messageText.trim(),\n    messageType,\n    contactName,\n    receivedAt: new Date().toISOString()\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-03",
+      "name": "É Mensagem de Texto?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [620, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-type",
+              "leftValue": "={{ $json.messageType }}",
+              "rightValue": "text",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "check-from",
+              "leftValue": "={{ $json.from }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr01-04",
+      "name": "WhatsApp — Responder Tipo Inválido",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [840, 500],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.WHATSAPP_API_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "D360-API-KEY", "value": "={{ $vars.WHATSAPP_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ to: $json.from, type: 'text', text: { body: '[NOVA]: Olá! Por enquanto consigo receber apenas mensagens de texto. Pode me escrever o que você precisa? 😊' } }) }}"
+      }
+    },
+    {
+      "id": "sdr01-05",
+      "name": "HubSpot — Buscar Deal por WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [840, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ filterGroups: [{ filters: [{ propertyName: 'contato_whatsapp', operator: 'CONTAINS_TOKEN', value: $json.from }] }], properties: ['dealname', 'contato_nome', 'contato_whatsapp', 'segmento', 'sdr_estado', 'sdr_historico', 'sdr_tentativas', 'sdr_ponto_dor', 'sdr_gancho', 'dealstage', 'contato_email'], limit: 1 }) }}"
+      }
+    },
+    {
+      "id": "sdr01-06",
+      "name": "Deal Encontrado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1060, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "check-found",
+              "leftValue": "={{ $json.total }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr01-07",
+      "name": "Extrair Deal Existente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1280, 200],
+      "parameters": {
+        "jsCode": "const result = $json;\nconst deal = result.results[0];\nconst inbound = $('Extrair Dados da Mensagem').first().json;\n\nreturn [{\n  json: {\n    dealId: deal.id,\n    dealName: deal.properties.dealname || '',\n    contatoNome: deal.properties.contato_nome || inbound.contactName || 'Lead',\n    contatoWhatsapp: deal.properties.contato_whatsapp || inbound.from,\n    contatoEmail: deal.properties.contato_email || '',\n    segmento: deal.properties.segmento || '',\n    sdrEstado: deal.properties.sdr_estado || 'EM_CONVERSA',\n    sdrHistorico: deal.properties.sdr_historico || '[]',\n    sdrTentativas: parseInt(deal.properties.sdr_tentativas || '0'),\n    sdrPontoDor: deal.properties.sdr_ponto_dor || '',\n    sdrGancho: deal.properties.sdr_gancho || '',\n    mensagemAtual: inbound.messageText,\n    from: inbound.from,\n    receivedAt: inbound.receivedAt,\n    isNew: false\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-08",
+      "name": "HubSpot — Criar Deal Novo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1280, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { dealname: 'Lead: ' + ($('Extrair Dados da Mensagem').first().json.contactName || $('Extrair Dados da Mensagem').first().json.from), dealstage: $vars.HUBSPOT_STAGE_NOVO, pipeline: $vars.HUBSPOT_PIPELINE_SDR, contato_nome: $('Extrair Dados da Mensagem').first().json.contactName || '', contato_whatsapp: $('Extrair Dados da Mensagem').first().json.from, sdr_estado: 'EM_CONVERSA', sdr_tentativas: '0', sdr_historico: '[]', canal_outbound: 'WhatsApp' } }) }}"
+      }
+    },
+    {
+      "id": "sdr01-09",
+      "name": "Normalizar Deal Novo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 400],
+      "parameters": {
+        "jsCode": "const deal = $json;\nconst inbound = $('Extrair Dados da Mensagem').first().json;\n\nreturn [{\n  json: {\n    dealId: deal.id,\n    dealName: deal.properties.dealname || '',\n    contatoNome: inbound.contactName || 'Lead',\n    contatoWhatsapp: inbound.from,\n    contatoEmail: '',\n    segmento: '',\n    sdrEstado: 'EM_CONVERSA',\n    sdrHistorico: '[]',\n    sdrTentativas: 0,\n    sdrPontoDor: '',\n    sdrGancho: '',\n    mensagemAtual: inbound.messageText,\n    from: inbound.from,\n    receivedAt: inbound.receivedAt,\n    isNew: true\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-10",
+      "name": "Merge Dados do Deal",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [1720, 300],
+      "parameters": {
+        "mode": "passThrough",
+        "output": "input1"
+      }
+    },
+    {
+      "id": "sdr01-11",
+      "name": "Estado Ativo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1940, 300],
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "not-encerrado",
+              "leftValue": "={{ $json.sdrEstado }}",
+              "rightValue": "ENCERRADO",
+              "operator": { "type": "string", "operation": "notEquals" }
+            },
+            {
+              "id": "not-ganho",
+              "leftValue": "={{ $json.sdrEstado }}",
+              "rightValue": "REUNIAO_CONFIRMADA",
+              "operator": { "type": "string", "operation": "notEquals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "sdr01-12",
+      "name": "Montar Prompt NOVA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2160, 300],
+      "parameters": {
+        "jsCode": "const d = $json;\n\n// Parse histórico\nlet historico = [];\ntry {\n  historico = JSON.parse(d.sdrHistorico || '[]');\n} catch(e) { historico = []; }\n\n// Montar messages array (últimas 10 trocas = 20 msgs)\nconst ultimas = historico.slice(-20);\nconst messages = [];\n\nfor (const msg of ultimas) {\n  if (msg.role === 'lead') {\n    messages.push({ role: 'user', content: msg.content });\n  } else {\n    // Reconstruir JSON de NOVA para manter formato consistente\n    messages.push({\n      role: 'assistant',\n      content: JSON.stringify({\n        message: msg.content,\n        action: msg.action || 'reply',\n        new_estado: msg.estado || 'EM_CONVERSA',\n        internal_note: msg.note || ''\n      })\n    });\n  }\n}\n// Adicionar mensagem atual\nmessages.push({ role: 'user', content: d.mensagemAtual });\n\nconst ehNovoLead = d.isNew || historico.length === 0;\n\nconst systemPrompt = `Você é NOVA, representante comercial da Carbon Films — agência de marketing visual cinematográfico em Santa Catarina, Brasil.\n\nIDENTIDADE: Calorosa, direta, consultiva. Não é um bot genérico — é a melhor representante comercial que a agência poderia ter. Se perguntarem se é IA: \"Sou uma assistente de IA da Carbon Films, aqui para garantir a melhor experiência desde o primeiro contato.\"\n\nMERCADO SC: Direto ao ponto, desconfia de promessas, decide com cautela. Menos floreios, mais objetividade.\n\nFRAMEWORK:\n- Cada conversa tem um próximo passo claro. Nunca termine sem definir próximo passo.\n- O cliente é o herói, Carbon Films é o guia. Fale sobre o problema DELE, não sobre o quanto a agência é boa.\n- Escuta o que dizem E o que não dizem. Uma pergunta por mensagem.\n\nREGRAS DE ESCRITA:\n- Início obrigatório: [NOVA]:\n- Máximo 4 parágrafos por mensagem WhatsApp\n- UMA pergunta por mensagem\n- 1-2 emojis no máximo, nunca no início de frase séria\n- Sem jargão: \"funil\", \"tráfego\", \"growth\" só se o lead usou primeiro\n- Aberturas diretas — nunca \"Que ótimo!\" sem substância\n- Nunca envie 2 mensagens antes do lead responder\n\nFLUXO DE CONVERSA:\n${ehNovoLead ? '→ LEAD NOVO: cumprimentar e fazer UMA pergunta de abertura sobre o desafio principal' : `→ ESTADO ATUAL: ${d.sdrEstado}`}\n1. Qualificar: coletar nome completo, empresa, segmento, objetivo principal, como chegou\n2. Se qualificado → propor reunião diagnóstico 45min via Google Meet\n3. Quando lead confirmar reunião → usar action: book_meeting\n\nPLAYBOOK DE OBJEÇÕES SC:\n- \"Está caro\": perguntar se o desafio ainda é real, não reduzir preço\n- \"Vou pensar\": definir data de retorno, nunca pressionar\n- \"Tive experiência ruim\": ouvir o que aconteceu antes de defender a Carbon\n- \"Garantia de resultado?\": honestidade sobre variáveis + garantia de processo\n\nCONTEXTO DO LEAD:\n- Nome: ${d.contatoNome || 'Desconhecido'}\n- Empresa: ${d.dealName || 'Não identificada'}\n- Segmento: ${d.segmento || 'Não identificado'}\n- Ponto de dor: ${d.sdrPontoDor || 'Não identificado ainda'}\n- Gancho: ${d.sdrGancho || 'Nenhum ainda'}\n- Tentativas de contato: ${d.sdrTentativas}\n\nNUNCA:\n- Citar preço sem proposta aprovada\n- Prometer resultados específicos\n- Fazer concessões sem escalar para Yan\n\nAÇÕES DISPONÍVEIS:\n- reply: resposta normal de conversa\n- escalate_yan: situação que Yan precisa ver (budget alto, indicação estratégica, crise)\n- book_meeting: lead CONFIRMOU interesse em reunião OU aceitou horário proposto\n- mark_qualified: lead passou qualificação completa (tem nome, empresa, objetivo claro)\n- mark_cold: lead claramente desinteressado (pediu para não entrar em contato)\n\nRESPOSTA OBRIGATÓRIA — JSON VÁLIDO APENAS:\n{\"message\":\"texto WhatsApp (sem markdown)\",\"action\":\"reply\",\"new_estado\":\"EM_CONVERSA\",\"meeting_datetime\":\"\",\"internal_note\":\"nota interna\"}\n\nCampos:\n- message: pronto para enviar, sem ** ou #\n- action: uma das 5 opções acima\n- new_estado: EM_CONVERSA | QUALIFICADO | AGUARDANDO_YAN | REUNIAO_PROPOSTA | REUNIAO_CONFIRMADA | ENCERRADO | LEAD_FRIO\n- meeting_datetime: ISO8601 quando action=book_meeting (ex: 2026-05-07T14:00:00-03:00), vazio caso contrário\n- internal_note: resumo para Yan (não vai para o lead)`;\n\nreturn [{\n  json: {\n    ...d,\n    claudeMessages: messages,\n    claudeSystemPrompt: systemPrompt,\n    claudeBody: JSON.stringify({\n      model: 'claude-sonnet-4-6',\n      max_tokens: 700,\n      system: systemPrompt,\n      messages: messages\n    }),\n    historicoAtual: historico\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-13",
+      "name": "Claude API — NOVA SDR",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2380, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $vars.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.claudeBody }}"
+      }
+    },
+    {
+      "id": "sdr01-14",
+      "name": "Parsear Resposta Claude",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2600, 300],
+      "parameters": {
+        "jsCode": "const response = $json;\nconst prev = $('Montar Prompt NOVA').first().json;\n\nlet parsed = {\n  message: '[NOVA]: Olá! Recebi sua mensagem. Pode me dar um instante? Retorno em breve.',\n  action: 'reply',\n  new_estado: prev.sdrEstado || 'EM_CONVERSA',\n  meeting_datetime: '',\n  internal_note: 'Erro ao parsear resposta Claude'\n};\n\ntry {\n  let rawText = response.content[0].text.trim();\n  // Remove markdown code blocks se existir\n  rawText = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  parsed = JSON.parse(rawText);\n} catch(e) {\n  // Se Claude retornou texto puro (sem JSON), usar como mensagem\n  try {\n    const rawText = response.content[0].text.trim();\n    parsed.message = rawText;\n    parsed.internal_note = 'Resposta sem JSON estruturado — usando texto bruto';\n  } catch(e2) {}\n}\n\n// Atualizar histórico com nova troca\nlet historico = prev.historicoAtual || [];\nhistorico.push({\n  role: 'lead',\n  content: prev.mensagemAtual,\n  ts: prev.receivedAt\n});\nhistorico.push({\n  role: 'nova',\n  content: parsed.message,\n  action: parsed.action,\n  estado: parsed.new_estado,\n  note: parsed.internal_note,\n  ts: new Date().toISOString()\n});\n// Manter apenas as últimas 30 entradas (15 trocas)\nif (historico.length > 30) historico = historico.slice(-30);\n\n// Calcular próximo follow-up (3 dias a partir de agora)\nconst agora = new Date();\nconst d3 = new Date(agora.getTime() + 3 * 24 * 60 * 60 * 1000);\n\nreturn [{\n  json: {\n    ...prev,\n    parsedAction: parsed.action,\n    parsedMessage: parsed.message,\n    parsedNewEstado: parsed.new_estado,\n    parsedMeetingDatetime: parsed.meeting_datetime || '',\n    parsedInternalNote: parsed.internal_note || '',\n    novoHistorico: JSON.stringify(historico),\n    nextFollowupDate: d3.toISOString().split('T')[0]\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-15",
+      "name": "Switch — Ação NOVA",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [2820, 300],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "conditions": [{ "leftValue": "={{ $json.parsedAction }}", "rightValue": "escalate_yan", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true, "outputKey": "escalate_yan"
+            },
+            {
+              "conditions": {
+                "conditions": [{ "leftValue": "={{ $json.parsedAction }}", "rightValue": "book_meeting", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true, "outputKey": "book_meeting"
+            },
+            {
+              "conditions": {
+                "conditions": [{ "leftValue": "={{ $json.parsedAction }}", "rightValue": "mark_cold", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true, "outputKey": "mark_cold"
+            }
+          ]
+        },
+        "fallbackOutput": "extra",
+        "fallbackOutputIndex": 3
+      }
+    },
+    {
+      "id": "sdr01-16",
+      "name": "Preparar Alerta Yan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3040, 100],
+      "parameters": {
+        "jsCode": "const d = $json;\nreturn [{\n  json: {\n    ...d,\n    yanAlertBody: JSON.stringify({\n      to: $vars.YAN_WHATSAPP,\n      type: 'text',\n      text: { body: `[CEO-ATLAS]: ⚠️ ESCALAR PARA YAN\\n\\nLead: ${d.contatoNome} (${d.dealName})\\nWhatsApp: ${d.contatoWhatsapp}\\nÚltima msg: \"${d.mensagemAtual}\"\\nAção sugerida: ${d.parsedInternalNote}\\n\\nDeal HubSpot: #${d.dealId}` }\n    })\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-17",
+      "name": "WhatsApp — Alertar Yan",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3260, 100],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.WHATSAPP_API_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "D360-API-KEY", "value": "={{ $vars.WHATSAPP_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.yanAlertBody }}"
+      }
+    },
+    {
+      "id": "sdr01-18",
+      "name": "Criar Evento Google Meet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3040, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://www.googleapis.com/calendar/v3/calendars/' + $vars.GOOGLE_CALENDAR_ID + '/events?conferenceDataVersion=1' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.GOOGLE_OAUTH_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ summary: 'Reunião de Diagnóstico — ' + $json.contatoNome + ' (' + $json.dealName + ')', description: 'Reunião de diagnóstico Carbon Films.\\n\\nLead: ' + $json.contatoNome + '\\nWhatsApp: ' + $json.contatoWhatsapp + '\\nSegmento: ' + $json.segmento + '\\n\\nDeal HubSpot: #' + $json.dealId, start: { dateTime: $json.parsedMeetingDatetime || new Date(Date.now() + 48*60*60*1000).toISOString(), timeZone: 'America/Sao_Paulo' }, end: { dateTime: new Date(new Date($json.parsedMeetingDatetime || Date.now() + 48*60*60*1000).getTime() + 45*60*1000).toISOString(), timeZone: 'America/Sao_Paulo' }, attendees: $json.contatoEmail ? [{ email: $json.contatoEmail }] : [], conferenceData: { createRequest: { requestId: $json.dealId + '-' + Date.now(), conferenceSolutionKey: { type: 'hangoutsMeet' } } } }) }}"
+      }
+    },
+    {
+      "id": "sdr01-19",
+      "name": "Extrair Link Meet",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3260, 300],
+      "parameters": {
+        "jsCode": "const evento = $json;\nconst prev = $('Parsear Resposta Claude').first().json;\n\nconst meetLink = evento.conferenceData?.entryPoints?.find(e => e.entryPointType === 'video')?.uri || evento.hangoutLink || 'Link gerado em breve';\n\nconst dataHora = new Date(evento.start.dateTime);\nconst dataFormatada = dataHora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });\n\nreturn [{\n  json: {\n    ...prev,\n    meetLink,\n    meetEventId: evento.id,\n    meetDatetime: evento.start.dateTime,\n    parsedMessage: `[NOVA]: Reunião confirmada! 🎉\\n\\n📅 ${dataFormatada}\\n🔗 ${meetLink}\\n\\nFico te esperando. Qualquer dúvida até lá, estou aqui!`,\n    parsedNewEstado: 'REUNIAO_CONFIRMADA'\n  }\n}];"
+      }
+    },
+    {
+      "id": "sdr01-20",
+      "name": "Enviar WhatsApp Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3480, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $vars.WHATSAPP_API_URL }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "D360-API-KEY", "value": "={{ $vars.WHATSAPP_API_KEY }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ to: $json.contatoWhatsapp || $json.from, type: 'text', text: { body: $json.parsedMessage } }) }}"
+      }
+    },
+    {
+      "id": "sdr01-21",
+      "name": "HubSpot — Atualizar Deal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3700, 300],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://api.hubapi.com/crm/v3/objects/deals/' + $json.dealId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { sdr_estado: $json.parsedNewEstado || $json.sdrEstado, sdr_historico: $json.novoHistorico, sdr_ultimo_contato: String(Date.now()), dealstage: $json.parsedNewEstado === 'QUALIFICADO' || $json.parsedNewEstado === 'AGUARDANDO_YAN' ? $vars.HUBSPOT_STAGE_QUALIFICADO : $json.parsedNewEstado === 'REUNIAO_CONFIRMADA' ? $vars.HUBSPOT_STAGE_REUNIAO : $json.parsedNewEstado === 'LEAD_FRIO' ? $vars.HUBSPOT_STAGE_FRIO : $vars.HUBSPOT_STAGE_EM_CONVERSA, meet_link: $json.meetLink || '', meet_event_id: $json.meetEventId || '' } }) }}"
+      }
+    },
+    {
+      "id": "sdr01-22",
+      "name": "HubSpot — Adicionar Nota",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3920, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/notes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "={{ 'Bearer ' + $vars.HUBSPOT_TOKEN }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ properties: { hs_note_body: '[NOVA SDR] ' + new Date().toLocaleString('pt-BR') + '\\n\\nLead disse: \"' + $json.mensagemAtual + '\"\\n\\nNOVA respondeu: \"' + $json.parsedMessage + '\"\\n\\nAção: ' + $json.parsedAction + ' | Estado: ' + $json.parsedNewEstado + '\\n\\nNota interna: ' + $json.parsedInternalNote, hs_timestamp: String(Date.now()) }, associations: [{ to: { id: $json.dealId }, types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 214 }] }] }) }}"
+      }
+    },
+    {
+      "id": "sdr01-23",
+      "name": "Responder Webhook 200",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [4140, 300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: 'ok' }) }}",
+        "options": { "responseCode": 200 }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Verificação Meta GET": {
+      "main": [[{ "node": "Responder Challenge", "type": "main", "index": 0 }]]
+    },
+    "Webhook Inbound WhatsApp": {
+      "main": [[{ "node": "Extrair Dados da Mensagem", "type": "main", "index": 0 }]]
+    },
+    "Extrair Dados da Mensagem": {
+      "main": [[{ "node": "É Mensagem de Texto?", "type": "main", "index": 0 }]]
+    },
+    "É Mensagem de Texto?": {
+      "main": [
+        [{ "node": "HubSpot — Buscar Deal por WhatsApp", "type": "main", "index": 0 }],
+        [{ "node": "WhatsApp — Responder Tipo Inválido", "type": "main", "index": 0 }]
+      ]
+    },
+    "HubSpot — Buscar Deal por WhatsApp": {
+      "main": [[{ "node": "Deal Encontrado?", "type": "main", "index": 0 }]]
+    },
+    "Deal Encontrado?": {
+      "main": [
+        [{ "node": "Extrair Deal Existente", "type": "main", "index": 0 }],
+        [{ "node": "HubSpot — Criar Deal Novo", "type": "main", "index": 0 }]
+      ]
+    },
+    "Extrair Deal Existente": {
+      "main": [[{ "node": "Merge Dados do Deal", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Criar Deal Novo": {
+      "main": [[{ "node": "Normalizar Deal Novo", "type": "main", "index": 0 }]]
+    },
+    "Normalizar Deal Novo": {
+      "main": [[{ "node": "Merge Dados do Deal", "type": "main", "index": 1 }]]
+    },
+    "Merge Dados do Deal": {
+      "main": [[{ "node": "Estado Ativo?", "type": "main", "index": 0 }]]
+    },
+    "Estado Ativo?": {
+      "main": [
+        [{ "node": "Montar Prompt NOVA", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Montar Prompt NOVA": {
+      "main": [[{ "node": "Claude API — NOVA SDR", "type": "main", "index": 0 }]]
+    },
+    "Claude API — NOVA SDR": {
+      "main": [[{ "node": "Parsear Resposta Claude", "type": "main", "index": 0 }]]
+    },
+    "Parsear Resposta Claude": {
+      "main": [[{ "node": "Switch — Ação NOVA", "type": "main", "index": 0 }]]
+    },
+    "Switch — Ação NOVA": {
+      "main": [
+        [{ "node": "Preparar Alerta Yan", "type": "main", "index": 0 }],
+        [{ "node": "Criar Evento Google Meet", "type": "main", "index": 0 }],
+        [{ "node": "Enviar WhatsApp Lead", "type": "main", "index": 0 }],
+        [{ "node": "Enviar WhatsApp Lead", "type": "main", "index": 0 }]
+      ]
+    },
+    "Preparar Alerta Yan": {
+      "main": [[{ "node": "WhatsApp — Alertar Yan", "type": "main", "index": 0 }]]
+    },
+    "WhatsApp — Alertar Yan": {
+      "main": [[{ "node": "Enviar WhatsApp Lead", "type": "main", "index": 0 }]]
+    },
+    "Criar Evento Google Meet": {
+      "main": [[{ "node": "Extrair Link Meet", "type": "main", "index": 0 }]]
+    },
+    "Extrair Link Meet": {
+      "main": [[{ "node": "Enviar WhatsApp Lead", "type": "main", "index": 0 }]]
+    },
+    "Enviar WhatsApp Lead": {
+      "main": [[{ "node": "HubSpot — Atualizar Deal", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Atualizar Deal": {
+      "main": [[{ "node": "HubSpot — Adicionar Nota", "type": "main", "index": 0 }]]
+    },
+    "HubSpot — Adicionar Nota": {
+      "main": [[{ "node": "Responder Webhook 200", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "id": "wf-sdr-01",
+  "tags": [{ "name": "SDR" }, { "name": "NOVA" }, { "name": "Inbound" }, { "name": "HubSpot" }]
+}
